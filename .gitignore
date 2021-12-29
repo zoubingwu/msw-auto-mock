@@ -1,0 +1,8 @@
+node_modules/
+dist/
+fixture/
+
+.idea/
+.vscode/
+
+*.log
