@@ -14,7 +14,7 @@ Install:
 yarn add msw-auto-mock
 ```
 
-Read from you OpenAPI descriptions and output generated code:
+Read from your OpenAPI descriptions and output generated code:
 
 ```sh
 # can be http url or a file path on your machine, support both yaml and json.
