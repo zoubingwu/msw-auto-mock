@@ -63,7 +63,7 @@ export async function generate(spec: string, outputFile?: string) {
       await prettify(outputFile, code)
     );
   } else {
-    await prettify(null, code);
+    console.log(await prettify(null, code));
   }
 
   function recursiveResolveSchema(
