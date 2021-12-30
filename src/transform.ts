@@ -1,12 +1,11 @@
-import * as fs from 'fs';
-import { JSONSchema4, JSONSchema4TypeName } from './types';
+import { OpenAPIV3 } from 'openapi-types';
 
 export type OperationCollection = {
   verb: string;
   path: string;
   responseMap: {
     code: string;
-    responses?: JSONSchema4;
+    responses?: Record<string, OpenAPIV3.SchemaObject>;
   }[];
 }[];
 
@@ -16,7 +15,6 @@ export function transformToHandlerCode(
   return operationCollection
     .map(op => {
       const response = op.responseMap[0];
-      console.dir(response, { depth: 10 });
       return `rest.${op.verb}('${op.path}', (req, res, ctx) => {
         const resultArrray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
@@ -33,14 +31,10 @@ export function transformToHandlerCode(
     .trimEnd();
 }
 
-function transformJSONSchemaToFakerCode(jsonSchema?: JSONSchema4): string {
+function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject): string {
   if (!jsonSchema) {
     return '{}';
   }
-
-  const required = Array.isArray(jsonSchema.required)
-    ? new Set(jsonSchema.required)
-    : new Set();
 
   if (Array.isArray(jsonSchema.type)) {
     return `faker.random.arrayElement([${jsonSchema.type
@@ -64,14 +58,15 @@ function transformJSONSchemaToFakerCode(jsonSchema?: JSONSchema4): string {
       return `{
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([key, value]) => {
-            return `${key}: ${transformJSONSchemaToFakerCode(value)}`;
+            return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(value as OpenAPIV3.SchemaObject)}`;
           })
           .join(',\n')}
     }`;
     case 'array':
       return `[...(new Array(faker.datatype.number({ max: 100 }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
-        jsonSchema.items
+        jsonSchema.items as OpenAPIV3.SchemaObject
       )}))`;
+    // @ts-ignore
     case 'null':
       return 'null';
     default:

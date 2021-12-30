@@ -12,9 +12,7 @@ cli
     `Output file path such as \`./mock.js\`, without it'll output to stdout.`
   )
   .action((spec, options) => {
-    console.log('spec: ', spec);
-    console.log('options: ', options);
-    generate(spec, options.output);
+    generate(spec, options.output).catch(console.error);
   });
 
 cli.help();

@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import toJsonSchema from '@openapi-contrib/openapi-schema-to-json-schema';
 import ApiGenerator from 'oazapfts/lib/codegen/generate';
 import { OpenAPIV3 } from 'openapi-types';
 
@@ -9,12 +8,10 @@ import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
 import { OperationCollection, transformToHandlerCode } from './transform';
 import { browserMockTemplate } from './template';
-import { JSONSchema4 } from './types';
 
 export async function generate(spec: string, outputFile?: string) {
   let code: string;
   const apiDoc = await getV3Doc(spec);
-
   const apiGen = new ApiGenerator(apiDoc, {});
   const operationDefinitions = getOperationDefinitions(apiDoc);
   const operationCollection: OperationCollection = operationDefinitions.map(
@@ -31,14 +28,18 @@ export async function generate(spec: string, outputFile?: string) {
           (resolved, type) => {
             const schema = content[type].schema;
             if (typeof schema !== 'undefined') {
-              resolved[type] = toJsonSchema(
-                recursiveResolveSchema(schema)
-              ) as JSONSchema4;
+              try {
+                const resolvedSchema = recursiveResolveSchema(schema)
+                resolved[type] = (resolvedSchema);
+              } catch (e) {
+                console.dir(recursiveResolveSchema(schema), { depth: 20 });
+              }
+
             }
 
             return resolved;
           },
-          {} as Record<string, JSONSchema4>
+          {} as Record<string, OpenAPIV3.SchemaObject>
         );
         return {
           code,
