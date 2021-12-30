@@ -12,7 +12,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
-    "vite": "^2.7.2",
-    "vite-plugin-compile-time": "^0.1.2"
+    "msw": "^0.36.3",
+    "vite": "^2.7.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
