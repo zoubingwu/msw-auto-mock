@@ -1,16 +1,17 @@
 import * as fs from 'fs';
+import * as path from 'path';
 
 import toJsonSchema from '@openapi-contrib/openapi-schema-to-json-schema';
 import ApiGenerator from 'oazapfts/lib/codegen/generate';
 import { OpenAPIV3 } from 'openapi-types';
 
 import { getV3Doc } from './swagger';
-import { toExpressLikePath } from './utils';
+import { prettify, toExpressLikePath } from './utils';
 import { OperationCollection, transformToHandlerCode } from './transform';
 import { browserMockTemplate } from './template';
 import { JSONSchema4 } from './types';
 
-export async function generate(spec: string, output?: string) {
+export async function generate(spec: string, outputFile?: string) {
   let code: string;
   const apiDoc = await getV3Doc(spec);
 
@@ -28,12 +29,16 @@ export async function generate(spec: string, output?: string) {
 
         const resolvedResponse = Object.keys(content).reduce(
           (resolved, type) => {
-            resolved[type] = toJsonSchema(
-              recursiveResolveSchema(content[type].schema)!
-            ) as JSONSchema4;
+            const schema = content[type].schema;
+            if (typeof schema !== 'undefined') {
+              resolved[type] = toJsonSchema(
+                recursiveResolveSchema(schema)
+              ) as JSONSchema4;
+            }
+
             return resolved;
           },
-          {} as JSONSchema4
+          {} as Record<string, JSONSchema4>
         );
         return {
           code,
@@ -51,21 +56,31 @@ export async function generate(spec: string, output?: string) {
 
   code = browserMockTemplate(transformToHandlerCode(operationCollection));
 
-  if (output) {
-    fs.writeFileSync(output, code);
+  if (outputFile) {
+    fs.writeFileSync(
+      path.resolve(process.cwd(), outputFile),
+      await prettify(outputFile, code)
+    );
   } else {
-    console.log(code);
+    await prettify(null, code);
   }
 
-  function recursiveResolveSchema(schema: any) {
-    const resolvedSchema = apiGen.resolve(schema);
-    if (resolvedSchema.properties) {
-      resolvedSchema.properties = Object.entries(
-        resolvedSchema.properties
-      ).reduce((resolved, [key, value]) => {
-        resolved[key] = recursiveResolveSchema(value);
-        return resolved;
-      }, {} as any);
+  function recursiveResolveSchema(
+    schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject
+  ) {
+    const resolvedSchema = apiGen.resolve(schema) as OpenAPIV3.SchemaObject;
+
+    if (resolvedSchema.type === 'array') {
+      resolvedSchema.items = apiGen.resolve(resolvedSchema.items);
+    } else if (resolvedSchema.type === 'object') {
+      if (resolvedSchema.properties) {
+        resolvedSchema.properties = Object.entries(
+          resolvedSchema.properties
+        ).reduce((resolved, [key, value]) => {
+          resolved[key] = recursiveResolveSchema(value);
+          return resolved;
+        }, {} as Record<string, OpenAPIV3.SchemaObject>);
+      }
     }
 
     return resolvedSchema;

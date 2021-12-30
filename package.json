@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "fmt": "prettier src --write",
+    "fmt": "prettier {example,src,vite-plugin-msw-auto-mock}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

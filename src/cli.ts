@@ -8,7 +8,7 @@ const cli = cac();
 cli
   .command('[spec]', 'Generating msw mock definitions with random fake data.')
   .option(
-    '--output <file>',
+    '-o, --output <file>',
     `Output file path such as \`./mock.js\`, without it'll output to stdout.`
   )
   .action((spec, options) => {
