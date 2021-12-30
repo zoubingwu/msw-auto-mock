@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 if (process.env.NODE_ENV === 'development') {
-  import('./mock/browser');
+  import('./mock');
 }
 
 ReactDOM.render(

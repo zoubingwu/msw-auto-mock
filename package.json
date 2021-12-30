@@ -1,7 +1,7 @@
 {
   "name": "msw-auto-mock",
   "version": "0.1.0",
-  "description": "",
+  "description": "Generate random mock data from OpenAPI descriptions for msw.",
   "main": "dist/cli.js",
   "module": "./dist/cli.mjs",
   "exports": {
@@ -10,6 +10,9 @@
       "import": "./dist/cli.mjs",
       "types": "./dist/cli.d.ts"
     }
+  },
+  "bin": {
+    "msw-auto-mock": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsup",
@@ -20,9 +23,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/faker": "5.5.9",
     "@apidevtools/swagger-parser": "^10.0.3",
-    "@openapi-contrib/openapi-schema-to-json-schema": "^3.1.1",
+    "@types/faker": "5.5.9",
     "cac": "^6.7.12",
     "faker": "5.5.3",
     "oazapfts": "^3.5.0",
