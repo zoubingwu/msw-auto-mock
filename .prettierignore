@@ -2,3 +2,4 @@ dist
 node_modules
 build
 coverage
+example/src/mock.js
