@@ -38,6 +38,14 @@
     "tsup": "^5.11.9",
     "typescript": "^4.5.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoubingwu/msw-auto-mock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zoubingwu/msw-auto-mock/issues"
+  },
+  "homepage": "https://github.com/zoubingwu/msw-auto-mock",
   "files": [
     "dist"
   ],
