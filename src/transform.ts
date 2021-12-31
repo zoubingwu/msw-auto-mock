@@ -14,7 +14,6 @@ export function transformToHandlerCode(
 ): string {
   return operationCollection
     .map(op => {
-      const response = op.responseMap[0];
       return `rest.${op.verb}('${op.path}', (req, res, ctx) => {
         const resultArrray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
@@ -31,7 +30,9 @@ export function transformToHandlerCode(
     .trimEnd();
 }
 
-function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject): string {
+function transformJSONSchemaToFakerCode(
+  jsonSchema?: OpenAPIV3.SchemaObject
+): string {
   if (!jsonSchema) {
     return '{}';
   }
@@ -58,7 +59,9 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject): st
       return `{
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([key, value]) => {
-            return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(value as OpenAPIV3.SchemaObject)}`;
+            return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(
+              value as OpenAPIV3.SchemaObject
+            )}`;
           })
           .join(',\n')}
     }`;
