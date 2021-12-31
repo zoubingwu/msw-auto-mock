@@ -28,13 +28,7 @@ export async function generate(spec: string, outputFile?: string) {
           (resolved, type) => {
             const schema = content[type].schema;
             if (typeof schema !== 'undefined') {
-              try {
-                const resolvedSchema = recursiveResolveSchema(schema)
-                resolved[type] = (resolvedSchema);
-              } catch (e) {
-                console.dir(recursiveResolveSchema(schema), { depth: 20 });
-              }
-
+              resolved[type] = recursiveResolveSchema(schema);
             }
 
             return resolved;
