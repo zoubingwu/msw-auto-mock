@@ -1,5 +1,6 @@
 import * as prettier from 'prettier';
 import * as path from 'path';
+import camelCase from 'lodash/camelCase';
 
 const EXTENSION_TO_PARSER: Record<string, string> = {
   ts: 'typescript',
@@ -41,6 +42,6 @@ export async function prettify(
   });
 }
 
-export const toExpressLikePath = (path: string) => {
-  return path.replace(/{(.+?)}/g, ':$1'); // use `.+?` for lazy match
-};
+export const toExpressLikePath = (path: string) =>
+  // use `.+?` for lazy match
+  path.replace(/{(.+?)}/g, (_match, p1: string) => `:${camelCase(p1)}`);

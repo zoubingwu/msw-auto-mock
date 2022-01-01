@@ -6,10 +6,12 @@ importers:
     specifiers:
       '@apidevtools/swagger-parser': ^10.0.3
       '@types/faker': 5.5.9
+      '@types/lodash': ^4.14.178
       '@types/node': ^17.0.5
       '@types/prettier': ^2.4.2
       cac: ^6.7.12
       faker: 5.5.3
+      lodash: ^4.17.21
       oazapfts: ^3.5.0
       openapi-types: ^10.0.0
       prettier: 2.5.1
@@ -25,8 +27,10 @@ importers:
       prettier: 2.5.1
       swagger2openapi: 7.0.8
     devDependencies:
+      '@types/lodash': 4.14.178
       '@types/node': 17.0.5
       '@types/prettier': 2.4.2
+      lodash: 4.17.21
       openapi-types: 10.0.0
       tsup: 5.11.9_typescript@4.5.4
       typescript: 4.5.4
@@ -424,6 +428,10 @@ packages:
   /@types/json-schema/7.0.9:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
     dev: false
+
+  /@types/lodash/4.14.178:
+    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
+    dev: true
 
   /@types/node/17.0.5:
     resolution: {integrity: sha512-w3mrvNXLeDYV1GKTZorGJQivK6XLCoGwpnyJFbJVK/aTBQUxOCaa/GlFAAN3OTDFcb7h5tiFG+YXCO2By+riZw==}
