@@ -31,10 +31,10 @@ export function transformToHandlerCode(
 }
 
 function transformJSONSchemaToFakerCode(
-  jsonSchema?: OpenAPIV3.SchemaObject
+  jsonSchema?: OpenAPIV3.SchemaObject,
 ): string {
   if (!jsonSchema) {
-    return '{}';
+    return 'null';
   }
 
   if (Array.isArray(jsonSchema.type)) {
@@ -43,12 +43,13 @@ function transformJSONSchemaToFakerCode(
       .join(',')}])`;
   }
 
+  if (jsonSchema.enum) {
+    return `faker.random.arrayElement(${JSON.stringify(jsonSchema.enum)})`;
+  }
+
   switch (jsonSchema.type) {
     case 'string':
-      if (jsonSchema.enum) {
-        return `faker.random.arrayElement(${JSON.stringify(jsonSchema.enum)})`;
-      }
-      return `faker.random.words()`;
+      return transformStringBasedOnFormat(jsonSchema.format);
     case 'number':
       return `faker.datatype.number()`;
     case 'integer':
@@ -60,19 +61,43 @@ function transformJSONSchemaToFakerCode(
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([key, value]) => {
             return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(
-              value as OpenAPIV3.SchemaObject
+              value as OpenAPIV3.SchemaObject,
             )}`;
           })
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.datatype.number({ max: 100 }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
+      return `[...(new Array(faker.datatype.number({ max: 20 }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
         jsonSchema.items as OpenAPIV3.SchemaObject
       )}))`;
-    // @ts-ignore
-    case 'null':
-      return 'null';
     default:
-      return '{}';
+      return 'null';
+  }
+}
+
+
+/**
+ * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
+ */
+function transformStringBasedOnFormat(format?: string) {
+  switch (format) {
+    case 'date-time':
+      return 'faker.date.recent()';
+    case 'date':
+      return 'faker.date.recent().slice(0, 10)';
+    case 'time':
+      return 'faker.date.recent().slice(11)';
+    case 'email':
+      return 'faker.internet.exampleEmail()';
+    case 'uuid':
+      return `faker.datatype.uuid()`
+    case 'uri':
+      return 'faker.internet.url()';
+    case 'ipv4':
+      return 'faker.internet.ip()';
+    case 'ipv6':
+      return 'faker.internet.ipv6()';
+    default:
+      return `faker.lorem.slug()`;
   }
 }
