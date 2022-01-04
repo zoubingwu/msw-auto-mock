@@ -67,6 +67,7 @@ export async function generate(spec: string, outputFile?: string) {
 
     if (resolvedSchema.type === 'array') {
       resolvedSchema.items = apiGen.resolve(resolvedSchema.items);
+      resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items);
     } else if (resolvedSchema.type === 'object') {
       if (resolvedSchema.properties) {
         resolvedSchema.properties = Object.entries(
