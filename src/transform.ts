@@ -15,7 +15,7 @@ export function transformToHandlerCode(
   return operationCollection
     .map(op => {
       return `rest.${op.verb}('${op.path}', (req, res, ctx) => {
-        const resultArrray = [${op.responseMap.map(response => {
+        const resultArray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
             response?.code!
           )}), ctx.json(${transformJSONSchemaToFakerCode(
@@ -23,7 +23,7 @@ export function transformToHandlerCode(
           )})]`;
         })}]
         return res(
-          ...faker.random.arrayElement(resultArrray)
+          ...faker.random.arrayElement(resultArray)
         )}),\n`;
     })
     .join('  ')
