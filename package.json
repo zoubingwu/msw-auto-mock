@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
@@ -37,7 +37,8 @@
     "lodash": "^4.17.21",
     "openapi-types": "^10.0.0",
     "tsup": "^5.11.9",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "vitest": "^0.0.132"
   },
   "repository": {
     "type": "git",
