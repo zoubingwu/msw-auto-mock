@@ -40,8 +40,10 @@ npx msw init public/ --save
 Then import those mock definitions in you app entry:
 
 ```js
+import { startWorker } from './mock';
+
 if (process.env.NODE_ENV === 'development') {
-  import('./mock');
+  startWorker();
 }
 ```
 
