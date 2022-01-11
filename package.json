@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
