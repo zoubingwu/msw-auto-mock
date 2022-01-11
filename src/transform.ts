@@ -31,7 +31,7 @@ export function transformToHandlerCode(
 }
 
 function transformJSONSchemaToFakerCode(
-  jsonSchema?: OpenAPIV3.SchemaObject,
+  jsonSchema?: OpenAPIV3.SchemaObject
 ): string {
   if (!jsonSchema) {
     return 'null';
@@ -61,20 +61,19 @@ function transformJSONSchemaToFakerCode(
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([key, value]) => {
             return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(
-              value as OpenAPIV3.SchemaObject,
+              value as OpenAPIV3.SchemaObject
             )}`;
           })
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.datatype.number({ max: 20 }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
+      return `[...(new Array(faker.datatype.number({ max: MAX_ARRAY_LENGTH }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
         jsonSchema.items as OpenAPIV3.SchemaObject
       )}))`;
     default:
       return 'null';
   }
 }
-
 
 /**
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
@@ -90,7 +89,7 @@ function transformStringBasedOnFormat(format?: string) {
     case 'email':
       return 'faker.internet.exampleEmail()';
     case 'uuid':
-      return `faker.datatype.uuid()`
+      return `faker.datatype.uuid()`;
     case 'uri':
       return 'faker.internet.url()';
     case 'ipv4':

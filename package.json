@@ -23,9 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.0.3",
-    "@types/faker": "5.5.9",
     "cac": "^6.7.12",
-    "faker": "5.5.3",
     "oazapfts": "^3.5.0",
     "prettier": "2.5.1",
     "swagger2openapi": "^7.0.8"

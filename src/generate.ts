@@ -8,14 +8,17 @@ import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
 import { OperationCollection, transformToHandlerCode } from './transform';
 import { browserMockTemplate } from './template';
+import { CliOptions } from './types';
 
-export async function generate(spec: string, outputFile?: string) {
+export async function generate(spec: string, options: CliOptions) {
+  const { output: outputFile } = options;
   let code: string;
   const apiDoc = await getV3Doc(spec);
   const apiGen = new ApiGenerator(apiDoc, {});
   const operationDefinitions = getOperationDefinitions(apiDoc);
-  const operationCollection: OperationCollection = operationDefinitions.map(
-    operationDefinition => {
+  const matchers = options?.match?.split(',') ?? null;
+  const operationCollection: OperationCollection = operationDefinitions
+    .map(operationDefinition => {
       const { verb, path, responses } = operationDefinition;
 
       const responseMap = Object.entries(responses).map(([code, response]) => {
@@ -46,10 +49,15 @@ export async function generate(spec: string, outputFile?: string) {
         path: toExpressLikePath(path),
         responseMap,
       };
-    }
-  );
+    })
+    .filter(op =>
+      matchers ? matchers.some(matcher => op.path.includes(matcher)) : true
+    );
 
-  code = browserMockTemplate(transformToHandlerCode(operationCollection));
+  code = browserMockTemplate(
+    transformToHandlerCode(operationCollection),
+    options
+  );
 
   if (outputFile) {
     fs.writeFileSync(
