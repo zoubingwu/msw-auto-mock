@@ -57,6 +57,14 @@ function transformJSONSchemaToFakerCode(
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
+      if (
+        !jsonSchema.properties &&
+        typeof jsonSchema.additionalProperties === 'object'
+      ) {
+        return `[...new Array(5).keys()].map(_ => ({ [faker.lorem.word()]: ${transformJSONSchemaToFakerCode(
+          jsonSchema.additionalProperties as OpenAPIV3.SchemaObject
+        )} })).reduce((acc, next) => Object.assign(acc, next), {})`;
+      }
       return `{
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([key, value]) => {

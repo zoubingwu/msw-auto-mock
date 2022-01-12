@@ -82,9 +82,9 @@ export async function generate(spec: string, options: CliOptions) {
         typeof resolvedSchema.additionalProperties === 'object'
       ) {
         if ('$ref' in resolvedSchema.additionalProperties) {
-          resolvedSchema.properties = recursiveResolveSchema(
+          resolvedSchema.additionalProperties = recursiveResolveSchema(
             apiGen.resolve(resolvedSchema.additionalProperties)
-          ).properties;
+          );
         }
       }
 
