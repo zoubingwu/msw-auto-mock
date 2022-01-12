@@ -18,6 +18,9 @@ export async function generate(spec: string, options: CliOptions) {
   const operationDefinitions = getOperationDefinitions(apiDoc);
   const matchers = options?.match?.split(',') ?? null;
   const operationCollection: OperationCollection = operationDefinitions
+    .filter(op =>
+      matchers ? matchers.some(matcher => op.path.includes(matcher)) : true
+    )
     .map(operationDefinition => {
       const { verb, path, responses } = operationDefinition;
 
@@ -49,10 +52,7 @@ export async function generate(spec: string, options: CliOptions) {
         path: toExpressLikePath(path),
         responseMap,
       };
-    })
-    .filter(op =>
-      matchers ? matchers.some(matcher => op.path.includes(matcher)) : true
-    );
+    });
 
   code = browserMockTemplate(
     transformToHandlerCode(operationCollection),
@@ -77,6 +77,17 @@ export async function generate(spec: string, options: CliOptions) {
       resolvedSchema.items = apiGen.resolve(resolvedSchema.items);
       resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items);
     } else if (resolvedSchema.type === 'object') {
+      if (
+        !resolvedSchema.properties &&
+        typeof resolvedSchema.additionalProperties === 'object'
+      ) {
+        if ('$ref' in resolvedSchema.additionalProperties) {
+          resolvedSchema.properties = recursiveResolveSchema(
+            apiGen.resolve(resolvedSchema.additionalProperties)
+          ).properties;
+        }
+      }
+
       if (resolvedSchema.properties) {
         resolvedSchema.properties = Object.entries(
           resolvedSchema.properties
