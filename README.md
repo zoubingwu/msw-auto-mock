@@ -1,6 +1,6 @@
 # msw-auto-mock
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/zoubingwu/msw-auto-mock/test)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/zoubingwu/msw-auto-mock/Test)
 ![npm](https://img.shields.io/npm/v/msw-auto-mock)
 
 A cli tool to generate random mock data from OpenAPI descriptions for [msw](https://github.com/mswjs/msw).
