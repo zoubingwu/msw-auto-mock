@@ -10,11 +10,14 @@ export type OperationCollection = {
 }[];
 
 export function transformToHandlerCode(
-  operationCollection: OperationCollection
+  operationCollection: OperationCollection,
+  serverConfig: {host: string; schemes: string[], basePath: string}
 ): string {
+  const { host = '', schemes, basePath = '' } = serverConfig;
+  const baseUrl = `${schemes[0]}://${host}${basePath}`;
   return operationCollection
     .map(op => {
-      return `rest.${op.verb}('${op.path}', (req, res, ctx) => {
+      return `rest.${op.verb}('${baseUrl}${op.path}', (req, res, ctx) => {
         const resultArray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
             response?.code!

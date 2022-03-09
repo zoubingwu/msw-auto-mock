@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import ApiGenerator from 'oazapfts/lib/codegen/generate';
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3, OpenAPIV2 } from 'openapi-types';
 
 import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
@@ -13,8 +13,9 @@ import { CliOptions } from './types';
 export async function generate(spec: string, options: CliOptions) {
   const { output: outputFile } = options;
   let code: string;
-  const apiDoc = await getV3Doc(spec);
-  const apiGen = new ApiGenerator(apiDoc, {});
+  const apiDoc = await getV3Doc(spec) as OpenAPIV3.Document & OpenAPIV2.Document;
+  const apiGen = new ApiGenerator(apiDoc, {}) ;
+  const serverConfigs = {host: apiDoc.host, schemes: apiDoc.schemes || ['http', 'https'], basePath: apiDoc.basePath};
   const operationDefinitions = getOperationDefinitions(apiDoc);
   const matchers = options?.match?.split(',') ?? null;
   const operationCollection: OperationCollection = operationDefinitions
@@ -55,7 +56,7 @@ export async function generate(spec: string, options: CliOptions) {
     });
 
   code = browserMockTemplate(
-    transformToHandlerCode(operationCollection),
+    transformToHandlerCode(operationCollection, serverConfigs),
     options
   );
 
