@@ -14,7 +14,7 @@ We already have all the type definitions from OpenAPI spec so hand-writing every
 Install:
 
 ```sh
-yarn add msw-auto-mock faker-js/faker -D
+yarn add msw-auto-mock @faker-js/faker -D
 ```
 
 Read from your OpenAPI descriptions and output generated code:
@@ -57,5 +57,7 @@ Run you app then you'll see a successful activation message from Mock Service Wo
 
  - `-o, --output`: specify output file path or output to stdout.
  - `-m, --max-array-length <number>`: specify max array length in response, it'll cost some time if you want to generate a huge chunk of random data.
- - `-t, --match <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
+ - `-t, --include <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
+ - `-e, --exclude <keywords>`: specify keywords to exclude, multiple keywords can be seperated with comma.
+ - `--base-url`: output code with specified base url or .
  - `-h, --help`: show help info.
