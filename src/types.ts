@@ -1,5 +1,7 @@
 export interface CliOptions {
   output: string;
   maxArrayLength?: number;
-  match?: string;
+  includes?: string;
+  excludes?: string;
+  baseUrl?: string | true;
 }

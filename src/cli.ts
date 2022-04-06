@@ -13,8 +13,16 @@ cli
   )
   .option('-m, --max-array-length <number>', `Max array length, default to 20.`)
   .option(
-    '-t, --match <keywords>',
-    `Match the request path with given string, can be seperated with comma.`
+    '-t, --includes <keywords>',
+    `Include the request path with given string, can be seperated with comma.`
+  )
+  .option(
+    '-e, --excludes <keywords>',
+    `Exclude the request path with given string, can be seperated with comma.`
+  )
+  .option(
+    '--base-url [baseUrl]',
+    `Use the one you specified or server url in OpenAPI description as base url.`
   )
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')

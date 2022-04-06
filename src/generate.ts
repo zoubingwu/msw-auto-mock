@@ -15,12 +15,20 @@ export async function generate(spec: string, options: CliOptions) {
   let code: string;
   const apiDoc = await getV3Doc(spec);
   const apiGen = new ApiGenerator(apiDoc, {});
+
   const operationDefinitions = getOperationDefinitions(apiDoc);
-  const matchers = options?.match?.split(',') ?? null;
+  const includes = options?.includes?.split(',') ?? null;
+  const excludes = options?.excludes?.split(',') ?? null;
   const operationCollection: OperationCollection = operationDefinitions
-    .filter(op =>
-      matchers ? matchers.some(matcher => op.path.includes(matcher)) : true
-    )
+    .filter(op => {
+      if (includes && !includes.includes(op.path)) {
+        return false;
+      }
+      if (excludes && excludes.includes(op.path)) {
+        return false;
+      }
+      return true;
+    })
     .map(operationDefinition => {
       const { verb, path, responses } = operationDefinition;
 
@@ -54,8 +62,15 @@ export async function generate(spec: string, options: CliOptions) {
       };
     });
 
+  let baseURL = '';
+  if (options.baseUrl === true) {
+    baseURL = getServerUrl(apiDoc);
+  } else if (typeof options.baseUrl === 'string') {
+    baseURL = options.baseUrl;
+  }
   code = browserMockTemplate(
     transformToHandlerCode(operationCollection),
+    baseURL,
     options
   );
 
@@ -100,6 +115,21 @@ export async function generate(spec: string, options: CliOptions) {
 
     return resolvedSchema;
   }
+}
+
+function getServerUrl(apidoc: OpenAPIV3.Document) {
+  let server = apidoc.servers?.at(0);
+  let url = '';
+  if (server) {
+    url = server.url;
+  }
+  if (server?.variables) {
+    Object.entries(server.variables).forEach(([key, value]) => {
+      url = url.replace(`{${key}}`, value.default);
+    });
+  }
+
+  return url;
 }
 
 const operationKeys = Object.values(

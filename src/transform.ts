@@ -14,27 +14,32 @@ export function transformToHandlerCode(
 ): string {
   return operationCollection
     .map(op => {
-      return `rest.${op.verb}('${op.path}', (req, res, ctx) => {
+      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (req, res, ctx) => {
         const resultArray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
             response?.code!
           )}), ctx.json(${transformJSONSchemaToFakerCode(
             response?.responses?.['application/json']
           )})]`;
-        })}]
-        return res(
-          ...faker.random.arrayElement(resultArray)
-        )}),\n`;
+        })}];
+
+          return res(...resultArray[gen.next().value % resultArray.length])
+        }),\n`;
     })
     .join('  ')
     .trimEnd();
 }
 
 function transformJSONSchemaToFakerCode(
-  jsonSchema?: OpenAPIV3.SchemaObject
+  jsonSchema?: OpenAPIV3.SchemaObject,
+  key?: string
 ): string {
   if (!jsonSchema) {
     return 'null';
+  }
+
+  if (jsonSchema.example) {
+    return JSON.stringify(jsonSchema.example);
   }
 
   if (Array.isArray(jsonSchema.type)) {
@@ -49,7 +54,7 @@ function transformJSONSchemaToFakerCode(
 
   switch (jsonSchema.type) {
     case 'string':
-      return transformStringBasedOnFormat(jsonSchema.format);
+      return transformStringBasedOnFormat(jsonSchema.format, key);
     case 'number':
       return `faker.datatype.number()`;
     case 'integer':
@@ -65,11 +70,13 @@ function transformJSONSchemaToFakerCode(
           jsonSchema.additionalProperties as OpenAPIV3.SchemaObject
         )} })).reduce((acc, next) => Object.assign(acc, next), {})`;
       }
+
       return `{
         ${Object.entries(jsonSchema.properties ?? {})
-          .map(([key, value]) => {
-            return `${JSON.stringify(key)}: ${transformJSONSchemaToFakerCode(
-              value as OpenAPIV3.SchemaObject
+          .map(([k, v]) => {
+            return `${JSON.stringify(k)}: ${transformJSONSchemaToFakerCode(
+              v as OpenAPIV3.SchemaObject,
+              k
             )}`;
           })
           .join(',\n')}
@@ -86,25 +93,35 @@ function transformJSONSchemaToFakerCode(
 /**
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
-function transformStringBasedOnFormat(format?: string) {
-  switch (format) {
-    case 'date-time':
-      return 'faker.date.recent()';
-    case 'date':
-      return 'faker.date.recent().slice(0, 10)';
-    case 'time':
-      return 'faker.date.recent().slice(11)';
-    case 'email':
-      return 'faker.internet.exampleEmail()';
-    case 'uuid':
-      return `faker.datatype.uuid()`;
-    case 'uri':
-      return 'faker.internet.url()';
-    case 'ipv4':
-      return 'faker.internet.ip()';
-    case 'ipv6':
-      return 'faker.internet.ipv6()';
-    default:
-      return `faker.lorem.slug()`;
+function transformStringBasedOnFormat(format?: string, key?: string) {
+  if (
+    ['date-time', 'date', 'time'].includes(format ?? '') ||
+    key?.toLowerCase().endsWith('_at')
+  ) {
+    return `faker.date.past()`;
+  } else if (format === 'uuid') {
+    return `faker.random.uuid()`;
+  } else if (
+    ['idn-email', 'email'].includes(format ?? '') ||
+    key?.toLowerCase().endsWith('email')
+  ) {
+    return `faker.internet.email()`;
+  } else if (['hostname', 'idn-hostname'].includes(format ?? '')) {
+    return `faker.internet.domainName()`;
+  } else if (format === 'ipv4') {
+    return `faker.internet.ip()`;
+  } else if (format === 'ipv6') {
+    return `faker.internet.ipv6()`;
+  } else if (
+    ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(
+      format ?? ''
+    ) ||
+    key?.toLowerCase().endsWith('url')
+  ) {
+    return `faker.internet.url()`;
+  } else if (key?.toLowerCase().endsWith('name')) {
+    return `faker.name.findName()`;
+  } else {
+    return `faker.lorem.slug(1)`;
   }
 }
