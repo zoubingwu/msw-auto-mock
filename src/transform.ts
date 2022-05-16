@@ -23,7 +23,7 @@ export function transformToHandlerCode(
           )})]`;
         })}];
 
-          return res(...resultArray[gen.next().value % resultArray.length])
+          return res(...resultArray[next() % resultArray.length])
         }),\n`;
     })
     .join('  ')

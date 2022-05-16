@@ -18,15 +18,13 @@ faker.seed(1);
 const baseURL = '${baseURL}';
 const MAX_ARRAY_LENGTH = ${options?.maxArrayLength ?? 20};
 
-const gen = (function *() {
-  let i = 0;
-  while (true) {
-    if (i === Number.MAX_SAFE_INTEGER - 1) {
-      i = 0;
-    }
-    yield i++;
+let i = 0;
+const next = () => {
+  if (i === Number.MAX_SAFE_INTEGER - 1) {
+    i = 0;
   }
-})();
+  return i++;
+}
 
 export const handlers = [
   ${handlersCode}
