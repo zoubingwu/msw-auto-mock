@@ -5,22 +5,20 @@
 /* eslint-disable */
 /* tslint:disable */
 import { setupWorker, rest } from 'msw';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 faker.seed(1);
 
 const baseURL = '';
 const MAX_ARRAY_LENGTH = 20;
 
-const gen = (function* () {
-  let i = 0;
-  while (true) {
-    if (i === Number.MAX_SAFE_INTEGER - 1) {
-      i = 0;
-    }
-    yield i++;
+let i = 0;
+const next = () => {
+  if (i === Number.MAX_SAFE_INTEGER - 1) {
+    i = 0;
   }
-})();
+  return i++;
+};
 
 export const handlers = [
   rest.get(`${baseURL}/`, (req, res, ctx) => {
@@ -65,7 +63,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/admin/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -101,7 +99,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -131,7 +129,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -161,7 +159,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -190,17 +188,17 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/hooks/:hookId/pings`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/admin/keys`, (req, res, ctx) => {
     const resultArray = [
@@ -227,12 +225,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/admin/keys/:keyIds`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/admin/ldap/teams/:teamId/mapping`, (req, res, ctx) => {
     const resultArray = [
@@ -256,7 +254,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/ldap/teams/:teamId/sync`, (req, res, ctx) => {
     const resultArray = [
@@ -268,7 +266,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(
     `${baseURL}/admin/ldap/users/:username/mapping`,
@@ -332,7 +330,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/admin/ldap/users/:username/sync`, (req, res, ctx) => {
@@ -345,7 +343,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/organizations`, (req, res, ctx) => {
     const resultArray = [
@@ -369,7 +367,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/admin/organizations/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -382,7 +380,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/admin/pre-receive-environments`, (req, res, ctx) => {
     const resultArray = [
@@ -413,7 +411,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/pre-receive-environments`, (req, res, ctx) => {
     const resultArray = [
@@ -438,7 +436,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId`,
@@ -465,7 +463,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -508,7 +506,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -533,7 +531,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -566,7 +564,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -584,7 +582,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/admin/pre-receive-hooks`, (req, res, ctx) => {
@@ -629,7 +627,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/pre-receive-hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -667,7 +665,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/admin/pre-receive-hooks/:preReceiveHookId`,
@@ -707,7 +705,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -748,7 +746,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -756,7 +754,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/admin/tokens`, (req, res, ctx) => {
@@ -868,12 +866,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/admin/tokens/:tokenId`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/admin/users`, (req, res, ctx) => {
     const resultArray = [
@@ -909,7 +907,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/admin/users/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -922,12 +920,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/admin/users/:username`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/admin/users/:username/authorizations`,
@@ -1034,7 +1032,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -1042,7 +1040,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/app`, (req, res, ctx) => {
@@ -1097,7 +1095,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/app-manifests/:code/conversions`, (req, res, ctx) => {
     const resultArray = [
@@ -1125,7 +1123,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/app/hook/config`, (req, res, ctx) => {
     const resultArray = [
@@ -1140,7 +1138,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/app/hook/config`, (req, res, ctx) => {
     const resultArray = [
@@ -1155,7 +1153,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/app/hook/deliveries`, (req, res, ctx) => {
     const resultArray = [
@@ -1211,7 +1209,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/app/hook/deliveries/:deliveryId`, (req, res, ctx) => {
     const resultArray = [
@@ -1270,7 +1268,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/app/hook/deliveries/:deliveryId/attempts`,
@@ -1307,7 +1305,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/app/installations`, (req, res, ctx) => {
@@ -1387,7 +1385,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/app/installations/:installationId`, (req, res, ctx) => {
     const resultArray = [
@@ -1462,9 +1460,16 @@ export const handlers = [
           status: faker.lorem.slug(1),
         }),
       ],
+      [
+        ctx.status(415),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/app/installations/:installationId`,
@@ -1482,7 +1487,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -1853,6 +1858,13 @@ export const handlers = [
           }),
         ],
         [
+          ctx.status(415),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+          }),
+        ],
+        [
           ctx.status(422),
           ctx.json({
             message: faker.lorem.slug(1),
@@ -1873,7 +1885,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -1892,7 +1904,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -1911,7 +1923,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/applications/grants`, (req, res, ctx) => {
@@ -1995,7 +2007,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/applications/grants/:grantId`, (req, res, ctx) => {
     const resultArray = [
@@ -2062,7 +2074,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/applications/grants/:grantId`, (req, res, ctx) => {
     const resultArray = [
@@ -2088,7 +2100,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/applications/:clientId/grant`, (req, res, ctx) => {
     const resultArray = [
@@ -2114,14 +2126,14 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/applications/:clientId/grants/:accessToken`,
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
@@ -2253,7 +2265,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
     const resultArray = [
@@ -2375,7 +2387,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
     const resultArray = [
@@ -2401,7 +2413,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/applications/:clientId/token/scoped`,
@@ -2554,7 +2566,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -2671,7 +2683,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -2779,7 +2791,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -2787,7 +2799,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/apps/:appSlug`, (req, res, ctx) => {
@@ -2858,9 +2870,16 @@ export const handlers = [
           status: faker.lorem.slug(1),
         }),
       ],
+      [
+        ctx.status(415),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/authorizations`, (req, res, ctx) => {
     const resultArray = [
@@ -2999,7 +3018,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/authorizations`, (req, res, ctx) => {
     const resultArray = [
@@ -3149,7 +3168,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/authorizations/clients/:clientId`, (req, res, ctx) => {
     const resultArray = [
@@ -3387,7 +3406,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(
     `${baseURL}/authorizations/clients/:clientId/:fingerprint`,
@@ -3612,7 +3631,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
@@ -3735,7 +3754,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
     const resultArray = [
@@ -3857,7 +3876,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
     const resultArray = [
@@ -3883,7 +3902,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/codes_of_conduct`, (req, res, ctx) => {
     const resultArray = [
@@ -3906,7 +3925,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/codes_of_conduct/:key`, (req, res, ctx) => {
     const resultArray = [
@@ -3932,7 +3951,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/emojis`, (req, res, ctx) => {
     const resultArray = [
@@ -3947,7 +3966,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
     const resultArray = [
@@ -3960,7 +3979,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
     const resultArray = [
@@ -3973,12 +3992,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/settings/license`, (req, res, ctx) => {
     const resultArray = [
@@ -3995,7 +4014,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/all`, (req, res, ctx) => {
     const resultArray = [
@@ -4060,7 +4079,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/comments`, (req, res, ctx) => {
     const resultArray = [
@@ -4075,7 +4094,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/gists`, (req, res, ctx) => {
     const resultArray = [
@@ -4089,7 +4108,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -4103,7 +4122,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/issues`, (req, res, ctx) => {
     const resultArray = [
@@ -4117,7 +4136,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/milestones`, (req, res, ctx) => {
     const resultArray = [
@@ -4131,7 +4150,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/orgs`, (req, res, ctx) => {
     const resultArray = [
@@ -4146,7 +4165,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/pages`, (req, res, ctx) => {
     const resultArray = [
@@ -4158,7 +4177,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/pulls`, (req, res, ctx) => {
     const resultArray = [
@@ -4173,7 +4192,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/repos`, (req, res, ctx) => {
     const resultArray = [
@@ -4190,7 +4209,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/enterprise/stats/users`, (req, res, ctx) => {
     const resultArray = [
@@ -4204,7 +4223,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/permissions`,
@@ -4229,7 +4248,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4237,7 +4256,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4272,7 +4291,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4280,7 +4299,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4288,7 +4307,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -4296,7 +4315,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4316,7 +4335,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4324,7 +4343,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4352,7 +4371,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -4373,7 +4392,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4394,7 +4413,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -4415,7 +4434,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -4423,7 +4442,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4458,7 +4477,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4466,7 +4485,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4474,7 +4493,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -4482,7 +4501,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4517,7 +4536,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4525,7 +4544,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -4533,7 +4552,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -4541,7 +4560,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4576,7 +4595,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -4602,7 +4621,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -4940,7 +4959,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -5278,7 +5297,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -5306,7 +5325,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -5314,7 +5333,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/enterprises/:enterprise/audit-log`, (req, res, ctx) => {
@@ -5390,7 +5409,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/events`, (req, res, ctx) => {
     const resultArray = [
@@ -6169,7 +6188,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/feeds`, (req, res, ctx) => {
     const resultArray = [
@@ -6229,7 +6248,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists`, (req, res, ctx) => {
     const resultArray = [
@@ -6348,7 +6367,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/gists`, (req, res, ctx) => {
     const resultArray = [
@@ -6645,7 +6664,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/public`, (req, res, ctx) => {
     const resultArray = [
@@ -6783,7 +6802,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/starred`, (req, res, ctx) => {
     const resultArray = [
@@ -6911,7 +6930,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
     const resultArray = [
@@ -7192,7 +7211,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
     const resultArray = [
@@ -7479,7 +7498,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
     const resultArray = [
@@ -7505,7 +7524,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId/comments`, (req, res, ctx) => {
     const resultArray = [
@@ -7576,7 +7595,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/gists/:gistId/comments`, (req, res, ctx) => {
     const resultArray = [
@@ -7640,7 +7659,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId/comments/:commentId`, (req, res, ctx) => {
     const resultArray = [
@@ -7707,7 +7726,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(
     `${baseURL}/gists/:gistId/comments/:commentId`,
@@ -7764,7 +7783,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -7793,7 +7812,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/gists/:gistId/commits`, (req, res, ctx) => {
@@ -7866,7 +7885,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId/forks`, (req, res, ctx) => {
     const resultArray = [
@@ -8154,7 +8173,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/gists/:gistId/forks`, (req, res, ctx) => {
     const resultArray = [
@@ -8293,7 +8312,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
     const resultArray = [
@@ -8311,7 +8330,7 @@ export const handlers = [
       [ctx.status(404), ctx.json({})],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
     const resultArray = [
@@ -8337,7 +8356,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
     const resultArray = [
@@ -8363,7 +8382,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gists/:gistId/:sha`, (req, res, ctx) => {
     const resultArray = [
@@ -8659,7 +8678,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gitignore/templates`, (req, res, ctx) => {
     const resultArray = [
@@ -8676,7 +8695,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/gitignore/templates/:name`, (req, res, ctx) => {
     const resultArray = [
@@ -8691,7 +8710,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/installation/repositories`, (req, res, ctx) => {
     const resultArray = [
@@ -9034,12 +9053,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/installation/token`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/issues`, (req, res, ctx) => {
     const resultArray = [
@@ -9651,7 +9670,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/licenses`, (req, res, ctx) => {
     const resultArray = [
@@ -9675,7 +9694,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/licenses/:license`, (req, res, ctx) => {
     const resultArray = [
@@ -9726,7 +9745,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/markdown`, (req, res, ctx) => {
     const resultArray = [
@@ -9734,7 +9753,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/markdown/raw`, (req, res, ctx) => {
     const resultArray = [
@@ -9742,7 +9761,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/meta`, (req, res, ctx) => {
     const resultArray = [
@@ -9762,7 +9781,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/networks/:owner/:repo/events`, (req, res, ctx) => {
     const resultArray = [
@@ -10551,7 +10570,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/notifications`, (req, res, ctx) => {
     const resultArray = [
@@ -11109,7 +11128,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/notifications`, (req, res, ctx) => {
     const resultArray = [
@@ -11141,7 +11160,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/notifications/threads/:threadId`, (req, res, ctx) => {
     const resultArray = [
@@ -11663,7 +11682,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/notifications/threads/:threadId`, (req, res, ctx) => {
     const resultArray = [
@@ -11680,7 +11699,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/notifications/threads/:threadId/subscription`,
@@ -11719,7 +11738,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -11759,7 +11778,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -11788,13 +11807,13 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/octocat`, (req, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/organizations`, (req, res, ctx) => {
     const resultArray = [
@@ -11825,7 +11844,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -11884,6 +11903,7 @@ export const handlers = [
           members_can_create_pages: true,
           members_can_create_public_pages: true,
           members_can_create_private_pages: true,
+          members_can_fork_private_repositories: faker.datatype.boolean(),
           updated_at: faker.date.past(),
         }),
       ],
@@ -11898,7 +11918,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/orgs/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -11957,6 +11977,7 @@ export const handlers = [
           members_can_create_pages: true,
           members_can_create_public_pages: true,
           members_can_create_private_pages: true,
+          members_can_fork_private_repositories: faker.datatype.boolean(),
           updated_at: faker.date.past(),
         }),
       ],
@@ -11972,7 +11993,7 @@ export const handlers = [
       [ctx.status(422), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/actions/permissions`, (req, res, ctx) => {
     const resultArray = [
@@ -11995,12 +12016,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/orgs/:org/actions/permissions`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/permissions/repositories`,
@@ -12330,7 +12351,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -12338,7 +12359,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -12346,7 +12367,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -12354,7 +12375,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -12374,7 +12395,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -12382,7 +12403,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/actions/runner-groups`, (req, res, ctx) => {
@@ -12410,7 +12431,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/orgs/:org/actions/runner-groups`, (req, res, ctx) => {
     const resultArray = [
@@ -12430,7 +12451,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId`,
@@ -12452,7 +12473,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -12475,7 +12496,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -12483,7 +12504,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -12991,7 +13012,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -12999,7 +13020,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -13007,7 +13028,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -13015,7 +13036,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -13050,7 +13071,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -13058,7 +13079,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -13066,7 +13087,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -13074,7 +13095,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/actions/runners`, (req, res, ctx) => {
@@ -13107,7 +13128,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/runners/downloads`,
@@ -13132,7 +13153,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -13470,7 +13491,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -13808,7 +13829,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -13836,7 +13857,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -13844,7 +13865,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/actions/secrets`, (req, res, ctx) => {
@@ -13873,7 +13894,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/secrets/public-key`,
@@ -13892,7 +13913,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -13916,7 +13937,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -13927,7 +13948,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -13935,7 +13956,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -14443,7 +14464,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -14451,7 +14472,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -14462,7 +14483,7 @@ export const handlers = [
         [ctx.status(409), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -14473,7 +14494,7 @@ export const handlers = [
         [ctx.status(409), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/audit-log`, (req, res, ctx) => {
@@ -14549,7 +14570,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/events`, (req, res, ctx) => {
     const resultArray = [
@@ -15310,7 +15331,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -15353,7 +15374,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/orgs/:org/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -15409,7 +15430,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -15446,7 +15467,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -15502,7 +15523,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -15518,7 +15539,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/hooks/:hookId/config`, (req, res, ctx) => {
     const resultArray = [
@@ -15533,7 +15554,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/orgs/:org/hooks/:hookId/config`, (req, res, ctx) => {
     const resultArray = [
@@ -15548,7 +15569,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/hooks/:hookId/deliveries`, (req, res, ctx) => {
     const resultArray = [
@@ -15604,7 +15625,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/hooks/:hookId/deliveries/:deliveryId`,
@@ -15665,7 +15686,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -15703,7 +15724,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/orgs/:org/hooks/:hookId/pings`, (req, res, ctx) => {
@@ -15720,7 +15741,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/installation`, (req, res, ctx) => {
     const resultArray = [
@@ -15788,7 +15809,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/installations`, (req, res, ctx) => {
     const resultArray = [
@@ -15868,7 +15889,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/issues`, (req, res, ctx) => {
     const resultArray = [
@@ -16460,7 +16481,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/members`, (req, res, ctx) => {
     const resultArray = [
@@ -16522,7 +16543,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -16531,7 +16552,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/orgs/:org/members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -16547,7 +16568,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -16625,7 +16646,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -16713,7 +16734,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -16738,7 +16759,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/outside_collaborators`, (req, res, ctx) => {
     const resultArray = [
@@ -16780,7 +16801,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(
     `${baseURL}/orgs/:org/outside_collaborators/:username`,
@@ -16800,7 +16821,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -16817,7 +16838,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/pre-receive-hooks`, (req, res, ctx) => {
@@ -16840,7 +16861,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/pre-receive-hooks/:preReceiveHookId`,
@@ -16858,7 +16879,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -16877,7 +16898,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -16896,7 +16917,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/projects`, (req, res, ctx) => {
@@ -16975,7 +16996,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/orgs/:org/projects`, (req, res, ctx) => {
     const resultArray = [
@@ -17082,7 +17103,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/public_members`, (req, res, ctx) => {
     const resultArray = [
@@ -17124,7 +17145,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/public_members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -17132,7 +17153,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/orgs/:org/public_members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -17148,14 +17169,14 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/orgs/:org/public_members/:username`,
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/repos`, (req, res, ctx) => {
@@ -17649,7 +17670,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/orgs/:org/repos`, (req, res, ctx) => {
     const resultArray = [
@@ -17989,7 +18010,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/secret-scanning/alerts`, (req, res, ctx) => {
     const resultArray = [
@@ -18556,7 +18577,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/teams`, (req, res, ctx) => {
     const resultArray = [
@@ -18616,7 +18637,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/orgs/:org/teams`, (req, res, ctx) => {
     const resultArray = [
@@ -18709,6 +18730,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -18744,7 +18766,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
     const resultArray = [
@@ -18837,6 +18859,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -18853,7 +18876,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
     const resultArray = [
@@ -18946,6 +18969,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -18953,12 +18977,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions`,
@@ -19037,7 +19061,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -19110,7 +19134,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -19183,7 +19207,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -19256,7 +19280,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -19264,7 +19288,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -19338,7 +19362,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -19405,7 +19429,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -19472,7 +19496,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -19539,7 +19563,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -19547,7 +19571,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -19600,7 +19624,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -19683,7 +19707,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -19691,7 +19715,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -19744,7 +19768,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -19827,7 +19851,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -19835,7 +19859,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/members`, (req, res, ctx) => {
@@ -19878,7 +19902,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/memberships/:username`,
@@ -19895,7 +19919,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -19914,7 +19938,7 @@ export const handlers = [
         [ctx.status(422), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -19925,7 +19949,7 @@ export const handlers = [
         [ctx.status(403), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/projects`, (req, res, ctx) => {
@@ -19990,7 +20014,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/projects/:projectId`,
@@ -20051,7 +20075,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -20068,7 +20092,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -20076,7 +20100,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/repos`, (req, res, ctx) => {
@@ -20570,7 +20594,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/repos/:owner/:repo`,
@@ -21060,7 +21084,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -21068,7 +21092,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -21076,7 +21100,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/teams`, (req, res, ctx) => {
@@ -21128,7 +21152,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
     const resultArray = [
@@ -21207,7 +21231,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
     const resultArray = [
@@ -21298,7 +21322,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
     const resultArray = [
@@ -21336,7 +21360,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/projects/columns/cards/:cardId/moves`,
@@ -21407,7 +21431,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
@@ -21455,7 +21479,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
     const resultArray = [
@@ -21493,7 +21517,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
     const resultArray = [
@@ -21519,7 +21543,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/projects/columns/:columnId/cards`, (req, res, ctx) => {
     const resultArray = [
@@ -21596,7 +21620,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/projects/columns/:columnId/cards`, (req, res, ctx) => {
     const resultArray = [
@@ -21683,7 +21707,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/projects/columns/:columnId/moves`, (req, res, ctx) => {
     const resultArray = [
@@ -21721,7 +21745,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
     const resultArray = [
@@ -21799,7 +21823,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
     const resultArray = [
@@ -21902,7 +21926,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
     const resultArray = [
@@ -21949,7 +21973,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/projects/:projectId/collaborators`, (req, res, ctx) => {
     const resultArray = [
@@ -22038,7 +22062,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(
     `${baseURL}/projects/:projectId/collaborators/:username`,
@@ -22094,7 +22118,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -22151,7 +22175,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -22241,7 +22265,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/projects/:projectId/columns`, (req, res, ctx) => {
@@ -22286,7 +22310,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/projects/:projectId/columns`, (req, res, ctx) => {
     const resultArray = [
@@ -22336,7 +22360,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/rate_limit`, (req, res, ctx) => {
     const resultArray = [
@@ -22413,7 +22437,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/reactions/:reactionId`, (req, res, ctx) => {
     const resultArray = [
@@ -22448,7 +22472,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -23574,9 +23598,6 @@ export const handlers = [
             secret_scanning: {
               status: faker.random.arrayElement(['enabled', 'disabled']),
             },
-            secret_scanning_push_protection: {
-              status: faker.random.arrayElement(['enabled', 'disabled']),
-            },
           },
         }),
       ],
@@ -23609,7 +23630,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -24735,9 +24756,6 @@ export const handlers = [
             secret_scanning: {
               status: faker.random.arrayElement(['enabled', 'disabled']),
             },
-            secret_scanning_push_protection: {
-              status: faker.random.arrayElement(['enabled', 'disabled']),
-            },
           },
         }),
       ],
@@ -24789,7 +24807,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -24821,7 +24839,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/artifacts`,
@@ -24852,7 +24870,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24877,7 +24895,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -24885,7 +24903,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24893,7 +24911,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(302), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24940,7 +24958,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24948,7 +24966,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(302), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24969,7 +24987,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -24977,7 +24995,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -24997,7 +25015,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -25005,7 +25023,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/actions/runners`, (req, res, ctx) => {
@@ -25038,7 +25056,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runners/downloads`,
@@ -25063,7 +25081,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -25401,7 +25419,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -25739,7 +25757,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -25767,7 +25785,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -25775,7 +25793,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/actions/runs`, (req, res, ctx) => {
@@ -25797,6 +25815,7 @@ export const handlers = [
             head_branch: 'master',
             head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
             run_number: 106,
+            run_attempt: 1,
             event: 'push',
             status: 'completed',
             conclusion: 'neutral',
@@ -25832,6 +25851,7 @@ export const handlers = [
             })),
             created_at: faker.date.past(),
             updated_at: faker.date.past(),
+            run_started_at: faker.date.past(),
             jobs_url:
               'https://api.github.com/repos/github/hello-world/actions/runs/5/jobs',
             logs_url:
@@ -26846,7 +26866,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId`,
@@ -26863,6 +26883,7 @@ export const handlers = [
             head_branch: 'master',
             head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
             run_number: 106,
+            run_attempt: 1,
             event: 'push',
             status: 'completed',
             conclusion: 'neutral',
@@ -26898,6 +26919,7 @@ export const handlers = [
             })),
             created_at: faker.date.past(),
             updated_at: faker.date.past(),
+            run_started_at: faker.date.past(),
             jobs_url:
               'https://api.github.com/repos/github/hello-world/actions/runs/5/jobs',
             logs_url:
@@ -27911,7 +27933,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -27919,7 +27941,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -27984,7 +28006,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28016,16 +28038,1128 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(
-    `${baseURL}/repos/:owner/:repo/actions/runs/:runId/cancel`,
+  rest.get(
+    `${baseURL}/repos/:owner/:repo/actions/runs/:runId/attempts/:attemptNumber`,
     (req, res, ctx) => {
       const resultArray = [
-        [ctx.status(202), ctx.json({})],
         [
-          ctx.status(409),
+          ctx.status(200),
+          ctx.json({
+            id: 5,
+            name: 'Build',
+            node_id: 'MDEwOkNoZWNrU3VpdGU1',
+            check_suite_id: 42,
+            check_suite_node_id: 'MDEwOkNoZWNrU3VpdGU0Mg==',
+            head_branch: 'master',
+            head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
+            run_number: 106,
+            run_attempt: 1,
+            event: 'push',
+            status: 'completed',
+            conclusion: 'neutral',
+            workflow_id: 5,
+            url: 'https://api.github.com/repos/github/hello-world/actions/runs/5',
+            html_url: 'https://github.com/github/hello-world/suites/4',
+            pull_requests: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              id: faker.datatype.number(),
+              number: faker.datatype.number(),
+              url: faker.internet.url(),
+              head: {
+                ref: faker.lorem.slug(1),
+                sha: faker.lorem.slug(1),
+                repo: {
+                  id: faker.datatype.number(),
+                  url: faker.internet.url(),
+                  name: faker.name.findName(),
+                },
+              },
+              base: {
+                ref: faker.lorem.slug(1),
+                sha: faker.lorem.slug(1),
+                repo: {
+                  id: faker.datatype.number(),
+                  url: faker.internet.url(),
+                  name: faker.name.findName(),
+                },
+              },
+            })),
+            created_at: faker.date.past(),
+            updated_at: faker.date.past(),
+            run_started_at: faker.date.past(),
+            jobs_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/jobs',
+            logs_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/logs',
+            check_suite_url:
+              'https://api.github.com/repos/github/hello-world/check-suites/12',
+            artifacts_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/rerun/artifacts',
+            cancel_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/cancel',
+            rerun_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/rerun',
+            previous_attempt_url:
+              'https://api.github.com/repos/github/hello-world/actions/runs/5/attempts/3',
+            workflow_url:
+              'https://api.github.com/repos/github/hello-world/actions/workflows/main.yaml',
+            head_commit: {
+              id: faker.lorem.slug(1),
+              tree_id: faker.lorem.slug(1),
+              message: faker.lorem.slug(1),
+              timestamp: faker.date.past(),
+              author: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+              },
+              committer: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+              },
+            },
+            repository: {
+              id: 1296269,
+              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+              name: 'Hello-World',
+              full_name: 'octocat/Hello-World',
+              owner: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                login: 'octocat',
+                id: 1,
+                node_id: 'MDQ6VXNlcjE=',
+                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                url: 'https://api.github.com/users/octocat',
+                html_url: 'https://github.com/octocat',
+                followers_url: 'https://api.github.com/users/octocat/followers',
+                following_url:
+                  'https://api.github.com/users/octocat/following{/other_user}',
+                gists_url:
+                  'https://api.github.com/users/octocat/gists{/gist_id}',
+                starred_url:
+                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                subscriptions_url:
+                  'https://api.github.com/users/octocat/subscriptions',
+                organizations_url: 'https://api.github.com/users/octocat/orgs',
+                repos_url: 'https://api.github.com/users/octocat/repos',
+                events_url:
+                  'https://api.github.com/users/octocat/events{/privacy}',
+                received_events_url:
+                  'https://api.github.com/users/octocat/received_events',
+                type: 'User',
+                site_admin: faker.datatype.boolean(),
+                starred_at: '"2020-07-09T00:17:55Z"',
+              },
+              private: faker.datatype.boolean(),
+              html_url: 'https://github.com/octocat/Hello-World',
+              description: 'This your first repo!',
+              fork: faker.datatype.boolean(),
+              url: 'https://api.github.com/repos/octocat/Hello-World',
+              archive_url:
+                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
+              assignees_url:
+                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
+              blobs_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
+              branches_url:
+                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
+              collaborators_url:
+                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
+              comments_url:
+                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
+              commits_url:
+                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
+              compare_url:
+                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
+              contents_url:
+                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
+              contributors_url:
+                'http://api.github.com/repos/octocat/Hello-World/contributors',
+              deployments_url:
+                'http://api.github.com/repos/octocat/Hello-World/deployments',
+              downloads_url:
+                'http://api.github.com/repos/octocat/Hello-World/downloads',
+              events_url:
+                'http://api.github.com/repos/octocat/Hello-World/events',
+              forks_url:
+                'http://api.github.com/repos/octocat/Hello-World/forks',
+              git_commits_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
+              git_refs_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
+              git_tags_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
+              git_url: faker.internet.url(),
+              issue_comment_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
+              issue_events_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
+              issues_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
+              keys_url:
+                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
+              labels_url:
+                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
+              languages_url:
+                'http://api.github.com/repos/octocat/Hello-World/languages',
+              merges_url:
+                'http://api.github.com/repos/octocat/Hello-World/merges',
+              milestones_url:
+                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
+              notifications_url:
+                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
+              pulls_url:
+                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
+              releases_url:
+                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
+              ssh_url: faker.internet.url(),
+              stargazers_url:
+                'http://api.github.com/repos/octocat/Hello-World/stargazers',
+              statuses_url:
+                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
+              subscribers_url:
+                'http://api.github.com/repos/octocat/Hello-World/subscribers',
+              subscription_url:
+                'http://api.github.com/repos/octocat/Hello-World/subscription',
+              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
+              teams_url:
+                'http://api.github.com/repos/octocat/Hello-World/teams',
+              trees_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
+              clone_url: faker.internet.url(),
+              mirror_url: faker.internet.url(),
+              hooks_url:
+                'http://api.github.com/repos/octocat/Hello-World/hooks',
+              svn_url: faker.internet.url(),
+              homepage: faker.lorem.slug(1),
+              language: faker.lorem.slug(1),
+              forks_count: faker.datatype.number(),
+              stargazers_count: faker.datatype.number(),
+              watchers_count: faker.datatype.number(),
+              size: faker.datatype.number(),
+              default_branch: faker.lorem.slug(1),
+              open_issues_count: faker.datatype.number(),
+              is_template: faker.datatype.boolean(),
+              topics: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => faker.lorem.slug(1)),
+              has_issues: faker.datatype.boolean(),
+              has_projects: faker.datatype.boolean(),
+              has_wiki: faker.datatype.boolean(),
+              has_pages: faker.datatype.boolean(),
+              has_downloads: faker.datatype.boolean(),
+              archived: faker.datatype.boolean(),
+              disabled: faker.datatype.boolean(),
+              visibility: faker.lorem.slug(1),
+              pushed_at: '2011-01-26T19:06:43Z',
+              created_at: '2011-01-26T19:01:12Z',
+              updated_at: '2011-01-26T19:14:43Z',
+              permissions: {
+                admin: faker.datatype.boolean(),
+                maintain: faker.datatype.boolean(),
+                push: faker.datatype.boolean(),
+                triage: faker.datatype.boolean(),
+                pull: faker.datatype.boolean(),
+              },
+              template_repository: {
+                id: 42,
+                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+                name: 'Team Environment',
+                full_name: 'octocat/Hello-World',
+                license: {
+                  key: 'mit',
+                  name: 'MIT License',
+                  url: 'https://api.github.com/licenses/mit',
+                  spdx_id: 'MIT',
+                  node_id: 'MDc6TGljZW5zZW1pdA==',
+                  html_url: faker.internet.url(),
+                },
+                organization: {
+                  name: faker.name.findName(),
+                  email: faker.internet.email(),
+                  login: 'octocat',
+                  id: 1,
+                  node_id: 'MDQ6VXNlcjE=',
+                  avatar_url:
+                    'https://github.com/images/error/octocat_happy.gif',
+                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                  url: 'https://api.github.com/users/octocat',
+                  html_url: 'https://github.com/octocat',
+                  followers_url:
+                    'https://api.github.com/users/octocat/followers',
+                  following_url:
+                    'https://api.github.com/users/octocat/following{/other_user}',
+                  gists_url:
+                    'https://api.github.com/users/octocat/gists{/gist_id}',
+                  starred_url:
+                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                  subscriptions_url:
+                    'https://api.github.com/users/octocat/subscriptions',
+                  organizations_url:
+                    'https://api.github.com/users/octocat/orgs',
+                  repos_url: 'https://api.github.com/users/octocat/repos',
+                  events_url:
+                    'https://api.github.com/users/octocat/events{/privacy}',
+                  received_events_url:
+                    'https://api.github.com/users/octocat/received_events',
+                  type: 'User',
+                  site_admin: faker.datatype.boolean(),
+                  starred_at: '"2020-07-09T00:17:55Z"',
+                },
+                forks: faker.datatype.number(),
+                permissions: {
+                  admin: faker.datatype.boolean(),
+                  pull: faker.datatype.boolean(),
+                  triage: faker.datatype.boolean(),
+                  push: faker.datatype.boolean(),
+                  maintain: faker.datatype.boolean(),
+                },
+                owner: {
+                  name: faker.name.findName(),
+                  email: faker.internet.email(),
+                  login: 'octocat',
+                  id: 1,
+                  node_id: 'MDQ6VXNlcjE=',
+                  avatar_url:
+                    'https://github.com/images/error/octocat_happy.gif',
+                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                  url: 'https://api.github.com/users/octocat',
+                  html_url: 'https://github.com/octocat',
+                  followers_url:
+                    'https://api.github.com/users/octocat/followers',
+                  following_url:
+                    'https://api.github.com/users/octocat/following{/other_user}',
+                  gists_url:
+                    'https://api.github.com/users/octocat/gists{/gist_id}',
+                  starred_url:
+                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                  subscriptions_url:
+                    'https://api.github.com/users/octocat/subscriptions',
+                  organizations_url:
+                    'https://api.github.com/users/octocat/orgs',
+                  repos_url: 'https://api.github.com/users/octocat/repos',
+                  events_url:
+                    'https://api.github.com/users/octocat/events{/privacy}',
+                  received_events_url:
+                    'https://api.github.com/users/octocat/received_events',
+                  type: 'User',
+                  site_admin: faker.datatype.boolean(),
+                  starred_at: '"2020-07-09T00:17:55Z"',
+                },
+                private: faker.datatype.boolean(),
+                html_url: 'https://github.com/octocat/Hello-World',
+                description: 'This your first repo!',
+                fork: faker.datatype.boolean(),
+                url: 'https://api.github.com/repos/octocat/Hello-World',
+                archive_url:
+                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
+                assignees_url:
+                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
+                blobs_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
+                branches_url:
+                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
+                collaborators_url:
+                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
+                comments_url:
+                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
+                commits_url:
+                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
+                compare_url:
+                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
+                contents_url:
+                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
+                contributors_url:
+                  'http://api.github.com/repos/octocat/Hello-World/contributors',
+                deployments_url:
+                  'http://api.github.com/repos/octocat/Hello-World/deployments',
+                downloads_url:
+                  'http://api.github.com/repos/octocat/Hello-World/downloads',
+                events_url:
+                  'http://api.github.com/repos/octocat/Hello-World/events',
+                forks_url:
+                  'http://api.github.com/repos/octocat/Hello-World/forks',
+                git_commits_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
+                git_refs_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
+                git_tags_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
+                git_url: 'git:github.com/octocat/Hello-World.git',
+                issue_comment_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
+                issue_events_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
+                issues_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
+                keys_url:
+                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
+                labels_url:
+                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
+                languages_url:
+                  'http://api.github.com/repos/octocat/Hello-World/languages',
+                merges_url:
+                  'http://api.github.com/repos/octocat/Hello-World/merges',
+                milestones_url:
+                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
+                notifications_url:
+                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
+                pulls_url:
+                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
+                releases_url:
+                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
+                ssh_url: 'git@github.com:octocat/Hello-World.git',
+                stargazers_url:
+                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
+                statuses_url:
+                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
+                subscribers_url:
+                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
+                subscription_url:
+                  'http://api.github.com/repos/octocat/Hello-World/subscription',
+                tags_url:
+                  'http://api.github.com/repos/octocat/Hello-World/tags',
+                teams_url:
+                  'http://api.github.com/repos/octocat/Hello-World/teams',
+                trees_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
+                clone_url: 'https://github.com/octocat/Hello-World.git',
+                mirror_url: 'git:git.example.com/octocat/Hello-World',
+                hooks_url:
+                  'http://api.github.com/repos/octocat/Hello-World/hooks',
+                svn_url: 'https://svn.github.com/octocat/Hello-World',
+                homepage: 'https://github.com',
+                language: faker.lorem.slug(1),
+                forks_count: 9,
+                stargazers_count: 80,
+                watchers_count: 80,
+                size: 108,
+                default_branch: 'master',
+                open_issues_count: faker.datatype.number(),
+                is_template: true,
+                topics: [
+                  ...new Array(
+                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                  ).keys(),
+                ].map(_ => faker.lorem.slug(1)),
+                has_issues: true,
+                has_projects: true,
+                has_wiki: true,
+                has_pages: faker.datatype.boolean(),
+                has_downloads: true,
+                archived: faker.datatype.boolean(),
+                disabled: faker.datatype.boolean(),
+                visibility: faker.lorem.slug(1),
+                pushed_at: '2011-01-26T19:06:43Z',
+                created_at: '2011-01-26T19:01:12Z',
+                updated_at: '2011-01-26T19:14:43Z',
+                allow_rebase_merge: true,
+                template_repository: {
+                  id: faker.datatype.number(),
+                  node_id: faker.lorem.slug(1),
+                  name: faker.name.findName(),
+                  full_name: faker.name.findName(),
+                  owner: {
+                    login: faker.lorem.slug(1),
+                    id: faker.datatype.number(),
+                    node_id: faker.lorem.slug(1),
+                    avatar_url: faker.internet.url(),
+                    gravatar_id: faker.lorem.slug(1),
+                    url: faker.internet.url(),
+                    html_url: faker.internet.url(),
+                    followers_url: faker.internet.url(),
+                    following_url: faker.internet.url(),
+                    gists_url: faker.internet.url(),
+                    starred_url: faker.internet.url(),
+                    subscriptions_url: faker.internet.url(),
+                    organizations_url: faker.internet.url(),
+                    repos_url: faker.internet.url(),
+                    events_url: faker.internet.url(),
+                    received_events_url: faker.internet.url(),
+                    type: faker.lorem.slug(1),
+                    site_admin: faker.datatype.boolean(),
+                  },
+                  private: faker.datatype.boolean(),
+                  html_url: faker.internet.url(),
+                  description: faker.lorem.slug(1),
+                  fork: faker.datatype.boolean(),
+                  url: faker.internet.url(),
+                  archive_url: faker.internet.url(),
+                  assignees_url: faker.internet.url(),
+                  blobs_url: faker.internet.url(),
+                  branches_url: faker.internet.url(),
+                  collaborators_url: faker.internet.url(),
+                  comments_url: faker.internet.url(),
+                  commits_url: faker.internet.url(),
+                  compare_url: faker.internet.url(),
+                  contents_url: faker.internet.url(),
+                  contributors_url: faker.internet.url(),
+                  deployments_url: faker.internet.url(),
+                  downloads_url: faker.internet.url(),
+                  events_url: faker.internet.url(),
+                  forks_url: faker.internet.url(),
+                  git_commits_url: faker.internet.url(),
+                  git_refs_url: faker.internet.url(),
+                  git_tags_url: faker.internet.url(),
+                  git_url: faker.internet.url(),
+                  issue_comment_url: faker.internet.url(),
+                  issue_events_url: faker.internet.url(),
+                  issues_url: faker.internet.url(),
+                  keys_url: faker.internet.url(),
+                  labels_url: faker.internet.url(),
+                  languages_url: faker.internet.url(),
+                  merges_url: faker.internet.url(),
+                  milestones_url: faker.internet.url(),
+                  notifications_url: faker.internet.url(),
+                  pulls_url: faker.internet.url(),
+                  releases_url: faker.internet.url(),
+                  ssh_url: faker.internet.url(),
+                  stargazers_url: faker.internet.url(),
+                  statuses_url: faker.internet.url(),
+                  subscribers_url: faker.internet.url(),
+                  subscription_url: faker.internet.url(),
+                  tags_url: faker.internet.url(),
+                  teams_url: faker.internet.url(),
+                  trees_url: faker.internet.url(),
+                  clone_url: faker.internet.url(),
+                  mirror_url: faker.internet.url(),
+                  hooks_url: faker.internet.url(),
+                  svn_url: faker.internet.url(),
+                  homepage: faker.lorem.slug(1),
+                  language: faker.lorem.slug(1),
+                  forks_count: faker.datatype.number(),
+                  stargazers_count: faker.datatype.number(),
+                  watchers_count: faker.datatype.number(),
+                  size: faker.datatype.number(),
+                  default_branch: faker.lorem.slug(1),
+                  open_issues_count: faker.datatype.number(),
+                  is_template: faker.datatype.boolean(),
+                  topics: [
+                    ...new Array(
+                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                    ).keys(),
+                  ].map(_ => faker.lorem.slug(1)),
+                  has_issues: faker.datatype.boolean(),
+                  has_projects: faker.datatype.boolean(),
+                  has_wiki: faker.datatype.boolean(),
+                  has_pages: faker.datatype.boolean(),
+                  has_downloads: faker.datatype.boolean(),
+                  archived: faker.datatype.boolean(),
+                  disabled: faker.datatype.boolean(),
+                  visibility: faker.lorem.slug(1),
+                  pushed_at: faker.date.past(),
+                  created_at: faker.date.past(),
+                  updated_at: faker.date.past(),
+                  permissions: {
+                    admin: faker.datatype.boolean(),
+                    maintain: faker.datatype.boolean(),
+                    push: faker.datatype.boolean(),
+                    triage: faker.datatype.boolean(),
+                    pull: faker.datatype.boolean(),
+                  },
+                  allow_rebase_merge: faker.datatype.boolean(),
+                  temp_clone_token: faker.lorem.slug(1),
+                  allow_squash_merge: faker.datatype.boolean(),
+                  allow_auto_merge: faker.datatype.boolean(),
+                  delete_branch_on_merge: faker.datatype.boolean(),
+                  allow_update_branch: faker.datatype.boolean(),
+                  allow_merge_commit: faker.datatype.boolean(),
+                  subscribers_count: faker.datatype.number(),
+                  network_count: faker.datatype.number(),
+                },
+                temp_clone_token: faker.lorem.slug(1),
+                allow_squash_merge: true,
+                allow_auto_merge: faker.datatype.boolean(),
+                delete_branch_on_merge: faker.datatype.boolean(),
+                allow_merge_commit: true,
+                allow_forking: faker.datatype.boolean(),
+                subscribers_count: faker.datatype.number(),
+                network_count: faker.datatype.number(),
+                open_issues: faker.datatype.number(),
+                watchers: faker.datatype.number(),
+                master_branch: faker.lorem.slug(1),
+                starred_at: '"2020-07-09T00:17:42Z"',
+              },
+              temp_clone_token: faker.lorem.slug(1),
+              delete_branch_on_merge: faker.datatype.boolean(),
+              subscribers_count: faker.datatype.number(),
+              network_count: faker.datatype.number(),
+              code_of_conduct: {
+                key: 'contributor_covenant',
+                name: 'Contributor Covenant',
+                url: 'https://api.github.com/codes_of_conduct/contributor_covenant',
+                body: "# Contributor Covenant Code of Conduct\n\n## Our Pledge\n\nIn the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.\n\n## Our Standards\n\nExamples of behavior that contributes to creating a positive environment include:\n\n* Using welcoming and inclusive language\n* Being respectful of differing viewpoints and experiences\n* Gracefully accepting constructive criticism\n* Focusing on what is best for the community\n* Showing empathy towards other community members\n\nExamples of unacceptable behavior by participants include:\n\n* The use of sexualized language or imagery and unwelcome sexual attention or advances\n* Trolling, insulting/derogatory comments, and personal or political attacks\n* Public or private harassment\n* Publishing others' private information, such as a physical or electronic address, without explicit permission\n* Other conduct which could reasonably be considered inappropriate in a professional setting\n\n## Our Responsibilities\n\nProject maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response\n                  to any instances of unacceptable behavior.\n\nProject maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.\n\n## Scope\n\nThis Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,\n                  posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.\n\n## Enforcement\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.\n\nProject maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.\n\n## Attribution\n\nThis Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]\n\n[homepage]: http://contributor-covenant.org\n[version]: http://contributor-covenant.org/version/1/4/\n",
+                html_url: faker.internet.url(),
+              },
+              license: {
+                key: faker.lorem.slug(1),
+                name: faker.name.findName(),
+                spdx_id: faker.lorem.slug(1),
+                url: faker.internet.url(),
+                node_id: faker.lorem.slug(1),
+              },
+              forks: faker.datatype.number(),
+              open_issues: faker.datatype.number(),
+              watchers: faker.datatype.number(),
+              allow_forking: faker.datatype.boolean(),
+            },
+            head_repository: {
+              id: 1296269,
+              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+              name: 'Hello-World',
+              full_name: 'octocat/Hello-World',
+              owner: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                login: 'octocat',
+                id: 1,
+                node_id: 'MDQ6VXNlcjE=',
+                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                url: 'https://api.github.com/users/octocat',
+                html_url: 'https://github.com/octocat',
+                followers_url: 'https://api.github.com/users/octocat/followers',
+                following_url:
+                  'https://api.github.com/users/octocat/following{/other_user}',
+                gists_url:
+                  'https://api.github.com/users/octocat/gists{/gist_id}',
+                starred_url:
+                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                subscriptions_url:
+                  'https://api.github.com/users/octocat/subscriptions',
+                organizations_url: 'https://api.github.com/users/octocat/orgs',
+                repos_url: 'https://api.github.com/users/octocat/repos',
+                events_url:
+                  'https://api.github.com/users/octocat/events{/privacy}',
+                received_events_url:
+                  'https://api.github.com/users/octocat/received_events',
+                type: 'User',
+                site_admin: faker.datatype.boolean(),
+                starred_at: '"2020-07-09T00:17:55Z"',
+              },
+              private: faker.datatype.boolean(),
+              html_url: 'https://github.com/octocat/Hello-World',
+              description: 'This your first repo!',
+              fork: faker.datatype.boolean(),
+              url: 'https://api.github.com/repos/octocat/Hello-World',
+              archive_url:
+                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
+              assignees_url:
+                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
+              blobs_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
+              branches_url:
+                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
+              collaborators_url:
+                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
+              comments_url:
+                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
+              commits_url:
+                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
+              compare_url:
+                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
+              contents_url:
+                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
+              contributors_url:
+                'http://api.github.com/repos/octocat/Hello-World/contributors',
+              deployments_url:
+                'http://api.github.com/repos/octocat/Hello-World/deployments',
+              downloads_url:
+                'http://api.github.com/repos/octocat/Hello-World/downloads',
+              events_url:
+                'http://api.github.com/repos/octocat/Hello-World/events',
+              forks_url:
+                'http://api.github.com/repos/octocat/Hello-World/forks',
+              git_commits_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
+              git_refs_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
+              git_tags_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
+              git_url: faker.internet.url(),
+              issue_comment_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
+              issue_events_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
+              issues_url:
+                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
+              keys_url:
+                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
+              labels_url:
+                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
+              languages_url:
+                'http://api.github.com/repos/octocat/Hello-World/languages',
+              merges_url:
+                'http://api.github.com/repos/octocat/Hello-World/merges',
+              milestones_url:
+                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
+              notifications_url:
+                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
+              pulls_url:
+                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
+              releases_url:
+                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
+              ssh_url: faker.internet.url(),
+              stargazers_url:
+                'http://api.github.com/repos/octocat/Hello-World/stargazers',
+              statuses_url:
+                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
+              subscribers_url:
+                'http://api.github.com/repos/octocat/Hello-World/subscribers',
+              subscription_url:
+                'http://api.github.com/repos/octocat/Hello-World/subscription',
+              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
+              teams_url:
+                'http://api.github.com/repos/octocat/Hello-World/teams',
+              trees_url:
+                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
+              clone_url: faker.internet.url(),
+              mirror_url: faker.internet.url(),
+              hooks_url:
+                'http://api.github.com/repos/octocat/Hello-World/hooks',
+              svn_url: faker.internet.url(),
+              homepage: faker.lorem.slug(1),
+              language: faker.lorem.slug(1),
+              forks_count: faker.datatype.number(),
+              stargazers_count: faker.datatype.number(),
+              watchers_count: faker.datatype.number(),
+              size: faker.datatype.number(),
+              default_branch: faker.lorem.slug(1),
+              open_issues_count: faker.datatype.number(),
+              is_template: faker.datatype.boolean(),
+              topics: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => faker.lorem.slug(1)),
+              has_issues: faker.datatype.boolean(),
+              has_projects: faker.datatype.boolean(),
+              has_wiki: faker.datatype.boolean(),
+              has_pages: faker.datatype.boolean(),
+              has_downloads: faker.datatype.boolean(),
+              archived: faker.datatype.boolean(),
+              disabled: faker.datatype.boolean(),
+              visibility: faker.lorem.slug(1),
+              pushed_at: '2011-01-26T19:06:43Z',
+              created_at: '2011-01-26T19:01:12Z',
+              updated_at: '2011-01-26T19:14:43Z',
+              permissions: {
+                admin: faker.datatype.boolean(),
+                maintain: faker.datatype.boolean(),
+                push: faker.datatype.boolean(),
+                triage: faker.datatype.boolean(),
+                pull: faker.datatype.boolean(),
+              },
+              template_repository: {
+                id: 42,
+                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+                name: 'Team Environment',
+                full_name: 'octocat/Hello-World',
+                license: {
+                  key: 'mit',
+                  name: 'MIT License',
+                  url: 'https://api.github.com/licenses/mit',
+                  spdx_id: 'MIT',
+                  node_id: 'MDc6TGljZW5zZW1pdA==',
+                  html_url: faker.internet.url(),
+                },
+                organization: {
+                  name: faker.name.findName(),
+                  email: faker.internet.email(),
+                  login: 'octocat',
+                  id: 1,
+                  node_id: 'MDQ6VXNlcjE=',
+                  avatar_url:
+                    'https://github.com/images/error/octocat_happy.gif',
+                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                  url: 'https://api.github.com/users/octocat',
+                  html_url: 'https://github.com/octocat',
+                  followers_url:
+                    'https://api.github.com/users/octocat/followers',
+                  following_url:
+                    'https://api.github.com/users/octocat/following{/other_user}',
+                  gists_url:
+                    'https://api.github.com/users/octocat/gists{/gist_id}',
+                  starred_url:
+                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                  subscriptions_url:
+                    'https://api.github.com/users/octocat/subscriptions',
+                  organizations_url:
+                    'https://api.github.com/users/octocat/orgs',
+                  repos_url: 'https://api.github.com/users/octocat/repos',
+                  events_url:
+                    'https://api.github.com/users/octocat/events{/privacy}',
+                  received_events_url:
+                    'https://api.github.com/users/octocat/received_events',
+                  type: 'User',
+                  site_admin: faker.datatype.boolean(),
+                  starred_at: '"2020-07-09T00:17:55Z"',
+                },
+                forks: faker.datatype.number(),
+                permissions: {
+                  admin: faker.datatype.boolean(),
+                  pull: faker.datatype.boolean(),
+                  triage: faker.datatype.boolean(),
+                  push: faker.datatype.boolean(),
+                  maintain: faker.datatype.boolean(),
+                },
+                owner: {
+                  name: faker.name.findName(),
+                  email: faker.internet.email(),
+                  login: 'octocat',
+                  id: 1,
+                  node_id: 'MDQ6VXNlcjE=',
+                  avatar_url:
+                    'https://github.com/images/error/octocat_happy.gif',
+                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                  url: 'https://api.github.com/users/octocat',
+                  html_url: 'https://github.com/octocat',
+                  followers_url:
+                    'https://api.github.com/users/octocat/followers',
+                  following_url:
+                    'https://api.github.com/users/octocat/following{/other_user}',
+                  gists_url:
+                    'https://api.github.com/users/octocat/gists{/gist_id}',
+                  starred_url:
+                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                  subscriptions_url:
+                    'https://api.github.com/users/octocat/subscriptions',
+                  organizations_url:
+                    'https://api.github.com/users/octocat/orgs',
+                  repos_url: 'https://api.github.com/users/octocat/repos',
+                  events_url:
+                    'https://api.github.com/users/octocat/events{/privacy}',
+                  received_events_url:
+                    'https://api.github.com/users/octocat/received_events',
+                  type: 'User',
+                  site_admin: faker.datatype.boolean(),
+                  starred_at: '"2020-07-09T00:17:55Z"',
+                },
+                private: faker.datatype.boolean(),
+                html_url: 'https://github.com/octocat/Hello-World',
+                description: 'This your first repo!',
+                fork: faker.datatype.boolean(),
+                url: 'https://api.github.com/repos/octocat/Hello-World',
+                archive_url:
+                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
+                assignees_url:
+                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
+                blobs_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
+                branches_url:
+                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
+                collaborators_url:
+                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
+                comments_url:
+                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
+                commits_url:
+                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
+                compare_url:
+                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
+                contents_url:
+                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
+                contributors_url:
+                  'http://api.github.com/repos/octocat/Hello-World/contributors',
+                deployments_url:
+                  'http://api.github.com/repos/octocat/Hello-World/deployments',
+                downloads_url:
+                  'http://api.github.com/repos/octocat/Hello-World/downloads',
+                events_url:
+                  'http://api.github.com/repos/octocat/Hello-World/events',
+                forks_url:
+                  'http://api.github.com/repos/octocat/Hello-World/forks',
+                git_commits_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
+                git_refs_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
+                git_tags_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
+                git_url: 'git:github.com/octocat/Hello-World.git',
+                issue_comment_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
+                issue_events_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
+                issues_url:
+                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
+                keys_url:
+                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
+                labels_url:
+                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
+                languages_url:
+                  'http://api.github.com/repos/octocat/Hello-World/languages',
+                merges_url:
+                  'http://api.github.com/repos/octocat/Hello-World/merges',
+                milestones_url:
+                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
+                notifications_url:
+                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
+                pulls_url:
+                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
+                releases_url:
+                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
+                ssh_url: 'git@github.com:octocat/Hello-World.git',
+                stargazers_url:
+                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
+                statuses_url:
+                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
+                subscribers_url:
+                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
+                subscription_url:
+                  'http://api.github.com/repos/octocat/Hello-World/subscription',
+                tags_url:
+                  'http://api.github.com/repos/octocat/Hello-World/tags',
+                teams_url:
+                  'http://api.github.com/repos/octocat/Hello-World/teams',
+                trees_url:
+                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
+                clone_url: 'https://github.com/octocat/Hello-World.git',
+                mirror_url: 'git:git.example.com/octocat/Hello-World',
+                hooks_url:
+                  'http://api.github.com/repos/octocat/Hello-World/hooks',
+                svn_url: 'https://svn.github.com/octocat/Hello-World',
+                homepage: 'https://github.com',
+                language: faker.lorem.slug(1),
+                forks_count: 9,
+                stargazers_count: 80,
+                watchers_count: 80,
+                size: 108,
+                default_branch: 'master',
+                open_issues_count: faker.datatype.number(),
+                is_template: true,
+                topics: [
+                  ...new Array(
+                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                  ).keys(),
+                ].map(_ => faker.lorem.slug(1)),
+                has_issues: true,
+                has_projects: true,
+                has_wiki: true,
+                has_pages: faker.datatype.boolean(),
+                has_downloads: true,
+                archived: faker.datatype.boolean(),
+                disabled: faker.datatype.boolean(),
+                visibility: faker.lorem.slug(1),
+                pushed_at: '2011-01-26T19:06:43Z',
+                created_at: '2011-01-26T19:01:12Z',
+                updated_at: '2011-01-26T19:14:43Z',
+                allow_rebase_merge: true,
+                template_repository: {
+                  id: faker.datatype.number(),
+                  node_id: faker.lorem.slug(1),
+                  name: faker.name.findName(),
+                  full_name: faker.name.findName(),
+                  owner: {
+                    login: faker.lorem.slug(1),
+                    id: faker.datatype.number(),
+                    node_id: faker.lorem.slug(1),
+                    avatar_url: faker.internet.url(),
+                    gravatar_id: faker.lorem.slug(1),
+                    url: faker.internet.url(),
+                    html_url: faker.internet.url(),
+                    followers_url: faker.internet.url(),
+                    following_url: faker.internet.url(),
+                    gists_url: faker.internet.url(),
+                    starred_url: faker.internet.url(),
+                    subscriptions_url: faker.internet.url(),
+                    organizations_url: faker.internet.url(),
+                    repos_url: faker.internet.url(),
+                    events_url: faker.internet.url(),
+                    received_events_url: faker.internet.url(),
+                    type: faker.lorem.slug(1),
+                    site_admin: faker.datatype.boolean(),
+                  },
+                  private: faker.datatype.boolean(),
+                  html_url: faker.internet.url(),
+                  description: faker.lorem.slug(1),
+                  fork: faker.datatype.boolean(),
+                  url: faker.internet.url(),
+                  archive_url: faker.internet.url(),
+                  assignees_url: faker.internet.url(),
+                  blobs_url: faker.internet.url(),
+                  branches_url: faker.internet.url(),
+                  collaborators_url: faker.internet.url(),
+                  comments_url: faker.internet.url(),
+                  commits_url: faker.internet.url(),
+                  compare_url: faker.internet.url(),
+                  contents_url: faker.internet.url(),
+                  contributors_url: faker.internet.url(),
+                  deployments_url: faker.internet.url(),
+                  downloads_url: faker.internet.url(),
+                  events_url: faker.internet.url(),
+                  forks_url: faker.internet.url(),
+                  git_commits_url: faker.internet.url(),
+                  git_refs_url: faker.internet.url(),
+                  git_tags_url: faker.internet.url(),
+                  git_url: faker.internet.url(),
+                  issue_comment_url: faker.internet.url(),
+                  issue_events_url: faker.internet.url(),
+                  issues_url: faker.internet.url(),
+                  keys_url: faker.internet.url(),
+                  labels_url: faker.internet.url(),
+                  languages_url: faker.internet.url(),
+                  merges_url: faker.internet.url(),
+                  milestones_url: faker.internet.url(),
+                  notifications_url: faker.internet.url(),
+                  pulls_url: faker.internet.url(),
+                  releases_url: faker.internet.url(),
+                  ssh_url: faker.internet.url(),
+                  stargazers_url: faker.internet.url(),
+                  statuses_url: faker.internet.url(),
+                  subscribers_url: faker.internet.url(),
+                  subscription_url: faker.internet.url(),
+                  tags_url: faker.internet.url(),
+                  teams_url: faker.internet.url(),
+                  trees_url: faker.internet.url(),
+                  clone_url: faker.internet.url(),
+                  mirror_url: faker.internet.url(),
+                  hooks_url: faker.internet.url(),
+                  svn_url: faker.internet.url(),
+                  homepage: faker.lorem.slug(1),
+                  language: faker.lorem.slug(1),
+                  forks_count: faker.datatype.number(),
+                  stargazers_count: faker.datatype.number(),
+                  watchers_count: faker.datatype.number(),
+                  size: faker.datatype.number(),
+                  default_branch: faker.lorem.slug(1),
+                  open_issues_count: faker.datatype.number(),
+                  is_template: faker.datatype.boolean(),
+                  topics: [
+                    ...new Array(
+                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                    ).keys(),
+                  ].map(_ => faker.lorem.slug(1)),
+                  has_issues: faker.datatype.boolean(),
+                  has_projects: faker.datatype.boolean(),
+                  has_wiki: faker.datatype.boolean(),
+                  has_pages: faker.datatype.boolean(),
+                  has_downloads: faker.datatype.boolean(),
+                  archived: faker.datatype.boolean(),
+                  disabled: faker.datatype.boolean(),
+                  visibility: faker.lorem.slug(1),
+                  pushed_at: faker.date.past(),
+                  created_at: faker.date.past(),
+                  updated_at: faker.date.past(),
+                  permissions: {
+                    admin: faker.datatype.boolean(),
+                    maintain: faker.datatype.boolean(),
+                    push: faker.datatype.boolean(),
+                    triage: faker.datatype.boolean(),
+                    pull: faker.datatype.boolean(),
+                  },
+                  allow_rebase_merge: faker.datatype.boolean(),
+                  temp_clone_token: faker.lorem.slug(1),
+                  allow_squash_merge: faker.datatype.boolean(),
+                  allow_auto_merge: faker.datatype.boolean(),
+                  delete_branch_on_merge: faker.datatype.boolean(),
+                  allow_update_branch: faker.datatype.boolean(),
+                  allow_merge_commit: faker.datatype.boolean(),
+                  subscribers_count: faker.datatype.number(),
+                  network_count: faker.datatype.number(),
+                },
+                temp_clone_token: faker.lorem.slug(1),
+                allow_squash_merge: true,
+                allow_auto_merge: faker.datatype.boolean(),
+                delete_branch_on_merge: faker.datatype.boolean(),
+                allow_merge_commit: true,
+                allow_forking: faker.datatype.boolean(),
+                subscribers_count: faker.datatype.number(),
+                network_count: faker.datatype.number(),
+                open_issues: faker.datatype.number(),
+                watchers: faker.datatype.number(),
+                master_branch: faker.lorem.slug(1),
+                starred_at: '"2020-07-09T00:17:42Z"',
+              },
+              temp_clone_token: faker.lorem.slug(1),
+              delete_branch_on_merge: faker.datatype.boolean(),
+              subscribers_count: faker.datatype.number(),
+              network_count: faker.datatype.number(),
+              code_of_conduct: {
+                key: 'contributor_covenant',
+                name: 'Contributor Covenant',
+                url: 'https://api.github.com/codes_of_conduct/contributor_covenant',
+                body: "# Contributor Covenant Code of Conduct\n\n## Our Pledge\n\nIn the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.\n\n## Our Standards\n\nExamples of behavior that contributes to creating a positive environment include:\n\n* Using welcoming and inclusive language\n* Being respectful of differing viewpoints and experiences\n* Gracefully accepting constructive criticism\n* Focusing on what is best for the community\n* Showing empathy towards other community members\n\nExamples of unacceptable behavior by participants include:\n\n* The use of sexualized language or imagery and unwelcome sexual attention or advances\n* Trolling, insulting/derogatory comments, and personal or political attacks\n* Public or private harassment\n* Publishing others' private information, such as a physical or electronic address, without explicit permission\n* Other conduct which could reasonably be considered inappropriate in a professional setting\n\n## Our Responsibilities\n\nProject maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response\n                  to any instances of unacceptable behavior.\n\nProject maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.\n\n## Scope\n\nThis Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,\n                  posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.\n\n## Enforcement\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.\n\nProject maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.\n\n## Attribution\n\nThis Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]\n\n[homepage]: http://contributor-covenant.org\n[version]: http://contributor-covenant.org/version/1/4/\n",
+                html_url: faker.internet.url(),
+              },
+              license: {
+                key: faker.lorem.slug(1),
+                name: faker.name.findName(),
+                spdx_id: faker.lorem.slug(1),
+                url: faker.internet.url(),
+                node_id: faker.lorem.slug(1),
+              },
+              forks: faker.datatype.number(),
+              open_issues: faker.datatype.number(),
+              watchers: faker.datatype.number(),
+              allow_forking: faker.datatype.boolean(),
+            },
+            head_repository_id: 5,
+          }),
+        ],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.get(
+    `${baseURL}/repos/:owner/:repo/actions/runs/:runId/attempts/:attemptNumber/jobs`,
+    (req, res, ctx) => {
+      const resultArray = [
+        [
+          ctx.status(200),
+          ctx.json({
+            total_count: faker.datatype.number(),
+            jobs: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              id: 21,
+              run_id: 5,
+              run_url:
+                'https://api.github.com/repos/github/hello-world/actions/runs/5',
+              run_attempt: 1,
+              node_id: 'MDg6Q2hlY2tSdW40',
+              head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
+              url: 'https://api.github.com/repos/github/hello-world/actions/jobs/21',
+              html_url: 'https://github.com/github/hello-world/runs/4',
+              status: 'queued',
+              conclusion: 'success',
+              started_at: '2019-08-08T08:00:00-07:00',
+              completed_at: '2019-08-08T08:00:00-07:00',
+              name: 'test-coverage',
+              steps: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => ({
+                status: 'queued',
+                conclusion: 'success',
+                name: 'test-coverage',
+                number: 1,
+                started_at: '2019-08-08T08:00:00-07:00',
+                completed_at: '2019-08-08T08:00:00-07:00',
+              })),
+              check_run_url:
+                'https://api.github.com/repos/github/hello-world/check-runs/4',
+              labels: ['self-hosted', 'foo', 'bar'],
+              runner_id: 1,
+              runner_name: 'my runner',
+              runner_group_id: 2,
+              runner_group_name: 'my runner group',
+            })),
+          }),
+        ],
+        [
+          ctx.status(404),
           ctx.json({
             message: faker.lorem.slug(1),
             documentation_url: faker.internet.url(),
@@ -28035,7 +29169,15 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.post(
+    `${baseURL}/repos/:owner/:repo/actions/runs/:runId/cancel`,
+    (req, res, ctx) => {
+      const resultArray = [[ctx.status(202), ctx.json({})]];
+
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28089,7 +29231,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28097,35 +29239,15 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(302), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/logs`,
     (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [
-          ctx.status(403),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(500),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+      const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28164,7 +29286,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -28280,7 +29402,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -28288,7 +29410,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(201), ctx.json({})]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/actions/secrets`, (req, res, ctx) => {
@@ -28310,7 +29432,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/secrets/public-key`,
@@ -28329,7 +29451,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28346,7 +29468,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -28357,7 +29479,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -28365,7 +29487,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28399,7 +29521,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28426,7 +29548,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -28434,7 +29556,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -28442,7 +29564,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -28450,7 +29572,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -28474,6 +29596,7 @@ export const handlers = [
               head_branch: 'master',
               head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
               run_number: 106,
+              run_attempt: 1,
               event: 'push',
               status: 'completed',
               conclusion: 'neutral',
@@ -28509,6 +29632,7 @@ export const handlers = [
               })),
               created_at: faker.date.past(),
               updated_at: faker.date.past(),
+              run_started_at: faker.date.past(),
               jobs_url:
                 'https://api.github.com/repos/github/hello-world/actions/runs/5/jobs',
               logs_url:
@@ -29531,7 +30655,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/assignees`, (req, res, ctx) => {
@@ -29583,7 +30707,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/assignees/:assignee`,
@@ -29601,7 +30725,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/autolinks`, (req, res, ctx) => {
@@ -29622,7 +30746,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/autolinks`, (req, res, ctx) => {
     const resultArray = [
@@ -29655,7 +30779,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/autolinks/:autolinkId`,
@@ -29680,7 +30804,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -29699,7 +30823,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/branches`, (req, res, ctx) => {
@@ -29940,9 +31064,6 @@ export const handlers = [
               allow_deletions: {
                 enabled: faker.datatype.boolean(),
               },
-              block_creations: {
-                enabled: faker.datatype.boolean(),
-              },
               required_conversation_resolution: {
                 enabled: faker.datatype.boolean(),
               },
@@ -29969,7 +31090,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch`,
@@ -30335,9 +31456,6 @@ export const handlers = [
               allow_deletions: {
                 enabled: faker.datatype.boolean(),
               },
-              block_creations: {
-                enabled: faker.datatype.boolean(),
-              },
               required_conversation_resolution: {
                 enabled: faker.datatype.boolean(),
               },
@@ -30372,9 +31490,16 @@ export const handlers = [
             status: faker.lorem.slug(1),
           }),
         ],
+        [
+          ctx.status(415),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+          }),
+        ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -30605,9 +31730,6 @@ export const handlers = [
             allow_deletions: {
               enabled: faker.datatype.boolean(),
             },
-            block_creations: {
-              enabled: faker.datatype.boolean(),
-            },
             required_conversation_resolution: {
               enabled: faker.datatype.boolean(),
             },
@@ -30631,7 +31753,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -30862,9 +31984,6 @@ export const handlers = [
             required_conversation_resolution: {
               enabled: faker.datatype.boolean(),
             },
-            block_creations: {
-              enabled: faker.datatype.boolean(),
-            },
           }),
         ],
         [
@@ -30899,7 +32018,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -30918,7 +32037,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -30934,7 +32053,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -30950,7 +32069,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -30969,7 +32088,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31067,7 +32186,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -31184,7 +32303,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31203,7 +32322,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31228,7 +32347,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -31253,7 +32372,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31272,7 +32391,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31300,7 +32419,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -31347,7 +32466,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31355,7 +32474,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31383,7 +32502,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -31439,7 +32558,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -31486,7 +32605,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31533,7 +32652,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31660,7 +32779,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31668,7 +32787,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -31742,7 +32861,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -31826,7 +32945,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -31910,7 +33029,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -31994,7 +33113,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -32057,7 +33176,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -32130,7 +33249,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -32203,7 +33322,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -32276,7 +33395,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -32331,7 +33450,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -32396,7 +33515,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -32461,7 +33580,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -32526,7 +33645,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -32893,9 +34012,6 @@ export const handlers = [
               allow_deletions: {
                 enabled: faker.datatype.boolean(),
               },
-              block_creations: {
-                enabled: faker.datatype.boolean(),
-              },
               required_conversation_resolution: {
                 enabled: faker.datatype.boolean(),
               },
@@ -32951,7 +34067,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/check-runs`, (req, res, ctx) => {
@@ -33121,7 +34237,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/check-runs/:checkRunId`,
@@ -33296,7 +34412,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -33472,7 +34588,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -33502,7 +34618,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -33539,7 +34655,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/check-suites`, (req, res, ctx) => {
@@ -34716,7 +35832,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/check-suites/preferences`,
@@ -35228,7 +36344,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -35834,7 +36950,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36020,7 +37136,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -36028,7 +37144,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(201), ctx.json({})]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36173,7 +37289,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36324,7 +37440,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -36475,7 +37591,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36555,7 +37671,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36620,7 +37736,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36679,7 +37795,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -36730,7 +37846,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -36774,7 +37890,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -36811,7 +37927,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/collaborators`, (req, res, ctx) => {
@@ -36869,7 +37985,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/collaborators/:username`,
@@ -36879,7 +37995,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -37474,7 +38590,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -37482,7 +38598,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -37540,7 +38656,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/comments`, (req, res, ctx) => {
@@ -37610,7 +38726,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/comments/:commentId`,
@@ -37684,7 +38800,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -37759,7 +38875,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -37778,7 +38894,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -37840,7 +38956,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -37922,6 +39038,13 @@ export const handlers = [
           }),
         ],
         [
+          ctx.status(415),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+          }),
+        ],
+        [
           ctx.status(422),
           ctx.json({
             message: faker.lorem.slug(1),
@@ -37942,7 +39065,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -37950,7 +39073,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/commits`, (req, res, ctx) => {
@@ -38129,7 +39252,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:commitSha/branches-where-head`,
@@ -38173,7 +39296,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -38246,7 +39369,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -38340,7 +39463,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -39399,7 +40522,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/commits/:ref`, (req, res, ctx) => {
@@ -39571,7 +40694,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:ref/check-runs`,
@@ -39756,7 +40879,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -40376,7 +41499,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -40910,7 +42033,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -40978,7 +42101,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -41435,7 +42558,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -41507,7 +42630,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/contents/:path`, (req, res, ctx) => {
@@ -41534,7 +42657,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/contents/:path`, (req, res, ctx) => {
     const resultArray = [
@@ -41691,7 +42814,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/contents/:path`,
@@ -41801,7 +42924,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/contributors`, (req, res, ctx) => {
@@ -41859,7 +42982,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/deployments`, (req, res, ctx) => {
     const resultArray = [
@@ -41968,7 +43091,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/deployments`, (req, res, ctx) => {
     const resultArray = [
@@ -42095,7 +43218,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId`,
@@ -42209,7 +43332,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -42240,7 +43363,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -42362,7 +43485,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -42484,7 +43607,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -42596,7 +43719,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/dispatches`, (req, res, ctx) => {
@@ -42623,7 +43746,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/environments`, (req, res, ctx) => {
     const resultArray = [
@@ -42658,7 +43781,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/environments/:environmentName`,
@@ -42688,7 +43811,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -42728,7 +43851,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -42736,7 +43859,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/events`, (req, res, ctx) => {
@@ -43498,7 +44621,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/forks`, (req, res, ctx) => {
     const resultArray = [
@@ -44000,7 +45123,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/forks`, (req, res, ctx) => {
     const resultArray = [
@@ -45126,9 +46249,6 @@ export const handlers = [
             secret_scanning: {
               status: faker.random.arrayElement(['enabled', 'disabled']),
             },
-            secret_scanning_push_protection: {
-              status: faker.random.arrayElement(['enabled', 'disabled']),
-            },
           },
         }),
       ],
@@ -45180,7 +46300,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/git/blobs`, (req, res, ctx) => {
     const resultArray = [
@@ -45239,7 +46359,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/blobs/:fileSha`,
@@ -45296,7 +46416,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/git/commits`, (req, res, ctx) => {
@@ -45370,7 +46490,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/commits/:commitSha`,
@@ -45426,7 +46546,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -45454,7 +46574,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/git/ref/:ref`, (req, res, ctx) => {
@@ -45483,7 +46603,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/git/refs`, (req, res, ctx) => {
     const resultArray = [
@@ -45521,7 +46641,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/repos/:owner/:repo/git/refs/:ref`, (req, res, ctx) => {
     const resultArray = [
@@ -45559,7 +46679,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/git/refs/:ref`,
@@ -45587,7 +46707,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/git/tags`, (req, res, ctx) => {
@@ -45640,7 +46760,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/tags/:tagSha`,
@@ -45684,7 +46804,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/git/trees`, (req, res, ctx) => {
@@ -45755,7 +46875,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/trees/:treeSha`,
@@ -45818,7 +46938,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/hooks`, (req, res, ctx) => {
@@ -45876,7 +46996,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/hooks`, (req, res, ctx) => {
     const resultArray = [
@@ -45955,7 +47075,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -46006,7 +47126,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (req, res, ctx) => {
     const resultArray = [
@@ -46076,7 +47196,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId`,
@@ -46094,7 +47214,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -46112,7 +47232,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -46130,7 +47250,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -46189,7 +47309,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -46251,7 +47371,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -46289,7 +47409,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -46308,7 +47428,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -46327,7 +47447,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/installation`, (req, res, ctx) => {
@@ -46414,7 +47534,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/invitations`, (req, res, ctx) => {
     const resultArray = [
@@ -46983,7 +48103,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/invitations/:invitationId`,
@@ -47548,7 +48668,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -47556,7 +48676,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/issues`, (req, res, ctx) => {
@@ -48177,7 +49297,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/issues`, (req, res, ctx) => {
     const resultArray = [
@@ -48796,7 +49916,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/issues/comments`, (req, res, ctx) => {
     const resultArray = [
@@ -48939,7 +50059,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId`,
@@ -49059,7 +50179,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -49190,7 +50310,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -49198,7 +50318,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -49260,7 +50380,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -49362,7 +50482,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -49370,7 +50490,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/issues/events`, (req, res, ctx) => {
@@ -50250,7 +51370,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/events/:eventId`,
@@ -51133,7 +52253,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -51741,7 +52861,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -52384,7 +53504,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -52964,7 +54084,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -53544,7 +54664,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -53684,7 +54804,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -53842,7 +54962,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -53870,7 +54990,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -53906,7 +55026,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -53961,7 +55081,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -54016,7 +55136,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -54035,7 +55155,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -54080,7 +55200,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -54136,7 +55256,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -54164,7 +55284,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -54235,7 +55355,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -54337,7 +55457,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -54345,7 +55465,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -54382,7 +55502,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/keys`, (req, res, ctx) => {
@@ -54407,7 +55527,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/keys`, (req, res, ctx) => {
     const resultArray = [
@@ -54444,7 +55564,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (req, res, ctx) => {
     const resultArray = [
@@ -54471,12 +55591,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/labels`, (req, res, ctx) => {
     const resultArray = [
@@ -54509,7 +55629,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/labels`, (req, res, ctx) => {
     const resultArray = [
@@ -54555,7 +55675,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
     const resultArray = [
@@ -54582,7 +55702,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
     const resultArray = [
@@ -54600,12 +55720,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/languages`, (req, res, ctx) => {
     const resultArray = [
@@ -54619,7 +55739,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/lfs`, (req, res, ctx) => {
     const resultArray = [
@@ -54627,12 +55747,12 @@ export const handlers = [
       [ctx.status(403), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo/lfs`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/license`, (req, res, ctx) => {
     const resultArray = [
@@ -54667,7 +55787,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/merge-upstream`, (req, res, ctx) => {
     const resultArray = [
@@ -54687,7 +55807,7 @@ export const handlers = [
       [ctx.status(422), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/merges`, (req, res, ctx) => {
     const resultArray = [
@@ -54852,7 +55972,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/milestones`, (req, res, ctx) => {
     const resultArray = [
@@ -54922,7 +56042,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/milestones`, (req, res, ctx) => {
     const resultArray = [
@@ -55004,7 +56124,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/milestones/:milestoneNumber`,
@@ -55070,7 +56190,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -55128,7 +56248,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -55147,7 +56267,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -55174,7 +56294,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/notifications`, (req, res, ctx) => {
@@ -55695,7 +56815,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/notifications`, (req, res, ctx) => {
     const resultArray = [
@@ -55709,7 +56829,7 @@ export const handlers = [
       [ctx.status(205), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
     const resultArray = [
@@ -55748,7 +56868,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
     const resultArray = [
@@ -55806,7 +56926,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
     const resultArray = [
@@ -55841,7 +56961,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
     const resultArray = [
@@ -55876,7 +56996,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/pages/builds`, (req, res, ctx) => {
     const resultArray = [
@@ -55930,7 +57050,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/pages/builds`, (req, res, ctx) => {
     const resultArray = [
@@ -55943,7 +57063,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pages/builds/latest`,
@@ -55993,7 +57113,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -56044,7 +57164,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -56068,7 +57188,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -56086,7 +57206,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -56104,7 +57224,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -56122,7 +57242,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/projects`, (req, res, ctx) => {
@@ -56237,7 +57357,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/projects`, (req, res, ctx) => {
     const resultArray = [
@@ -56344,7 +57464,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/pulls`, (req, res, ctx) => {
     const resultArray = [
@@ -57403,7 +58523,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/pulls`, (req, res, ctx) => {
     const resultArray = [
@@ -58060,7 +59180,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/pulls/comments`, (req, res, ctx) => {
     const resultArray = [
@@ -58156,7 +59276,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId`,
@@ -58257,7 +59377,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -58350,7 +59470,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -58369,7 +59489,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -58431,7 +59551,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -58533,7 +59653,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -58541,7 +59661,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -59200,7 +60320,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -59868,7 +60988,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -59968,7 +61088,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -60089,7 +61209,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -60191,7 +61311,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -60338,7 +61458,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -60401,7 +61521,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -60412,7 +61532,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -60480,7 +61600,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -60566,7 +61686,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -61612,7 +62732,7 @@ export const handlers = [
         [ctx.status(422), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -62667,7 +63787,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -62737,7 +63857,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -62821,7 +63941,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -62893,7 +64013,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -62968,7 +64088,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -63052,7 +64172,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -63161,7 +64281,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -63245,7 +64365,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -63338,7 +64458,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -63382,7 +64502,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/readme`, (req, res, ctx) => {
@@ -63440,7 +64560,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/readme/:dir`, (req, res, ctx) => {
     const resultArray = [
@@ -63497,7 +64617,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/releases`, (req, res, ctx) => {
     const resultArray = [
@@ -63629,7 +64749,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/releases`, (req, res, ctx) => {
     const resultArray = [
@@ -63763,7 +64883,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/assets/:assetId`,
@@ -63824,9 +64944,16 @@ export const handlers = [
             status: faker.lorem.slug(1),
           }),
         ],
+        [
+          ctx.status(415),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+          }),
+        ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -63880,7 +65007,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -63888,7 +65015,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -63913,7 +65040,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/releases/latest`, (req, res, ctx) => {
@@ -64029,7 +65156,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/tags/:tag`,
@@ -64157,7 +65284,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -64286,7 +65413,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -64406,7 +65533,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -64414,7 +65541,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -64475,7 +65602,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -64530,69 +65657,7 @@ export const handlers = [
         [ctx.status(422), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
-    }
-  ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/releases/:releaseId/reactions`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json(
-            [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: 1,
-              node_id: 'MDg6UmVhY3Rpb24x',
-              user: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              content: 'heart',
-              created_at: '2016-05-20T20:09:31Z',
-            }))
-          ),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
-
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -64694,15 +65759,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
-    }
-  ),
-  rest.delete(
-    `${baseURL}/repos/:owner/:repo/releases/:releaseId/reactions/:reactionId`,
-    (req, res, ctx) => {
-      const resultArray = [[ctx.status(204), ctx.json(null)]];
-
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -64776,7 +65833,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -64844,7 +65901,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -64912,7 +65969,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -64943,7 +66000,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repos/:owner/:repo/stargazers`, (req, res, ctx) => {
@@ -64970,7 +66027,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/stats/code_frequency`,
@@ -64996,7 +66053,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -65021,7 +66078,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -65074,7 +66131,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -65107,7 +66164,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -65133,7 +66190,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/repos/:owner/:repo/statuses/:sha`, (req, res, ctx) => {
@@ -65182,7 +66239,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/subscribers`, (req, res, ctx) => {
     const resultArray = [
@@ -65224,7 +66281,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
     const resultArray = [
@@ -65251,7 +66308,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
     const resultArray = [
@@ -65268,12 +66325,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/tags`, (req, res, ctx) => {
     const resultArray = [
@@ -65298,12 +66355,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/tarball/:ref`, (req, res, ctx) => {
     const resultArray = [[ctx.status(302), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/teams`, (req, res, ctx) => {
     const resultArray = [
@@ -65354,7 +66411,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/topics`, (req, res, ctx) => {
     const resultArray = [
@@ -65379,7 +66436,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/repos/:owner/:repo/topics`, (req, res, ctx) => {
     const resultArray = [
@@ -65416,7 +66473,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/repos/:owner/:repo/transfer`, (req, res, ctx) => {
     const resultArray = [
@@ -65895,12 +66952,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/repos/:owner/:repo/zipball/:ref`, (req, res, ctx) => {
     const resultArray = [[ctx.status(302), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/repos/:templateOwner/:templateRepo/generate`,
@@ -66218,7 +67275,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/repositories`, (req, res, ctx) => {
@@ -66732,7 +67789,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets`,
@@ -66755,7 +67812,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -66775,7 +67832,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -66792,7 +67849,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -66803,7 +67860,7 @@ export const handlers = [
         [ctx.status(204), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -66811,7 +67868,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/search/code`, (req, res, ctx) => {
@@ -67390,7 +68447,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/commits`, (req, res, ctx) => {
     const resultArray = [
@@ -67994,7 +69051,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/issues`, (req, res, ctx) => {
     const resultArray = [
@@ -68623,7 +69680,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/labels`, (req, res, ctx) => {
     const resultArray = [
@@ -68710,7 +69767,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/repositories`, (req, res, ctx) => {
     const resultArray = [
@@ -68909,7 +69966,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/topics`, (req, res, ctx) => {
     const resultArray = [
@@ -68988,7 +70045,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/search/users`, (req, res, ctx) => {
     const resultArray = [
@@ -69090,7 +70147,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/setup/api/configcheck`, (req, res, ctx) => {
     const resultArray = [
@@ -69110,12 +70167,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/setup/api/configure`, (req, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/setup/api/maintenance`, (req, res, ctx) => {
     const resultArray = [
@@ -69136,7 +70193,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/setup/api/maintenance`, (req, res, ctx) => {
     const resultArray = [
@@ -69157,7 +70214,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/setup/api/settings`, (req, res, ctx) => {
     const resultArray = [
@@ -69316,12 +70373,12 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/setup/api/settings`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/setup/api/settings/authorized-keys`, (req, res, ctx) => {
     const resultArray = [
@@ -69340,7 +70397,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/setup/api/settings/authorized-keys`,
@@ -69361,7 +70418,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -69383,18 +70440,18 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(`${baseURL}/setup/api/start`, (req, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/setup/api/upgrade`, (req, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
     const resultArray = [
@@ -69487,6 +70544,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -69503,7 +70561,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
     const resultArray = [
@@ -69596,6 +70654,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -69690,6 +70749,7 @@ export const handlers = [
             members_can_create_pages: true,
             members_can_create_public_pages: true,
             members_can_create_private_pages: true,
+            members_can_fork_private_repositories: faker.datatype.boolean(),
             updated_at: faker.date.past(),
           },
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -69734,7 +70794,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
     const resultArray = [
@@ -69769,7 +70829,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/teams/:teamId/discussions`, (req, res, ctx) => {
     const resultArray = [
@@ -69845,7 +70905,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/teams/:teamId/discussions`, (req, res, ctx) => {
     const resultArray = [
@@ -69914,7 +70974,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber`,
@@ -69986,7 +71046,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -70059,7 +71119,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -70067,7 +71127,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -70141,7 +71201,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -70208,7 +71268,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -70275,7 +71335,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.patch(
@@ -70342,7 +71402,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -70350,7 +71410,7 @@ export const handlers = [
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -70403,7 +71463,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -70449,7 +71509,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(
@@ -70502,7 +71562,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.post(
@@ -70548,7 +71608,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/teams/:teamId/members`, (req, res, ctx) => {
@@ -70600,7 +71660,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -70608,7 +71668,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -70626,7 +71686,7 @@ export const handlers = [
       [ctx.status(422), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -70634,7 +71694,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/teams/:teamId/memberships/:username`,
@@ -70659,7 +71719,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -70687,7 +71747,7 @@ export const handlers = [
         [ctx.status(422), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -70698,7 +71758,7 @@ export const handlers = [
         [ctx.status(403), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/teams/:teamId/projects`, (req, res, ctx) => {
@@ -70772,7 +71832,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/teams/:teamId/projects/:projectId`, (req, res, ctx) => {
     const resultArray = [
@@ -70830,7 +71890,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/teams/:teamId/projects/:projectId`, (req, res, ctx) => {
     const resultArray = [
@@ -70872,7 +71932,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/teams/:teamId/projects/:projectId`,
@@ -70886,6 +71946,13 @@ export const handlers = [
             documentation_url: faker.internet.url(),
             url: faker.internet.url(),
             status: faker.lorem.slug(1),
+          }),
+        ],
+        [
+          ctx.status(415),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
           }),
         ],
         [
@@ -70909,7 +71976,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/teams/:teamId/repos`, (req, res, ctx) => {
@@ -71412,7 +72479,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -71892,7 +72959,7 @@ export const handlers = [
       [ctx.status(404), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -71927,14 +72994,14 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(
     `${baseURL}/teams/:teamId/repos/:owner/:repo`,
     (req, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/teams/:teamId/teams`, (req, res, ctx) => {
@@ -72023,7 +73090,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user`, (req, res, ctx) => {
     const resultArray = [
@@ -72049,7 +73116,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/user`, (req, res, ctx) => {
     const resultArray = [
@@ -72158,7 +73225,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/emails`, (req, res, ctx) => {
     const resultArray = [
@@ -72207,7 +73274,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/user/emails`, (req, res, ctx) => {
     const resultArray = [
@@ -72275,7 +73342,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/user/emails`, (req, res, ctx) => {
     const resultArray = [
@@ -72329,7 +73396,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/followers`, (req, res, ctx) => {
     const resultArray = [
@@ -72390,7 +73457,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/following`, (req, res, ctx) => {
     const resultArray = [
@@ -72451,7 +73518,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/following/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -72486,7 +73553,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/user/following/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -72521,7 +73588,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/user/following/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -72556,7 +73623,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/gpg_keys`, (req, res, ctx) => {
     const resultArray = [
@@ -72631,7 +73698,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/user/gpg_keys`, (req, res, ctx) => {
     const resultArray = [
@@ -72719,7 +73786,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/gpg_keys/:gpgKeyId`, (req, res, ctx) => {
     const resultArray = [
@@ -72788,7 +73855,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/user/gpg_keys/:gpgKeyId`, (req, res, ctx) => {
     const resultArray = [
@@ -72842,7 +73909,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/installations`, (req, res, ctx) => {
     const resultArray = [
@@ -72939,9 +74006,16 @@ export const handlers = [
           status: faker.lorem.slug(1),
         }),
       ],
+      [
+        ctx.status(415),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/user/installations/:installationId/repositories`,
@@ -73291,7 +74365,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.put(
@@ -73320,7 +74394,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -73349,7 +74423,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/user/issues`, (req, res, ctx) => {
@@ -73943,7 +75017,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/keys`, (req, res, ctx) => {
     const resultArray = [
@@ -73995,7 +75069,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/user/keys`, (req, res, ctx) => {
     const resultArray = [
@@ -74060,7 +75134,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/keys/:keyId`, (req, res, ctx) => {
     const resultArray = [
@@ -74106,7 +75180,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/user/keys/:keyId`, (req, res, ctx) => {
     const resultArray = [
@@ -74141,7 +75215,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/memberships/orgs`, (req, res, ctx) => {
     const resultArray = [
@@ -74247,7 +75321,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/memberships/orgs/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -74325,7 +75399,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(`${baseURL}/user/memberships/orgs/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -74422,7 +75496,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/orgs`, (req, res, ctx) => {
     const resultArray = [
@@ -74471,7 +75545,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/user/projects`, (req, res, ctx) => {
     const resultArray = [
@@ -74548,6 +75622,13 @@ export const handlers = [
         }),
       ],
       [
+        ctx.status(415),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
+      [
         ctx.status(422),
         ctx.json({
           message: faker.lorem.slug(1),
@@ -74561,7 +75642,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/public_emails`, (req, res, ctx) => {
     const resultArray = [
@@ -74610,7 +75691,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/repos`, (req, res, ctx) => {
     const resultArray = [
@@ -74970,7 +76051,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(`${baseURL}/user/repos`, (req, res, ctx) => {
     const resultArray = [
@@ -75338,7 +76419,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/repository_invitations`, (req, res, ctx) => {
     const resultArray = [
@@ -75935,7 +77016,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.patch(
     `${baseURL}/user/repository_invitations/:invitationId`,
@@ -75972,7 +77053,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.delete(
@@ -76010,7 +77091,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/user/starred`, (req, res, ctx) => {
@@ -76352,7 +77433,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -76387,7 +77468,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -76422,7 +77503,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
     const resultArray = [
@@ -76457,7 +77538,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/subscriptions`, (req, res, ctx) => {
     const resultArray = [
@@ -76969,7 +78050,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/user/teams`, (req, res, ctx) => {
     const resultArray = [
@@ -77068,6 +78149,7 @@ export const handlers = [
               members_can_create_pages: true,
               members_can_create_public_pages: true,
               members_can_create_private_pages: true,
+              members_can_fork_private_repositories: faker.datatype.boolean(),
               updated_at: faker.date.past(),
             },
             ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
@@ -77095,7 +78177,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users`, (req, res, ctx) => {
     const resultArray = [
@@ -77138,7 +78220,7 @@ export const handlers = [
       [ctx.status(304), ctx.json(null)],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username`, (req, res, ctx) => {
     const resultArray = [
@@ -77154,7 +78236,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/events`, (req, res, ctx) => {
     const resultArray = [
@@ -77915,7 +78997,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/events/orgs/:org`, (req, res, ctx) => {
     const resultArray = [
@@ -78676,7 +79758,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/events/public`, (req, res, ctx) => {
     const resultArray = [
@@ -79437,7 +80519,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/followers`, (req, res, ctx) => {
     const resultArray = [
@@ -79479,7 +80561,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/following`, (req, res, ctx) => {
     const resultArray = [
@@ -79521,7 +80603,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/users/:username/following/:targetUser`,
@@ -79531,7 +80613,7 @@ export const handlers = [
         [ctx.status(404), ctx.json(null)],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/users/:username/gists`, (req, res, ctx) => {
@@ -79660,7 +80742,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/gpg_keys`, (req, res, ctx) => {
     const resultArray = [
@@ -79707,7 +80789,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/hovercard`, (req, res, ctx) => {
     const resultArray = [
@@ -79754,7 +80836,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/installation`, (req, res, ctx) => {
     const resultArray = [
@@ -79822,7 +80904,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/keys`, (req, res, ctx) => {
     const resultArray = [
@@ -79841,7 +80923,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/orgs`, (req, res, ctx) => {
     const resultArray = [
@@ -79871,7 +80953,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/projects`, (req, res, ctx) => {
     const resultArray = [
@@ -79956,7 +81038,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/received_events`, (req, res, ctx) => {
     const resultArray = [
@@ -80717,7 +81799,7 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/users/:username/received_events/public`,
@@ -81482,7 +82564,7 @@ export const handlers = [
         ],
       ];
 
-      return res(...resultArray[gen.next().value % resultArray.length]);
+      return res(...resultArray[next() % resultArray.length]);
     }
   ),
   rest.get(`${baseURL}/users/:username/repos`, (req, res, ctx) => {
@@ -81976,22 +83058,22 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/users/:username/site_admin`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/users/:username/site_admin`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/starred`, (req, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/users/:username/subscriptions`, (req, res, ctx) => {
     const resultArray = [
@@ -82484,27 +83566,33 @@ export const handlers = [
       ],
     ];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.put(`${baseURL}/users/:username/suspended`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.delete(`${baseURL}/users/:username/suspended`, (req, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(`${baseURL}/zen`, (req, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
-    return res(...resultArray[gen.next().value % resultArray.length]);
+    return res(...resultArray[next() % resultArray.length]);
   }),
 ];
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
-  const worker = setupWorker(...handlers);
-  worker.start();
+  if (typeof window === 'undefined') {
+    const { setupServer } = require('msw/node');
+    const server = setupServer(...handlers);
+    server.listen();
+  } else {
+    const worker = setupWorker(...handlers);
+    worker.start();
+  }
 };
