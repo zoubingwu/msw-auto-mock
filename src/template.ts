@@ -11,7 +11,7 @@ export const browserMockTemplate = (
 /* eslint-disable */
 /* tslint:disable */
 import { setupWorker, rest } from 'msw';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 faker.seed(1);
 
