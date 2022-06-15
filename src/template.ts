@@ -1,6 +1,6 @@
 import { CliOptions } from './types';
 
-export const browserMockTemplate = (
+export const mockTemplate = (
   handlersCode: string,
   baseURL: string,
   options?: CliOptions

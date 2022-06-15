@@ -7,7 +7,7 @@ import { OpenAPIV3 } from 'openapi-types';
 import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
 import { OperationCollection, transformToHandlerCode } from './transform';
-import { browserMockTemplate } from './template';
+import { mockTemplate } from './template';
 import { CliOptions } from './types';
 
 export async function generate(spec: string, options: CliOptions) {
@@ -68,7 +68,7 @@ export async function generate(spec: string, options: CliOptions) {
   } else if (typeof options.baseUrl === 'string') {
     baseURL = options.baseUrl;
   }
-  code = browserMockTemplate(
+  code = mockTemplate(
     transformToHandlerCode(operationCollection),
     baseURL,
     options
