@@ -32,7 +32,13 @@ export const handlers = [
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
-  const worker = setupWorker(...handlers);
-  worker.start();
+  if (typeof window === 'undefined') {
+    const { setupServer } = require('msw/node');
+    const server = setupServer(...handlers);
+    server.listen();
+  } else {
+    const worker = setupWorker(...handlers);
+    worker.start();
+  }
 }
 `;
