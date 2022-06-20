@@ -11,12 +11,12 @@ jobs:
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.24
+          version: 7.2.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
           cache: 'pnpm'
 
       - name: Install dependencies
