@@ -17,7 +17,8 @@
   "scripts": {
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:example": "node ./dist/cli.js https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.3/ghes-3.3.json --output ./example/src/mock.js"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
