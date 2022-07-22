@@ -1,6 +1,6 @@
 node_modules/
 dist/
-example/src/mock/
+example/src/mock.js
 
 .idea/
 .vscode/

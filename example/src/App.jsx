@@ -1,18 +1,30 @@
 import { useState } from 'react';
 
 function App() {
-  const [state, setState] = useState(null);
+  const [endpoint, setEndpoint] = useState('/admin/tokens');
+  const [res, setRes] = useState(null);
 
   return (
     <div className="App">
-     <button onClick={async () => {
-        const res = await (await fetch('/')).json()
-        setState(res)
-     }}>fetch</button>
+      <h2>GitHub API mock playground</h2>
+      <label>Endpoint: </label>
+      <input
+        type="text"
+        value={endpoint}
+        onChange={e => setEndpoint(e.target.value)}
+      />
+      <button
+        onClick={async () => {
+          const res = await (await fetch(endpoint)).json();
+          setRes(res);
+        }}
+      >
+        fetch
+      </button>
 
-     <pre>
-       <code>{state ? JSON.stringify(state, null, 4) : null}</code>
-     </pre>
+      <pre>
+        <code>{res ? JSON.stringify(res, null, 4) : null}</code>
+      </pre>
     </div>
   );
 }
