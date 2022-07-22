@@ -11,10 +11,12 @@ We already have all the type definitions from OpenAPI spec so hand-writing every
 
 ## Usage
 
+**This tool also requires @faker-js/faker >= v7.**
+
 Install:
 
 ```sh
-yarn add msw-auto-mock @faker-js/faker@7.3.0 -D
+yarn add msw-auto-mock @faker-js/faker -D
 ```
 
 Read from your OpenAPI descriptions and output generated code:
