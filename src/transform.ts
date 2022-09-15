@@ -120,7 +120,7 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   ) {
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {
-    return `faker.name.findName()`;
+    return `faker.name.fullName()`;
   } else {
     return `faker.lorem.slug(1)`;
   }
