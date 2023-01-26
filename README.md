@@ -62,4 +62,5 @@ Run you app then you'll see a successful activation message from Mock Service Wo
 - `-t, --include <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
 - `-e, --exclude <keywords>`: specify keywords to exclude, multiple keywords can be seperated with comma.
 - `--base-url`: output code with specified base url or fallback to server host specified in OpenAPI.
+- `--node`: by default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.
 - `-h, --help`: show help info.
