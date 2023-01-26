@@ -21,7 +21,7 @@ const next = () => {
 };
 
 export const handlers = [
-  rest.get(`${baseURL}/`, (req, res, ctx) => {
+  rest.get(`${baseURL}/`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65,7 +65,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/admin/hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -101,7 +101,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/hooks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -131,7 +131,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -161,7 +161,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/admin/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -190,17 +190,17 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/admin/hooks/:hookId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/admin/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/hooks/:hookId/pings`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/hooks/:hookId/pings`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/admin/keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -219,7 +219,6 @@ export const handlers = [
             read_only: faker.datatype.boolean(),
             verified: faker.datatype.boolean(),
             created_at: faker.date.past(),
-            last_used: faker.date.past(),
           }))
         ),
       ],
@@ -227,12 +226,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/admin/keys/:keyIds`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/admin/keys/:keyIds`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/admin/ldap/teams/:teamId/mapping`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/admin/ldap/teams/:teamId/mapping`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -256,7 +255,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/ldap/teams/:teamId/sync`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/ldap/teams/:teamId/sync`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -268,72 +267,69 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(
-    `${baseURL}/admin/ldap/users/:username/mapping`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            ldap_dn: faker.lorem.slug(1),
-            login: 'octocat',
-            id: 1,
-            node_id: 'MDQ6VXNlcjE=',
-            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-            url: 'https://api.github.com/users/octocat',
-            html_url: 'https://github.com/octocat',
-            followers_url: 'https://api.github.com/users/octocat/followers',
-            following_url:
-              'https://api.github.com/users/octocat/following{/other_user}',
-            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-            starred_url:
-              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-            subscriptions_url:
-              'https://api.github.com/users/octocat/subscriptions',
-            organizations_url: 'https://api.github.com/users/octocat/orgs',
-            repos_url: 'https://api.github.com/users/octocat/repos',
-            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
-            received_events_url:
-              'https://api.github.com/users/octocat/received_events',
-            type: 'User',
-            site_admin: faker.datatype.boolean(),
-            name: 'monalisa octocat',
-            company: 'GitHub',
-            blog: 'https://github.com/blog',
-            location: 'San Francisco',
-            email: 'octocat@github.com',
-            hireable: faker.datatype.boolean(),
-            bio: 'There once was...',
-            twitter_username: 'monalisa',
-            public_repos: 2,
-            public_gists: 1,
-            followers: 20,
-            following: faker.datatype.number(),
-            created_at: '2008-01-14T04:33:35Z',
-            updated_at: '2008-01-14T04:33:35Z',
-            private_gists: 81,
-            total_private_repos: 100,
-            owned_private_repos: 100,
-            disk_usage: 10000,
-            collaborators: 8,
-            two_factor_authentication: true,
-            plan: {
-              collaborators: faker.datatype.number(),
-              name: faker.name.findName(),
-              space: faker.datatype.number(),
-              private_repos: faker.datatype.number(),
-            },
-            suspended_at: faker.date.past(),
-            business_plus: faker.datatype.boolean(),
-          }),
-        ],
-      ];
+  rest.patch(`${baseURL}/admin/ldap/users/:username/mapping`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          ldap_dn: faker.lorem.slug(1),
+          login: 'octocat',
+          id: 1,
+          node_id: 'MDQ6VXNlcjE=',
+          avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+          gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+          url: 'https://api.github.com/users/octocat',
+          html_url: 'https://github.com/octocat',
+          followers_url: 'https://api.github.com/users/octocat/followers',
+          following_url:
+            'https://api.github.com/users/octocat/following{/other_user}',
+          gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+          starred_url:
+            'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+          subscriptions_url:
+            'https://api.github.com/users/octocat/subscriptions',
+          organizations_url: 'https://api.github.com/users/octocat/orgs',
+          repos_url: 'https://api.github.com/users/octocat/repos',
+          events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+          received_events_url:
+            'https://api.github.com/users/octocat/received_events',
+          type: 'User',
+          site_admin: faker.datatype.boolean(),
+          name: 'monalisa octocat',
+          company: 'GitHub',
+          blog: 'https://github.com/blog',
+          location: 'San Francisco',
+          email: 'octocat@github.com',
+          hireable: faker.datatype.boolean(),
+          bio: 'There once was...',
+          twitter_username: 'monalisa',
+          public_repos: 2,
+          public_gists: 1,
+          followers: 20,
+          following: faker.datatype.number(),
+          created_at: '2008-01-14T04:33:35Z',
+          updated_at: '2008-01-14T04:33:35Z',
+          private_gists: 81,
+          total_private_repos: 100,
+          owned_private_repos: 100,
+          disk_usage: 10000,
+          collaborators: 8,
+          two_factor_authentication: true,
+          plan: {
+            collaborators: faker.datatype.number(),
+            name: faker.name.findName(),
+            space: faker.datatype.number(),
+            private_repos: faker.datatype.number(),
+          },
+          suspended_at: faker.date.past(),
+          business_plus: faker.datatype.boolean(),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.post(`${baseURL}/admin/ldap/users/:username/sync`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.post(`${baseURL}/admin/ldap/users/:username/sync`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -345,7 +341,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/organizations`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/organizations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -369,7 +365,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/admin/organizations/:org`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/admin/organizations/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -382,7 +378,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/admin/pre-receive-environments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/pre-receive-environments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -413,7 +409,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/pre-receive-environments`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/pre-receive-environments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -440,7 +436,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -468,7 +464,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -511,7 +507,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -536,7 +532,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId/downloads`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(202),
@@ -569,7 +565,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/admin/pre-receive-environments/:preReceiveEnvironmentId/downloads/latest`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -585,7 +581,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/admin/pre-receive-hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/pre-receive-hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -629,7 +625,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/pre-receive-hooks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/pre-receive-hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -669,7 +665,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/admin/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -710,7 +706,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/admin/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -751,13 +747,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/admin/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/admin/tokens`, (req, res, ctx) => {
+  rest.get(`${baseURL}/admin/tokens`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -868,12 +864,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/admin/tokens/:tokenId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/admin/tokens/:tokenId`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/admin/users`, (req, res, ctx) => {
+  rest.post(`${baseURL}/admin/users`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -909,7 +905,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/admin/users/:username`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/admin/users/:username`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -922,14 +918,14 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/admin/users/:username`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/admin/users/:username`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/admin/users/:username/authorizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -1136,13 +1132,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/admin/users/:username/authorizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/app`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1196,7 +1192,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/app-manifests/:code/conversions`, (req, res, ctx) => {
+  rest.post(`${baseURL}/app-manifests/:code/conversions`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(201), ctx.json(null)],
       [
@@ -1224,7 +1220,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/app/hook/config`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app/hook/config`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1239,7 +1235,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/app/hook/config`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/app/hook/config`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1254,7 +1250,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/app/hook/deliveries`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app/hook/deliveries`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1310,7 +1306,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/app/hook/deliveries/:deliveryId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app/hook/deliveries/:deliveryId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1371,7 +1367,7 @@ export const handlers = [
   }),
   rest.post(
     `${baseURL}/app/hook/deliveries/:deliveryId/attempts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(202), ctx.json({})],
         [
@@ -1407,7 +1403,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/app/installations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app/installations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1486,7 +1482,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/app/installations/:installationId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/app/installations/:installationId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -1563,28 +1559,25 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/app/installations/:installationId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+  rest.delete(`${baseURL}/app/installations/:installationId`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.post(
     `${baseURL}/app/installations/:installationId/access_tokens`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -1917,6 +1910,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'README.md',
             has_multiple_single_files: true,
@@ -1976,7 +1970,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/app/installations/:installationId/suspended`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -1995,7 +1989,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/app/installations/:installationId/suspended`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -2012,7 +2006,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/applications/grants`, (req, res, ctx) => {
+  rest.get(`${baseURL}/applications/grants`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -2095,7 +2089,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/applications/grants/:grantId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/applications/grants/:grantId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -2162,7 +2156,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/applications/grants/:grantId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/applications/grants/:grantId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -2188,7 +2182,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/applications/:clientId/grant`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/applications/:clientId/grant`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -2216,13 +2210,13 @@ export const handlers = [
   }),
   rest.delete(
     `${baseURL}/applications/:clientId/grants/:accessToken`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
+  rest.post(`${baseURL}/applications/:clientId/token`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -2353,7 +2347,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/applications/:clientId/token`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -2475,7 +2469,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/applications/:clientId/token`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/applications/:clientId/token`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -2501,34 +2495,74 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(
-    `${baseURL}/applications/:clientId/token/scoped`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            id: faker.datatype.number(),
+  rest.post(`${baseURL}/applications/:clientId/token/scoped`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          id: faker.datatype.number(),
+          url: faker.internet.url(),
+          scopes: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => faker.lorem.slug(1)),
+          token: faker.lorem.slug(1),
+          token_last_eight: faker.lorem.slug(1),
+          hashed_token: faker.lorem.slug(1),
+          app: {
+            client_id: faker.lorem.slug(1),
+            name: faker.name.findName(),
             url: faker.internet.url(),
-            scopes: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => faker.lorem.slug(1)),
-            token: faker.lorem.slug(1),
-            token_last_eight: faker.lorem.slug(1),
-            hashed_token: faker.lorem.slug(1),
-            app: {
-              client_id: faker.lorem.slug(1),
-              name: faker.name.findName(),
-              url: faker.internet.url(),
+          },
+          note: faker.lorem.slug(1),
+          note_url: faker.internet.url(),
+          updated_at: faker.date.past(),
+          created_at: faker.date.past(),
+          fingerprint: faker.lorem.slug(1),
+          user: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
+            id: 1,
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          },
+          installation: {
+            permissions: {
+              contents: 'read',
+              issues: 'read',
+              deployments: 'write',
+              single_file: 'read',
             },
-            note: faker.lorem.slug(1),
-            note_url: faker.internet.url(),
-            updated_at: faker.date.past(),
-            created_at: faker.date.past(),
-            fingerprint: faker.lorem.slug(1),
-            user: {
+            repository_selection: faker.helpers.arrayElement([
+              'all',
+              'selected',
+            ]),
+            single_file_name: 'config.yaml',
+            has_multiple_single_files: true,
+            single_file_paths: ['config.yml', '.github/issue_TEMPLATE.md'],
+            repositories_url: 'https://api.github.com/users/octocat/repos',
+            account: {
               name: faker.name.findName(),
               email: faker.internet.email(),
               login: 'octocat',
@@ -2556,108 +2590,63 @@ export const handlers = [
               site_admin: faker.datatype.boolean(),
               starred_at: '"2020-07-09T00:17:55Z"',
             },
-            installation: {
-              permissions: {
-                contents: 'read',
-                issues: 'read',
-                deployments: 'write',
-                single_file: 'read',
-              },
-              repository_selection: faker.helpers.arrayElement([
-                'all',
-                'selected',
-              ]),
-              single_file_name: 'config.yaml',
-              has_multiple_single_files: true,
-              single_file_paths: ['config.yml', '.github/issue_TEMPLATE.md'],
-              repositories_url: 'https://api.github.com/users/octocat/repos',
-              account: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-            },
-            expires_at: faker.date.past(),
-          }),
-        ],
-        [
-          ctx.status(401),
-          ctx.json({
+          },
+          expires_at: faker.date.past(),
+        }),
+      ],
+      [
+        ctx.status(401),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(403),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
             message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(403),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(422),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            errors: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              resource: faker.lorem.slug(1),
-              field: faker.lorem.slug(1),
-              message: faker.lorem.slug(1),
-              code: faker.lorem.slug(1),
-              index: faker.datatype.number(),
-              value: null,
-            })),
-          }),
-        ],
-      ];
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/applications/:clientId/tokens/:accessToken`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -2774,7 +2763,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/applications/:clientId/tokens/:accessToken`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -2882,13 +2871,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/applications/:clientId/tokens/:accessToken`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/apps/:appSlug`, (req, res, ctx) => {
+  rest.get(`${baseURL}/apps/:appSlug`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -2960,7 +2949,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/authorizations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/authorizations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -3099,7 +3088,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/authorizations`, (req, res, ctx) => {
+  rest.post(`${baseURL}/authorizations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -3249,7 +3238,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/authorizations/clients/:clientId`, (req, res, ctx) => {
+  rest.put(`${baseURL}/authorizations/clients/:clientId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -3489,7 +3478,7 @@ export const handlers = [
   }),
   rest.put(
     `${baseURL}/authorizations/clients/:clientId/:fingerprint`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -3713,7 +3702,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/authorizations/:authorizationId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -3835,7 +3824,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/authorizations/:authorizationId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -3957,7 +3946,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/authorizations/:authorizationId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/authorizations/:authorizationId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -3983,7 +3972,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/codes_of_conduct`, (req, res, ctx) => {
+  rest.get(`${baseURL}/codes_of_conduct`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4006,7 +3995,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/codes_of_conduct/:key`, (req, res, ctx) => {
+  rest.get(`${baseURL}/codes_of_conduct/:key`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4032,7 +4021,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/emojis`, (req, res, ctx) => {
+  rest.get(`${baseURL}/emojis`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4047,12 +4036,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/announcement`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
         ctx.json({
-          announcement: 'Very **important** announcement about _nothing_.',
+          announcement: 'Very **important** announcement about _something_.',
           expires_at: '"2021-01-01T00:00:00.000-07:00"',
         }),
       ],
@@ -4060,12 +4049,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/enterprise/announcement`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
         ctx.json({
-          announcement: 'Very **important** announcement about _nothing_.',
+          announcement: 'Very **important** announcement about _something_.',
           expires_at: '"2021-01-01T00:00:00.000-07:00"',
         }),
       ],
@@ -4073,12 +4062,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/enterprise/announcement`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/enterprise/announcement`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/settings/license`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/settings/license`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4095,7 +4084,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/all`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/all`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4160,7 +4149,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/comments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4175,7 +4164,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/gists`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/gists`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4189,7 +4178,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4203,7 +4192,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4217,7 +4206,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/milestones`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/milestones`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4231,7 +4220,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/orgs`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/orgs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4246,7 +4235,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/pages`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/pages`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4258,7 +4247,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/pulls`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/pulls`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4273,7 +4262,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/repos`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4290,7 +4279,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/enterprise/stats/users`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprise/stats/users`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -4306,7 +4295,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/permissions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4332,7 +4321,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/permissions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4340,7 +4329,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/permissions/organizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4375,7 +4364,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/permissions/organizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4383,7 +4372,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/permissions/organizations/:orgId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4391,7 +4380,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/enterprises/:enterprise/actions/permissions/organizations/:orgId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4399,7 +4388,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4419,7 +4408,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4427,7 +4416,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4455,7 +4444,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -4476,7 +4465,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4497,7 +4486,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4518,7 +4507,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4526,7 +4515,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/organizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4561,7 +4550,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/organizations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4569,7 +4558,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/organizations/:orgId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4577,7 +4566,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/organizations/:orgId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4585,7 +4574,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/runners`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4620,7 +4609,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/runners`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4628,7 +4617,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4636,7 +4625,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/enterprises/:enterprise/actions/runner-groups/:runnerGroupId/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -4644,7 +4633,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runners`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4679,7 +4668,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runners/downloads`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -4705,7 +4694,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/enterprises/:enterprise/actions/runners/registration-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -5029,6 +5018,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -5044,7 +5034,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/enterprises/:enterprise/actions/runners/remove-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -5368,6 +5358,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -5383,7 +5374,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/enterprises/:enterprise/actions/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -5411,13 +5402,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/enterprises/:enterprise/actions/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/enterprises/:enterprise/audit-log`, (req, res, ctx) => {
+  rest.get(`${baseURL}/enterprises/:enterprise/audit-log`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -5438,6 +5429,8 @@ export const handlers = [
             },
             data: {},
             org_id: faker.datatype.number(),
+            user_id: faker.datatype.number(),
+            business_id: faker.datatype.number(),
             blocked_user: faker.lorem.slug(1),
             business: faker.lorem.slug(1),
             config: [
@@ -5451,6 +5444,7 @@ export const handlers = [
               ).keys(),
             ].map(_ => ({})),
             content_type: faker.lorem.slug(1),
+            operation_type: faker.lorem.slug(1),
             created_at: faker.datatype.number(),
             deploy_key_fingerprint: faker.lorem.slug(1),
             _document_id: faker.lorem.slug(1),
@@ -5492,7 +5486,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -6061,6 +6055,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -6273,7 +6268,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/feeds`, (req, res, ctx) => {
+  rest.get(`${baseURL}/feeds`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -6289,6 +6284,10 @@ export const handlers = [
             'https://github.com/organizations/github/octocat.private.atom?token=abc123',
           ],
           security_advisories_url: 'https://github.com/security-advisories',
+          repository_discussions_url:
+            'https://github.com/{user}/{repo}/discussions',
+          repository_discussions_category_url:
+            'https://github.com/{user}/{repo}/discussions/categories/{category}',
           _links: {
             timeline: {
               href: faker.lorem.slug(1),
@@ -6326,6 +6325,22 @@ export const handlers = [
               href: faker.lorem.slug(1),
               type: faker.lorem.slug(1),
             })),
+            repository_discussions: {
+              href: faker.lorem.slug(1),
+              type: faker.lorem.slug(1),
+            },
+            repository_discussions_category: {
+              href: faker.lorem.slug(1),
+              type: faker.lorem.slug(1),
+            },
+          },
+          repository_discussions: {
+            href: faker.lorem.slug(1),
+            type: faker.lorem.slug(1),
+          },
+          repository_discussions_category: {
+            href: faker.lorem.slug(1),
+            type: faker.lorem.slug(1),
           },
         }),
       ],
@@ -6333,7 +6348,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -6452,7 +6467,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/gists`, (req, res, ctx) => {
+  rest.post(`${baseURL}/gists`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -6749,7 +6764,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/public`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/public`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -6887,7 +6902,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/starred`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/starred`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7015,7 +7030,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7296,7 +7311,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/gists/:gistId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7583,7 +7598,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/gists/:gistId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/gists/:gistId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -7609,7 +7624,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId/comments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7680,7 +7695,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/gists/:gistId/comments`, (req, res, ctx) => {
+  rest.post(`${baseURL}/gists/:gistId/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -7744,7 +7759,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId/comments/:commentId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId/comments/:commentId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7811,94 +7826,87 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(
-    `${baseURL}/gists/:gistId/comments/:commentId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
+  rest.patch(`${baseURL}/gists/:gistId/comments/:commentId`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          id: 1,
+          node_id: 'MDExOkdpc3RDb21tZW50MQ==',
+          url: 'https://api.github.com/gists/a6db0bec360bb87e9418/comments/1',
+          body: 'Body of the attachment',
+          user: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
             id: 1,
-            node_id: 'MDExOkdpc3RDb21tZW50MQ==',
-            url: 'https://api.github.com/gists/a6db0bec360bb87e9418/comments/1',
-            body: 'Body of the attachment',
-            user: {
-              name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            },
-            created_at: '2011-04-18T23:23:56Z',
-            updated_at: '2011-04-18T23:23:56Z',
-            author_association: 'OWNER',
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          },
+          created_at: '2011-04-18T23:23:56Z',
+          updated_at: '2011-04-18T23:23:56Z',
+          author_association: 'OWNER',
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.delete(
-    `${baseURL}/gists/:gistId/comments/:commentId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [ctx.status(304), ctx.json(null)],
-        [
-          ctx.status(403),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.delete(`${baseURL}/gists/:gistId/comments/:commentId`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [ctx.status(304), ctx.json(null)],
+      [
+        ctx.status(403),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.get(`${baseURL}/gists/:gistId/commits`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.get(`${baseURL}/gists/:gistId/commits`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -7970,7 +7978,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId/forks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId/forks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -8258,7 +8266,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/gists/:gistId/forks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/gists/:gistId/forks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -8397,7 +8405,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId/star`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -8415,7 +8423,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
+  rest.put(`${baseURL}/gists/:gistId/star`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -8441,7 +8449,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/gists/:gistId/star`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/gists/:gistId/star`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -8467,7 +8475,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gists/:gistId/:sha`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gists/:gistId/:sha`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -8763,7 +8771,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gitignore/templates`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gitignore/templates`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -8780,7 +8788,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/gitignore/templates/:name`, (req, res, ctx) => {
+  rest.get(`${baseURL}/gitignore/templates/:name`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -8795,7 +8803,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/installation/repositories`, (req, res, ctx) => {
+  rest.get(`${baseURL}/installation/repositories`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -9112,6 +9120,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           })),
           repository_selection: 'selected',
         }),
@@ -9139,12 +9148,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/installation/token`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/installation/token`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -9661,6 +9670,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -9758,7 +9768,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/licenses`, (req, res, ctx) => {
+  rest.get(`${baseURL}/licenses`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -9782,7 +9792,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/licenses/:license`, (req, res, ctx) => {
+  rest.get(`${baseURL}/licenses/:license`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -9833,7 +9843,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/markdown`, (req, res, ctx) => {
+  rest.post(`${baseURL}/markdown`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -9841,7 +9851,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/markdown/raw`, (req, res, ctx) => {
+  rest.post(`${baseURL}/markdown/raw`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -9849,7 +9859,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/meta`, (req, res, ctx) => {
+  rest.get(`${baseURL}/meta`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -9869,7 +9879,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/networks/:owner/:repo/events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/networks/:owner/:repo/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -10438,6 +10448,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -10660,7 +10671,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/notifications`, (req, res, ctx) => {
+  rest.get(`${baseURL}/notifications`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -10818,326 +10829,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -11219,7 +10910,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/notifications`, (req, res, ctx) => {
+  rest.put(`${baseURL}/notifications`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -11251,7 +10942,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/notifications/threads/:threadId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/notifications/threads/:threadId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -11400,319 +11091,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -11774,7 +11152,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/notifications/threads/:threadId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/notifications/threads/:threadId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(205), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -11793,7 +11171,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/notifications/threads/:threadId/subscription`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -11833,7 +11211,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/notifications/threads/:threadId/subscription`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -11873,7 +11251,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/notifications/threads/:threadId/subscription`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -11900,12 +11278,12 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/octocat`, (req, res, ctx) => {
+  rest.get(`${baseURL}/octocat`, (_, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/organizations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/organizations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -11936,7 +11314,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -12009,7 +11387,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/orgs/:org`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/orgs/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -12083,7 +11461,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/actions/permissions`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/actions/permissions`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -12106,14 +11484,14 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/orgs/:org/actions/permissions`, (req, res, ctx) => {
+  rest.put(`${baseURL}/orgs/:org/actions/permissions`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/permissions/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -12435,6 +11813,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
           }),
         ],
@@ -12445,7 +11824,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/permissions/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -12453,7 +11832,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/permissions/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -12461,7 +11840,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/permissions/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -12469,7 +11848,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -12489,13 +11868,13 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/actions/runner-groups`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/actions/runner-groups`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -12522,7 +11901,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/orgs/:org/actions/runner-groups`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/actions/runner-groups`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -12544,7 +11923,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -12567,7 +11946,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -12590,7 +11969,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -12598,7 +11977,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -12755,326 +12134,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -13107,7 +12166,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -13115,7 +12174,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -13123,7 +12182,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -13131,7 +12190,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/runners`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -13166,7 +12225,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/runners`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -13174,7 +12233,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -13182,13 +12241,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/runner-groups/:runnerGroupId/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/actions/runners`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/actions/runners`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -13220,35 +12279,32 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/orgs/:org/actions/runners/downloads`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json(
-            [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              os: faker.lorem.slug(1),
-              architecture: faker.lorem.slug(1),
-              download_url: faker.internet.url(),
-              filename: faker.name.findName(),
-              temp_download_token: faker.lorem.slug(1),
-              sha256_checksum: faker.lorem.slug(1),
-            }))
-          ),
-        ],
-      ];
+  rest.get(`${baseURL}/orgs/:org/actions/runners/downloads`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json(
+          [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            os: faker.lorem.slug(1),
+            architecture: faker.lorem.slug(1),
+            download_url: faker.internet.url(),
+            filename: faker.name.findName(),
+            temp_download_token: faker.lorem.slug(1),
+            sha256_checksum: faker.lorem.slug(1),
+          }))
+        ),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.post(
     `${baseURL}/orgs/:org/actions/runners/registration-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -13572,6 +12628,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -13587,7 +12644,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/actions/runners/remove-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -13911,6 +12968,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -13924,43 +12982,40 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/orgs/:org/actions/runners/:runnerId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            id: 5,
-            name: 'iMac',
-            os: 'macos',
-            status: 'online',
-            busy: faker.datatype.boolean(),
-            labels: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: faker.datatype.number(),
-              name: faker.name.findName(),
-              type: faker.helpers.arrayElement(['read-only', 'custom']),
-            })),
-          }),
-        ],
-      ];
+  rest.get(`${baseURL}/orgs/:org/actions/runners/:runnerId`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          id: 5,
+          name: 'iMac',
+          os: 'macos',
+          status: 'online',
+          busy: faker.datatype.boolean(),
+          labels: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: faker.datatype.number(),
+            name: faker.name.findName(),
+            type: faker.helpers.arrayElement(['read-only', 'custom']),
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.delete(
     `${baseURL}/orgs/:org/actions/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/actions/secrets`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/actions/secrets`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -13988,29 +13043,26 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/orgs/:org/actions/secrets/public-key`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            key_id: '1234567',
-            key: 'hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=',
-            id: 2,
-            url: 'https://api.github.com/user/keys/2',
-            title: 'ssh-rsa AAAAB3NzaC1yc2EAAA',
-            created_at: '2011-01-26T19:01:12Z',
-          }),
-        ],
-      ];
+  rest.get(`${baseURL}/orgs/:org/actions/secrets/public-key`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          key_id: '1234567',
+          key: 'hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=',
+          id: 2,
+          url: 'https://api.github.com/user/keys/2',
+          title: 'ssh-rsa AAAAB3NzaC1yc2EAAA',
+          created_at: '2011-01-26T19:01:12Z',
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/orgs/:org/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -14034,7 +13086,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(201), ctx.json({})],
         [ctx.status(204), ctx.json(null)],
@@ -14045,7 +13097,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -14053,7 +13105,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/actions/secrets/:secretName/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -14210,326 +13262,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -14562,7 +13294,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/secrets/:secretName/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -14570,7 +13302,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/actions/secrets/:secretName/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(409), ctx.json(null)],
@@ -14581,7 +13313,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/actions/secrets/:secretName/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(409), ctx.json(null)],
@@ -14590,7 +13322,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/audit-log`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/audit-log`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -14611,6 +13343,8 @@ export const handlers = [
             },
             data: {},
             org_id: faker.datatype.number(),
+            user_id: faker.datatype.number(),
+            business_id: faker.datatype.number(),
             blocked_user: faker.lorem.slug(1),
             business: faker.lorem.slug(1),
             config: [
@@ -14624,6 +13358,7 @@ export const handlers = [
               ).keys(),
             ].map(_ => ({})),
             content_type: faker.lorem.slug(1),
+            operation_type: faker.lorem.slug(1),
             created_at: faker.datatype.number(),
             deploy_key_fingerprint: faker.lorem.slug(1),
             _document_id: faker.lorem.slug(1),
@@ -14665,7 +13400,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15234,6 +13969,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -15428,7 +14164,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15471,7 +14207,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/orgs/:org/hooks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -15527,7 +14263,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15564,7 +14300,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/orgs/:org/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15620,7 +14356,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/orgs/:org/hooks/:hookId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/orgs/:org/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -15636,7 +14372,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/hooks/:hookId/config`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/hooks/:hookId/config`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15651,7 +14387,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/orgs/:org/hooks/:hookId/config`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/orgs/:org/hooks/:hookId/config`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15666,7 +14402,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/hooks/:hookId/deliveries`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/hooks/:hookId/deliveries`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15724,7 +14460,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/hooks/:hookId/deliveries/:deliveryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -15786,7 +14522,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/hooks/:hookId/deliveries/:deliveryId/attempts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(202), ctx.json({})],
         [
@@ -15822,7 +14558,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/orgs/:org/hooks/:hookId/pings`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/hooks/:hookId/pings`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -15838,7 +14574,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/installation`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/installation`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15906,7 +14642,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/installations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/installations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -15986,7 +14722,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16503,6 +15239,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -16580,7 +15317,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/members`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/members`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16618,7 +15355,6 @@ export const handlers = [
           }))
         ),
       ],
-      [ctx.status(302), ctx.json(null)],
       [
         ctx.status(422),
         ctx.json({
@@ -16642,7 +15378,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/members/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(302), ctx.json(null)],
@@ -16651,7 +15387,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/orgs/:org/members/:username`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/orgs/:org/members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -16667,7 +15403,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/memberships/:username`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16745,7 +15481,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
+  rest.put(`${baseURL}/orgs/:org/memberships/:username`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16833,7 +15569,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/orgs/:org/memberships/:username`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/orgs/:org/memberships/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -16858,7 +15594,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/outside_collaborators`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/outside_collaborators`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16902,7 +15638,7 @@ export const handlers = [
   }),
   rest.put(
     `${baseURL}/orgs/:org/outside_collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(202), ctx.json({})],
         [ctx.status(204), ctx.json(null)],
@@ -16923,7 +15659,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/outside_collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -16938,7 +15674,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/pre-receive-hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/pre-receive-hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -16962,7 +15698,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -16981,7 +15717,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/orgs/:org/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -17000,7 +15736,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -17017,7 +15753,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/projects`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -17095,7 +15831,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/orgs/:org/projects`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -17202,7 +15938,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/public_members`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/public_members`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -17244,7 +15980,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/public_members/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/public_members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(404), ctx.json(null)],
@@ -17252,7 +15988,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/orgs/:org/public_members/:username`, (req, res, ctx) => {
+  rest.put(`${baseURL}/orgs/:org/public_members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -17270,13 +16006,13 @@ export const handlers = [
   }),
   rest.delete(
     `${baseURL}/orgs/:org/public_members/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/repos`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -17428,319 +16164,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -17770,7 +16193,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/orgs/:org/repos`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -18077,6 +16500,7 @@ export const handlers = [
           watchers: faker.datatype.number(),
           master_branch: faker.lorem.slug(1),
           starred_at: '"2020-07-09T00:17:42Z"',
+          anonymous_access_enabled: faker.datatype.boolean(),
         }),
       ],
       [
@@ -18111,7 +16535,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/secret-scanning/alerts`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/secret-scanning/alerts`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -18301,7 +16725,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/teams`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -18361,7 +16785,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/orgs/:org/teams`, (req, res, ctx) => {
+  rest.post(`${baseURL}/orgs/:org/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -18489,7 +16913,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -18598,8 +17022,102 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/orgs/:org/teams/:teamSlug`, (_, res, ctx) => {
     const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          id: 42,
+          node_id: 'MDQ6VGVhbTE=',
+          url: 'https://api.github.com/organizations/1/team/1',
+          html_url: 'https://github.com/orgs/rails/teams/core',
+          name: 'Developers',
+          slug: 'justice-league',
+          description: 'A great team.',
+          privacy: 'closed',
+          permission: 'push',
+          members_url:
+            'https://api.github.com/organizations/1/team/1/members{/member}',
+          repositories_url:
+            'https://api.github.com/organizations/1/team/1/repos',
+          parent: {
+            id: 1,
+            node_id: 'MDQ6VGVhbTE=',
+            url: 'https://api.github.com/organizations/1/team/1',
+            members_url:
+              'https://api.github.com/organizations/1/team/1/members{/member}',
+            name: 'Justice League',
+            description: 'A great team.',
+            permission: 'admin',
+            privacy: 'closed',
+            html_url: 'https://github.com/orgs/rails/teams/core',
+            repositories_url:
+              'https://api.github.com/organizations/1/team/1/repos',
+            slug: 'justice-league',
+            ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
+          },
+          members_count: 3,
+          repos_count: 10,
+          created_at: '2017-07-14T16:53:42Z',
+          updated_at: '2017-08-17T12:37:15Z',
+          organization: {
+            login: 'github',
+            id: 1,
+            node_id: 'MDEyOk9yZ2FuaXphdGlvbjE=',
+            url: 'https://api.github.com/orgs/github',
+            repos_url: 'https://api.github.com/orgs/github/repos',
+            events_url: 'https://api.github.com/orgs/github/events',
+            hooks_url: 'https://api.github.com/orgs/github/hooks',
+            issues_url: 'https://api.github.com/orgs/github/issues',
+            members_url: 'https://api.github.com/orgs/github/members{/member}',
+            public_members_url:
+              'https://api.github.com/orgs/github/public_members{/member}',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            description: 'A great organization',
+            name: 'github',
+            company: 'GitHub',
+            blog: 'https://github.com/blog',
+            location: 'San Francisco',
+            email: 'octocat@github.com',
+            twitter_username: 'github',
+            is_verified: true,
+            has_organization_projects: true,
+            has_repository_projects: true,
+            public_repos: 2,
+            public_gists: 1,
+            followers: 20,
+            following: faker.datatype.number(),
+            html_url: 'https://github.com/octocat',
+            created_at: '2008-01-14T04:33:35Z',
+            type: 'Organization',
+            total_private_repos: 100,
+            owned_private_repos: 100,
+            private_gists: 81,
+            disk_usage: 10000,
+            collaborators: 8,
+            billing_email: 'org@example.com',
+            plan: {
+              name: faker.name.findName(),
+              space: faker.datatype.number(),
+              private_repos: faker.datatype.number(),
+              filled_seats: faker.datatype.number(),
+              seats: faker.datatype.number(),
+            },
+            default_repository_permission: faker.lorem.slug(1),
+            members_can_create_repositories: true,
+            two_factor_requirement_enabled: true,
+            members_allowed_repository_creation_type: 'all',
+            members_can_create_public_repositories: true,
+            members_can_create_private_repositories: true,
+            members_can_create_internal_repositories: true,
+            members_can_create_pages: true,
+            members_can_create_public_pages: true,
+            members_can_create_private_pages: true,
+            updated_at: faker.date.past(),
+          },
+          ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
+        }),
+      ],
       [
         ctx.status(201),
         ctx.json({
@@ -18694,18 +17212,55 @@ export const handlers = [
           ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
         }),
       ],
+      [
+        ctx.status(403),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
+            message: faker.lorem.slug(1),
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
     ];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/orgs/:org/teams/:teamSlug`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/orgs/:org/teams/:teamSlug`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -18785,7 +17340,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -18858,7 +17413,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -18931,7 +17486,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19004,7 +17559,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -19012,7 +17567,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19086,7 +17641,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -19153,7 +17708,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19220,7 +17775,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19287,7 +17842,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -19295,7 +17850,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19348,7 +17903,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19431,7 +17986,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/comments/:commentNumber/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -19439,7 +17994,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19492,7 +18047,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19575,13 +18130,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/discussions/:discussionNumber/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/members`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/members`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -19625,7 +18180,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/memberships/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19643,7 +18198,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/teams/:teamSlug/memberships/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19662,7 +18217,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/memberships/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(403), ctx.json(null)],
@@ -19671,7 +18226,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/projects`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -19737,7 +18292,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/projects/:projectId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -19799,7 +18354,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/teams/:teamSlug/projects/:projectId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -19816,13 +18371,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/projects/:projectId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/repos`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -19974,319 +18529,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -20318,7 +18560,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/orgs/:org/teams/:teamSlug/repos/:owner/:repo`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -20787,6 +19029,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             temp_clone_token: faker.lorem.slug(1),
             allow_squash_merge: true,
@@ -20810,7 +19053,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/orgs/:org/teams/:teamSlug/repos/:owner/:repo`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -20818,13 +19061,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/orgs/:org/teams/:teamSlug/repos/:owner/:repo`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/teams`, (req, res, ctx) => {
+  rest.get(`${baseURL}/orgs/:org/teams/:teamSlug/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -20875,7 +19118,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/columns/cards/:cardId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -20954,7 +19197,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/projects/columns/cards/:cardId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21045,7 +19288,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/projects/columns/cards/:cardId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/projects/columns/cards/:cardId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -21085,7 +19328,7 @@ export const handlers = [
   }),
   rest.post(
     `${baseURL}/projects/columns/cards/:cardId/moves`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(201), ctx.json({})],
         [ctx.status(304), ctx.json(null)],
@@ -21155,7 +19398,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/columns/:columnId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21202,7 +19445,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/projects/columns/:columnId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21240,7 +19483,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/projects/columns/:columnId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/projects/columns/:columnId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -21266,7 +19509,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/projects/columns/:columnId/cards`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/columns/:columnId/cards`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21343,7 +19586,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/projects/columns/:columnId/cards`, (req, res, ctx) => {
+  rest.post(`${baseURL}/projects/columns/:columnId/cards`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -21430,7 +19673,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/projects/columns/:columnId/moves`, (req, res, ctx) => {
+  rest.post(`${baseURL}/projects/columns/:columnId/moves`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(201), ctx.json({})],
       [ctx.status(304), ctx.json(null)],
@@ -21468,7 +19711,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/:projectId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21546,7 +19789,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/projects/:projectId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21649,7 +19892,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/projects/:projectId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/projects/:projectId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -21696,7 +19939,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/projects/:projectId/collaborators`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/:projectId/collaborators`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -21787,7 +20030,7 @@ export const handlers = [
   }),
   rest.put(
     `${baseURL}/projects/:projectId/collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -21844,7 +20087,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/projects/:projectId/collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -21901,7 +20144,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/projects/:projectId/collaborators/:username/permission`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -21989,7 +20232,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/projects/:projectId/columns`, (req, res, ctx) => {
+  rest.get(`${baseURL}/projects/:projectId/columns`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -22033,7 +20276,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/projects/:projectId/columns`, (req, res, ctx) => {
+  rest.post(`${baseURL}/projects/:projectId/columns`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -22083,7 +20326,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/rate_limit`, (req, res, ctx) => {
+  rest.get(`${baseURL}/rate_limit`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -22160,7 +20403,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/reactions/:reactionId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/reactions/:reactionId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -22195,7 +20438,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -22643,6 +20886,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           temp_clone_token: faker.lorem.slug(1),
           allow_squash_merge: true,
@@ -22995,6 +21239,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           source: {
             id: 42,
@@ -23303,6 +21548,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           forks: faker.datatype.number(),
           master_branch: faker.lorem.slug(1),
@@ -23360,7 +21606,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/repos/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -23808,6 +22054,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           temp_clone_token: faker.lorem.slug(1),
           allow_squash_merge: true,
@@ -24160,6 +22407,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           source: {
             id: 42,
@@ -24468,6 +22716,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           forks: faker.datatype.number(),
           master_branch: faker.lorem.slug(1),
@@ -24544,7 +22793,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/repos/:owner/:repo`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -24576,48 +22825,45 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/actions/artifacts`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            total_count: faker.datatype.number(),
-            artifacts: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: 5,
-              node_id: 'MDEwOkNoZWNrU3VpdGU1',
-              name: 'AdventureWorks.Framework',
-              size_in_bytes: 12345,
-              url: 'https://api.github.com/repos/github/hello-world/actions/artifacts/5',
-              archive_download_url:
-                'https://api.github.com/repos/github/hello-world/actions/artifacts/5/zip',
-              expired: faker.datatype.boolean(),
-              created_at: faker.date.past(),
-              expires_at: faker.date.past(),
-              updated_at: faker.date.past(),
-              workflow_run: {
-                id: 10,
-                repository_id: 42,
-                head_repository_id: 42,
-                head_branch: 'main',
-                head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
-              },
-            })),
-          }),
-        ],
-      ];
+  rest.get(`${baseURL}/repos/:owner/:repo/actions/artifacts`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          total_count: faker.datatype.number(),
+          artifacts: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: 5,
+            node_id: 'MDEwOkNoZWNrU3VpdGU1',
+            name: 'AdventureWorks.Framework',
+            size_in_bytes: 12345,
+            url: 'https://api.github.com/repos/github/hello-world/actions/artifacts/5',
+            archive_download_url:
+              'https://api.github.com/repos/github/hello-world/actions/artifacts/5/zip',
+            expired: faker.datatype.boolean(),
+            created_at: faker.date.past(),
+            expires_at: faker.date.past(),
+            updated_at: faker.date.past(),
+            workflow_run: {
+              id: 10,
+              repository_id: 42,
+              head_repository_id: 42,
+              head_branch: 'main',
+              head_sha: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d',
+            },
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/artifacts/:artifactId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -24649,7 +22895,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/artifacts/:artifactId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -24657,7 +22903,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/artifacts/:artifactId/:archiveFormat`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(302), ctx.json(null)],
         [
@@ -24676,7 +22922,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/jobs/:jobId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -24723,7 +22969,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/jobs/:jobId/logs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(302), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -24731,7 +22977,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/permissions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -24752,7 +22998,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/actions/permissions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -24760,7 +23006,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -24780,13 +23026,13 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/actions/permissions/selected-actions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/actions/runners`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/actions/runners`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -24820,7 +23066,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runners/downloads`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -24846,7 +23092,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/runners/registration-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -25170,6 +23416,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -25185,7 +23432,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/runners/remove-token`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -25509,6 +23756,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
             single_file: 'config.yaml',
             repository_selection: faker.helpers.arrayElement([
@@ -25524,7 +23772,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -25552,13 +23800,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/runners/:runnerId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/actions/runs`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/actions/runs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -25787,326 +24035,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -26277,326 +24205,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -26630,7 +24238,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -26853,326 +24461,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -27343,326 +24631,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -27696,7 +24664,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -27704,7 +24672,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/approvals`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -27769,7 +24737,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/artifacts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -27808,7 +24776,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/cancel`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(202), ctx.json({})],
         [
@@ -27827,7 +24795,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/jobs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -27881,7 +24849,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/logs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(302), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -27889,7 +24857,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/logs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -27917,7 +24885,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/pending_deployments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -27956,7 +24924,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/pending_deployments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -28072,13 +25040,13 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/runs/:runId/rerun`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(201), ctx.json({})]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/actions/secrets`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/actions/secrets`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -28101,7 +25069,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/secrets/public-key`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -28121,7 +25089,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -28138,7 +25106,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(201), ctx.json({})],
         [ctx.status(204), ctx.json(null)],
@@ -28149,49 +25117,46 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/actions/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/actions/workflows`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            total_count: faker.datatype.number(),
-            workflows: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: 5,
-              node_id: 'MDg6V29ya2Zsb3cxMg==',
-              name: 'CI',
-              path: 'ruby.yaml',
-              state: 'active',
-              created_at: '2019-12-06T14:20:20.000Z',
-              updated_at: '2019-12-06T14:20:20.000Z',
-              url: 'https://api.github.com/repos/actions/setup-ruby/workflows/5',
-              html_url:
-                'https://github.com/actions/setup-ruby/blob/master/.github/workflows/ruby.yaml',
-              badge_url:
-                'https://github.com/actions/setup-ruby/workflows/CI/badge.svg',
-              deleted_at: '2019-12-06T14:20:20.000Z',
-            })),
-          }),
-        ],
-      ];
+  rest.get(`${baseURL}/repos/:owner/:repo/actions/workflows`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          total_count: faker.datatype.number(),
+          workflows: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: 5,
+            node_id: 'MDg6V29ya2Zsb3cxMg==',
+            name: 'CI',
+            path: 'ruby.yaml',
+            state: 'active',
+            created_at: '2019-12-06T14:20:20.000Z',
+            updated_at: '2019-12-06T14:20:20.000Z',
+            url: 'https://api.github.com/repos/actions/setup-ruby/workflows/5',
+            html_url:
+              'https://github.com/actions/setup-ruby/blob/master/.github/workflows/ruby.yaml',
+            badge_url:
+              'https://github.com/actions/setup-ruby/workflows/CI/badge.svg',
+            deleted_at: '2019-12-06T14:20:20.000Z',
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/workflows/:workflowId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -28218,7 +25183,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/actions/workflows/:workflowId/disable`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -28226,7 +25191,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/actions/workflows/:workflowId/dispatches`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -28234,7 +25199,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/actions/workflows/:workflowId/enable`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -28242,7 +25207,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/actions/workflows/:workflowId/runs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -28475,326 +25440,6 @@ export const handlers = [
                   triage: faker.datatype.boolean(),
                   pull: faker.datatype.boolean(),
                 },
-                template_repository: {
-                  id: 42,
-                  node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                  name: 'Team Environment',
-                  full_name: 'octocat/Hello-World',
-                  license: {
-                    key: 'mit',
-                    name: 'MIT License',
-                    url: 'https://api.github.com/licenses/mit',
-                    spdx_id: 'MIT',
-                    node_id: 'MDc6TGljZW5zZW1pdA==',
-                    html_url: faker.internet.url(),
-                  },
-                  organization: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  forks: faker.datatype.number(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                  },
-                  owner: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: 'https://github.com/octocat/Hello-World',
-                  description: 'This your first repo!',
-                  fork: faker.datatype.boolean(),
-                  url: 'https://api.github.com/repos/octocat/Hello-World',
-                  archive_url:
-                    'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                  assignees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                  blobs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                  branches_url:
-                    'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                  collaborators_url:
-                    'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                  comments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                  commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                  compare_url:
-                    'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                  contents_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                  contributors_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contributors',
-                  deployments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/deployments',
-                  downloads_url:
-                    'http://api.github.com/repos/octocat/Hello-World/downloads',
-                  events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/events',
-                  forks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/forks',
-                  git_commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                  git_refs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                  git_tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                  git_url: 'git:github.com/octocat/Hello-World.git',
-                  issue_comment_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                  issue_events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                  issues_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                  keys_url:
-                    'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                  labels_url:
-                    'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                  languages_url:
-                    'http://api.github.com/repos/octocat/Hello-World/languages',
-                  merges_url:
-                    'http://api.github.com/repos/octocat/Hello-World/merges',
-                  milestones_url:
-                    'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                  notifications_url:
-                    'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                  pulls_url:
-                    'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                  releases_url:
-                    'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                  ssh_url: 'git@github.com:octocat/Hello-World.git',
-                  stargazers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                  statuses_url:
-                    'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                  subscribers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                  subscription_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscription',
-                  tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/tags',
-                  teams_url:
-                    'http://api.github.com/repos/octocat/Hello-World/teams',
-                  trees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                  clone_url: 'https://github.com/octocat/Hello-World.git',
-                  mirror_url: 'git:git.example.com/octocat/Hello-World',
-                  hooks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/hooks',
-                  svn_url: 'https://svn.github.com/octocat/Hello-World',
-                  homepage: 'https://github.com',
-                  language: faker.lorem.slug(1),
-                  forks_count: 9,
-                  stargazers_count: 80,
-                  watchers_count: 80,
-                  size: 108,
-                  default_branch: 'master',
-                  open_issues_count: faker.datatype.number(),
-                  is_template: true,
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: true,
-                  has_projects: true,
-                  has_wiki: true,
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: true,
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: '2011-01-26T19:06:43Z',
-                  created_at: '2011-01-26T19:01:12Z',
-                  updated_at: '2011-01-26T19:14:43Z',
-                  allow_rebase_merge: true,
-                  template_repository: {
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    name: faker.name.findName(),
-                    full_name: faker.name.findName(),
-                    owner: {
-                      login: faker.lorem.slug(1),
-                      id: faker.datatype.number(),
-                      node_id: faker.lorem.slug(1),
-                      avatar_url: faker.internet.url(),
-                      gravatar_id: faker.lorem.slug(1),
-                      url: faker.internet.url(),
-                      html_url: faker.internet.url(),
-                      followers_url: faker.internet.url(),
-                      following_url: faker.internet.url(),
-                      gists_url: faker.internet.url(),
-                      starred_url: faker.internet.url(),
-                      subscriptions_url: faker.internet.url(),
-                      organizations_url: faker.internet.url(),
-                      repos_url: faker.internet.url(),
-                      events_url: faker.internet.url(),
-                      received_events_url: faker.internet.url(),
-                      type: faker.lorem.slug(1),
-                      site_admin: faker.datatype.boolean(),
-                    },
-                    private: faker.datatype.boolean(),
-                    html_url: faker.internet.url(),
-                    description: faker.lorem.slug(1),
-                    fork: faker.datatype.boolean(),
-                    url: faker.internet.url(),
-                    archive_url: faker.internet.url(),
-                    assignees_url: faker.internet.url(),
-                    blobs_url: faker.internet.url(),
-                    branches_url: faker.internet.url(),
-                    collaborators_url: faker.internet.url(),
-                    comments_url: faker.internet.url(),
-                    commits_url: faker.internet.url(),
-                    compare_url: faker.internet.url(),
-                    contents_url: faker.internet.url(),
-                    contributors_url: faker.internet.url(),
-                    deployments_url: faker.internet.url(),
-                    downloads_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    forks_url: faker.internet.url(),
-                    git_commits_url: faker.internet.url(),
-                    git_refs_url: faker.internet.url(),
-                    git_tags_url: faker.internet.url(),
-                    git_url: faker.internet.url(),
-                    issue_comment_url: faker.internet.url(),
-                    issue_events_url: faker.internet.url(),
-                    issues_url: faker.internet.url(),
-                    keys_url: faker.internet.url(),
-                    labels_url: faker.internet.url(),
-                    languages_url: faker.internet.url(),
-                    merges_url: faker.internet.url(),
-                    milestones_url: faker.internet.url(),
-                    notifications_url: faker.internet.url(),
-                    pulls_url: faker.internet.url(),
-                    releases_url: faker.internet.url(),
-                    ssh_url: faker.internet.url(),
-                    stargazers_url: faker.internet.url(),
-                    statuses_url: faker.internet.url(),
-                    subscribers_url: faker.internet.url(),
-                    subscription_url: faker.internet.url(),
-                    tags_url: faker.internet.url(),
-                    teams_url: faker.internet.url(),
-                    trees_url: faker.internet.url(),
-                    clone_url: faker.internet.url(),
-                    mirror_url: faker.internet.url(),
-                    hooks_url: faker.internet.url(),
-                    svn_url: faker.internet.url(),
-                    homepage: faker.lorem.slug(1),
-                    language: faker.lorem.slug(1),
-                    forks_count: faker.datatype.number(),
-                    stargazers_count: faker.datatype.number(),
-                    watchers_count: faker.datatype.number(),
-                    size: faker.datatype.number(),
-                    default_branch: faker.lorem.slug(1),
-                    open_issues_count: faker.datatype.number(),
-                    is_template: faker.datatype.boolean(),
-                    topics: [
-                      ...new Array(
-                        faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                      ).keys(),
-                    ].map(_ => faker.lorem.slug(1)),
-                    has_issues: faker.datatype.boolean(),
-                    has_projects: faker.datatype.boolean(),
-                    has_wiki: faker.datatype.boolean(),
-                    has_pages: faker.datatype.boolean(),
-                    has_downloads: faker.datatype.boolean(),
-                    archived: faker.datatype.boolean(),
-                    disabled: faker.datatype.boolean(),
-                    visibility: faker.lorem.slug(1),
-                    pushed_at: faker.date.past(),
-                    created_at: faker.date.past(),
-                    updated_at: faker.date.past(),
-                    permissions: {
-                      admin: faker.datatype.boolean(),
-                      maintain: faker.datatype.boolean(),
-                      push: faker.datatype.boolean(),
-                      triage: faker.datatype.boolean(),
-                      pull: faker.datatype.boolean(),
-                    },
-                    allow_rebase_merge: faker.datatype.boolean(),
-                    temp_clone_token: faker.lorem.slug(1),
-                    allow_squash_merge: faker.datatype.boolean(),
-                    allow_auto_merge: faker.datatype.boolean(),
-                    delete_branch_on_merge: faker.datatype.boolean(),
-                    allow_update_branch: faker.datatype.boolean(),
-                    allow_merge_commit: faker.datatype.boolean(),
-                    subscribers_count: faker.datatype.number(),
-                    network_count: faker.datatype.number(),
-                  },
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: true,
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: true,
-                  allow_forking: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                  open_issues: faker.datatype.number(),
-                  watchers: faker.datatype.number(),
-                  master_branch: faker.lorem.slug(1),
-                  starred_at: '"2020-07-09T00:17:42Z"',
-                },
                 temp_clone_token: faker.lorem.slug(1),
                 delete_branch_on_merge: faker.datatype.boolean(),
                 subscribers_count: faker.datatype.number(),
@@ -28969,326 +25614,6 @@ export const handlers = [
                   triage: faker.datatype.boolean(),
                   pull: faker.datatype.boolean(),
                 },
-                template_repository: {
-                  id: 42,
-                  node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                  name: 'Team Environment',
-                  full_name: 'octocat/Hello-World',
-                  license: {
-                    key: 'mit',
-                    name: 'MIT License',
-                    url: 'https://api.github.com/licenses/mit',
-                    spdx_id: 'MIT',
-                    node_id: 'MDc6TGljZW5zZW1pdA==',
-                    html_url: faker.internet.url(),
-                  },
-                  organization: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  forks: faker.datatype.number(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                  },
-                  owner: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: 'https://github.com/octocat/Hello-World',
-                  description: 'This your first repo!',
-                  fork: faker.datatype.boolean(),
-                  url: 'https://api.github.com/repos/octocat/Hello-World',
-                  archive_url:
-                    'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                  assignees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                  blobs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                  branches_url:
-                    'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                  collaborators_url:
-                    'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                  comments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                  commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                  compare_url:
-                    'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                  contents_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                  contributors_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contributors',
-                  deployments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/deployments',
-                  downloads_url:
-                    'http://api.github.com/repos/octocat/Hello-World/downloads',
-                  events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/events',
-                  forks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/forks',
-                  git_commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                  git_refs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                  git_tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                  git_url: 'git:github.com/octocat/Hello-World.git',
-                  issue_comment_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                  issue_events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                  issues_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                  keys_url:
-                    'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                  labels_url:
-                    'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                  languages_url:
-                    'http://api.github.com/repos/octocat/Hello-World/languages',
-                  merges_url:
-                    'http://api.github.com/repos/octocat/Hello-World/merges',
-                  milestones_url:
-                    'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                  notifications_url:
-                    'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                  pulls_url:
-                    'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                  releases_url:
-                    'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                  ssh_url: 'git@github.com:octocat/Hello-World.git',
-                  stargazers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                  statuses_url:
-                    'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                  subscribers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                  subscription_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscription',
-                  tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/tags',
-                  teams_url:
-                    'http://api.github.com/repos/octocat/Hello-World/teams',
-                  trees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                  clone_url: 'https://github.com/octocat/Hello-World.git',
-                  mirror_url: 'git:git.example.com/octocat/Hello-World',
-                  hooks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/hooks',
-                  svn_url: 'https://svn.github.com/octocat/Hello-World',
-                  homepage: 'https://github.com',
-                  language: faker.lorem.slug(1),
-                  forks_count: 9,
-                  stargazers_count: 80,
-                  watchers_count: 80,
-                  size: 108,
-                  default_branch: 'master',
-                  open_issues_count: faker.datatype.number(),
-                  is_template: true,
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: true,
-                  has_projects: true,
-                  has_wiki: true,
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: true,
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: '2011-01-26T19:06:43Z',
-                  created_at: '2011-01-26T19:01:12Z',
-                  updated_at: '2011-01-26T19:14:43Z',
-                  allow_rebase_merge: true,
-                  template_repository: {
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    name: faker.name.findName(),
-                    full_name: faker.name.findName(),
-                    owner: {
-                      login: faker.lorem.slug(1),
-                      id: faker.datatype.number(),
-                      node_id: faker.lorem.slug(1),
-                      avatar_url: faker.internet.url(),
-                      gravatar_id: faker.lorem.slug(1),
-                      url: faker.internet.url(),
-                      html_url: faker.internet.url(),
-                      followers_url: faker.internet.url(),
-                      following_url: faker.internet.url(),
-                      gists_url: faker.internet.url(),
-                      starred_url: faker.internet.url(),
-                      subscriptions_url: faker.internet.url(),
-                      organizations_url: faker.internet.url(),
-                      repos_url: faker.internet.url(),
-                      events_url: faker.internet.url(),
-                      received_events_url: faker.internet.url(),
-                      type: faker.lorem.slug(1),
-                      site_admin: faker.datatype.boolean(),
-                    },
-                    private: faker.datatype.boolean(),
-                    html_url: faker.internet.url(),
-                    description: faker.lorem.slug(1),
-                    fork: faker.datatype.boolean(),
-                    url: faker.internet.url(),
-                    archive_url: faker.internet.url(),
-                    assignees_url: faker.internet.url(),
-                    blobs_url: faker.internet.url(),
-                    branches_url: faker.internet.url(),
-                    collaborators_url: faker.internet.url(),
-                    comments_url: faker.internet.url(),
-                    commits_url: faker.internet.url(),
-                    compare_url: faker.internet.url(),
-                    contents_url: faker.internet.url(),
-                    contributors_url: faker.internet.url(),
-                    deployments_url: faker.internet.url(),
-                    downloads_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    forks_url: faker.internet.url(),
-                    git_commits_url: faker.internet.url(),
-                    git_refs_url: faker.internet.url(),
-                    git_tags_url: faker.internet.url(),
-                    git_url: faker.internet.url(),
-                    issue_comment_url: faker.internet.url(),
-                    issue_events_url: faker.internet.url(),
-                    issues_url: faker.internet.url(),
-                    keys_url: faker.internet.url(),
-                    labels_url: faker.internet.url(),
-                    languages_url: faker.internet.url(),
-                    merges_url: faker.internet.url(),
-                    milestones_url: faker.internet.url(),
-                    notifications_url: faker.internet.url(),
-                    pulls_url: faker.internet.url(),
-                    releases_url: faker.internet.url(),
-                    ssh_url: faker.internet.url(),
-                    stargazers_url: faker.internet.url(),
-                    statuses_url: faker.internet.url(),
-                    subscribers_url: faker.internet.url(),
-                    subscription_url: faker.internet.url(),
-                    tags_url: faker.internet.url(),
-                    teams_url: faker.internet.url(),
-                    trees_url: faker.internet.url(),
-                    clone_url: faker.internet.url(),
-                    mirror_url: faker.internet.url(),
-                    hooks_url: faker.internet.url(),
-                    svn_url: faker.internet.url(),
-                    homepage: faker.lorem.slug(1),
-                    language: faker.lorem.slug(1),
-                    forks_count: faker.datatype.number(),
-                    stargazers_count: faker.datatype.number(),
-                    watchers_count: faker.datatype.number(),
-                    size: faker.datatype.number(),
-                    default_branch: faker.lorem.slug(1),
-                    open_issues_count: faker.datatype.number(),
-                    is_template: faker.datatype.boolean(),
-                    topics: [
-                      ...new Array(
-                        faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                      ).keys(),
-                    ].map(_ => faker.lorem.slug(1)),
-                    has_issues: faker.datatype.boolean(),
-                    has_projects: faker.datatype.boolean(),
-                    has_wiki: faker.datatype.boolean(),
-                    has_pages: faker.datatype.boolean(),
-                    has_downloads: faker.datatype.boolean(),
-                    archived: faker.datatype.boolean(),
-                    disabled: faker.datatype.boolean(),
-                    visibility: faker.lorem.slug(1),
-                    pushed_at: faker.date.past(),
-                    created_at: faker.date.past(),
-                    updated_at: faker.date.past(),
-                    permissions: {
-                      admin: faker.datatype.boolean(),
-                      maintain: faker.datatype.boolean(),
-                      push: faker.datatype.boolean(),
-                      triage: faker.datatype.boolean(),
-                      pull: faker.datatype.boolean(),
-                    },
-                    allow_rebase_merge: faker.datatype.boolean(),
-                    temp_clone_token: faker.lorem.slug(1),
-                    allow_squash_merge: faker.datatype.boolean(),
-                    allow_auto_merge: faker.datatype.boolean(),
-                    delete_branch_on_merge: faker.datatype.boolean(),
-                    allow_update_branch: faker.datatype.boolean(),
-                    allow_merge_commit: faker.datatype.boolean(),
-                    subscribers_count: faker.datatype.number(),
-                    network_count: faker.datatype.number(),
-                  },
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: true,
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: true,
-                  allow_forking: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                  open_issues: faker.datatype.number(),
-                  watchers: faker.datatype.number(),
-                  master_branch: faker.lorem.slug(1),
-                  starred_at: '"2020-07-09T00:17:42Z"',
-                },
                 temp_clone_token: faker.lorem.slug(1),
                 delete_branch_on_merge: faker.datatype.boolean(),
                 subscribers_count: faker.datatype.number(),
@@ -29321,7 +25646,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/assignees`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/assignees`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -29374,7 +25699,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/assignees/:assignee`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -29391,7 +25716,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/autolinks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/autolinks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -29411,7 +25736,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/autolinks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/autolinks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -29446,7 +25771,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/autolinks/:autolinkId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -29472,7 +25797,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/autolinks/:autolinkId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -29489,7 +25814,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/branches`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/branches`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -29813,174 +26138,250 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/branches/:branch`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            name: faker.name.findName(),
+  rest.get(`${baseURL}/repos/:owner/:repo/branches/:branch`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          name: faker.name.findName(),
+          commit: {
+            url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            node_id:
+              'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
+            html_url:
+              'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            comments_url:
+              'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
             commit: {
               url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              node_id:
-                'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
-              html_url:
-                'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              comments_url:
-                'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
-              commit: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                author: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                committer: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                message: 'Fix all the bugs',
-                comment_count: faker.datatype.number(),
-                tree: {
-                  sha: '827efc6d56897b048c772eb4087f854f46256132',
-                  url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
-                },
-                verification: {
-                  verified: faker.datatype.boolean(),
-                  reason: faker.lorem.slug(1),
-                  payload: faker.lorem.slug(1),
-                  signature: faker.lorem.slug(1),
-                },
-              },
               author: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
               },
               committer: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
               },
-              parents: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
-                html_url:
-                  'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
-              })),
-              stats: {
-                additions: faker.datatype.number(),
-                deletions: faker.datatype.number(),
-                total: faker.datatype.number(),
+              message: 'Fix all the bugs',
+              comment_count: faker.datatype.number(),
+              tree: {
+                sha: '827efc6d56897b048c772eb4087f854f46256132',
+                url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
               },
-              files: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
-                filename: 'file1.txt',
-                status: 'added',
-                additions: 103,
-                deletions: 21,
-                changes: 124,
-                blob_url:
-                  'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                raw_url:
-                  'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                contents_url:
-                  'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                patch:
-                  '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
-                previous_filename: 'file.txt',
-              })),
+              verification: {
+                verified: faker.datatype.boolean(),
+                reason: faker.lorem.slug(1),
+                payload: faker.lorem.slug(1),
+                signature: faker.lorem.slug(1),
+              },
             },
-            _links: {
-              html: faker.lorem.slug(1),
-              self: faker.internet.url(),
+            author: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
             },
-            protected: faker.datatype.boolean(),
-            protection: {
+            committer: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            parents: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
+              html_url:
+                'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
+            })),
+            stats: {
+              additions: faker.datatype.number(),
+              deletions: faker.datatype.number(),
+              total: faker.datatype.number(),
+            },
+            files: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
+              filename: 'file1.txt',
+              status: 'added',
+              additions: 103,
+              deletions: 21,
+              changes: 124,
+              blob_url:
+                'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              raw_url:
+                'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              contents_url:
+                'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
+              patch:
+                '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
+              previous_filename: 'file.txt',
+            })),
+          },
+          _links: {
+            html: faker.lorem.slug(1),
+            self: faker.internet.url(),
+          },
+          protected: faker.datatype.boolean(),
+          protection: {
+            url: faker.internet.url(),
+            enabled: faker.datatype.boolean(),
+            required_status_checks: {
               url: faker.internet.url(),
-              enabled: faker.datatype.boolean(),
-              required_status_checks: {
-                url: faker.internet.url(),
-                enforcement_level: faker.lorem.slug(1),
-                contexts: [
+              enforcement_level: faker.lorem.slug(1),
+              contexts: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => faker.lorem.slug(1)),
+              contexts_url: faker.internet.url(),
+              strict: faker.datatype.boolean(),
+            },
+            enforce_admins: {
+              url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins',
+              enabled: true,
+            },
+            required_pull_request_reviews: {
+              url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions',
+              dismissal_restrictions: {
+                users: [
                   ...new Array(
                     faker.datatype.number({ max: MAX_ARRAY_LENGTH })
                   ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                contexts_url: faker.internet.url(),
-                strict: faker.datatype.boolean(),
-              },
-              enforce_admins: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins',
-                enabled: true,
-              },
-              required_pull_request_reviews: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions',
-                dismissal_restrictions: {
-                  users: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => ({
+                ].map(_ => ({
+                  name: faker.name.findName(),
+                  email: faker.internet.email(),
+                  login: 'octocat',
+                  id: 1,
+                  node_id: 'MDQ6VXNlcjE=',
+                  avatar_url:
+                    'https://github.com/images/error/octocat_happy.gif',
+                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+                  url: 'https://api.github.com/users/octocat',
+                  html_url: 'https://github.com/octocat',
+                  followers_url:
+                    'https://api.github.com/users/octocat/followers',
+                  following_url:
+                    'https://api.github.com/users/octocat/following{/other_user}',
+                  gists_url:
+                    'https://api.github.com/users/octocat/gists{/gist_id}',
+                  starred_url:
+                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+                  subscriptions_url:
+                    'https://api.github.com/users/octocat/subscriptions',
+                  organizations_url:
+                    'https://api.github.com/users/octocat/orgs',
+                  repos_url: 'https://api.github.com/users/octocat/repos',
+                  events_url:
+                    'https://api.github.com/users/octocat/events{/privacy}',
+                  received_events_url:
+                    'https://api.github.com/users/octocat/received_events',
+                  type: 'User',
+                  site_admin: faker.datatype.boolean(),
+                  starred_at: '"2020-07-09T00:17:55Z"',
+                })),
+                teams: [
+                  ...new Array(
+                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                  ).keys(),
+                ].map(_ => ({
+                  id: faker.datatype.number(),
+                  node_id: faker.lorem.slug(1),
+                  name: faker.name.findName(),
+                  slug: faker.lorem.slug(1),
+                  description: faker.lorem.slug(1),
+                  privacy: faker.lorem.slug(1),
+                  permission: faker.lorem.slug(1),
+                  permissions: {
+                    pull: faker.datatype.boolean(),
+                    triage: faker.datatype.boolean(),
+                    push: faker.datatype.boolean(),
+                    maintain: faker.datatype.boolean(),
+                    admin: faker.datatype.boolean(),
+                  },
+                  url: faker.internet.url(),
+                  html_url: 'https://github.com/orgs/rails/teams/core',
+                  members_url: faker.internet.url(),
+                  repositories_url: faker.internet.url(),
+                  parent: {
+                    id: 1,
+                    node_id: 'MDQ6VGVhbTE=',
+                    url: 'https://api.github.com/organizations/1/team/1',
+                    members_url:
+                      'https://api.github.com/organizations/1/team/1/members{/member}',
+                    name: 'Justice League',
+                    description: 'A great team.',
+                    permission: 'admin',
+                    privacy: 'closed',
+                    html_url: 'https://github.com/orgs/rails/teams/core',
+                    repositories_url:
+                      'https://api.github.com/organizations/1/team/1/repos',
+                    slug: 'justice-league',
+                    ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
+                  },
+                })),
+                apps: [
+                  ...new Array(
+                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                  ).keys(),
+                ].map(_ => ({
+                  id: 37,
+                  slug: 'probot-owners',
+                  node_id: 'MDExOkludGVncmF0aW9uMQ==',
+                  owner: {
                     name: faker.name.findName(),
                     email: faker.internet.email(),
                     login: 'octocat',
@@ -30011,272 +26412,190 @@ export const handlers = [
                     type: 'User',
                     site_admin: faker.datatype.boolean(),
                     starred_at: '"2020-07-09T00:17:55Z"',
-                  })),
-                  teams: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => ({
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    name: faker.name.findName(),
-                    slug: faker.lorem.slug(1),
-                    description: faker.lorem.slug(1),
-                    privacy: faker.lorem.slug(1),
-                    permission: faker.lorem.slug(1),
-                    permissions: {
-                      pull: faker.datatype.boolean(),
-                      triage: faker.datatype.boolean(),
-                      push: faker.datatype.boolean(),
-                      maintain: faker.datatype.boolean(),
-                      admin: faker.datatype.boolean(),
-                    },
-                    url: faker.internet.url(),
-                    html_url: 'https://github.com/orgs/rails/teams/core',
-                    members_url: faker.internet.url(),
-                    repositories_url: faker.internet.url(),
-                    parent: {
-                      id: 1,
-                      node_id: 'MDQ6VGVhbTE=',
-                      url: 'https://api.github.com/organizations/1/team/1',
-                      members_url:
-                        'https://api.github.com/organizations/1/team/1/members{/member}',
-                      name: 'Justice League',
-                      description: 'A great team.',
-                      permission: 'admin',
-                      privacy: 'closed',
-                      html_url: 'https://github.com/orgs/rails/teams/core',
-                      repositories_url:
-                        'https://api.github.com/organizations/1/team/1/repos',
-                      slug: 'justice-league',
-                      ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
-                    },
-                  })),
-                  apps: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => ({
-                    id: 37,
-                    slug: 'probot-owners',
-                    node_id: 'MDExOkludGVncmF0aW9uMQ==',
-                    owner: {
-                      name: faker.name.findName(),
-                      email: faker.internet.email(),
-                      login: 'octocat',
-                      id: 1,
-                      node_id: 'MDQ6VXNlcjE=',
-                      avatar_url:
-                        'https://github.com/images/error/octocat_happy.gif',
-                      gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                      url: 'https://api.github.com/users/octocat',
-                      html_url: 'https://github.com/octocat',
-                      followers_url:
-                        'https://api.github.com/users/octocat/followers',
-                      following_url:
-                        'https://api.github.com/users/octocat/following{/other_user}',
-                      gists_url:
-                        'https://api.github.com/users/octocat/gists{/gist_id}',
-                      starred_url:
-                        'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                      subscriptions_url:
-                        'https://api.github.com/users/octocat/subscriptions',
-                      organizations_url:
-                        'https://api.github.com/users/octocat/orgs',
-                      repos_url: 'https://api.github.com/users/octocat/repos',
-                      events_url:
-                        'https://api.github.com/users/octocat/events{/privacy}',
-                      received_events_url:
-                        'https://api.github.com/users/octocat/received_events',
-                      type: 'User',
-                      site_admin: faker.datatype.boolean(),
-                      starred_at: '"2020-07-09T00:17:55Z"',
-                    },
-                    name: 'Probot Owners',
-                    description: 'The description of the app.',
-                    external_url: 'https://example.com',
-                    html_url: 'https://github.com/apps/super-ci',
-                    created_at: '2017-07-08T16:18:44-04:00',
-                    updated_at: '2017-07-08T16:18:44-04:00',
-                    permissions: { issues: 'read', deployments: 'write' },
-                    events: ['label', 'deployment'],
-                    installations_count: 5,
-                    client_id: '"Iv1.25b5d1e65ffc4022"',
-                    client_secret: '"1d4b2097ac622ba702d19de498f005747a8b21d3"',
-                    webhook_secret:
-                      '"6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b"',
-                    pem: '"-----BEGIN RSA PRIVATE KEY-----\\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\\n-----END RSA PRIVATE KEY-----\\n"',
-                  })),
-                  url: '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions"',
-                  users_url:
-                    '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users"',
-                  teams_url:
-                    '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/teams"',
-                },
-                dismiss_stale_reviews: true,
-                require_code_owner_reviews: true,
-                required_approving_review_count: 2,
+                  },
+                  name: 'Probot Owners',
+                  description: 'The description of the app.',
+                  external_url: 'https://example.com',
+                  html_url: 'https://github.com/apps/super-ci',
+                  created_at: '2017-07-08T16:18:44-04:00',
+                  updated_at: '2017-07-08T16:18:44-04:00',
+                  permissions: { issues: 'read', deployments: 'write' },
+                  events: ['label', 'deployment'],
+                  installations_count: 5,
+                  client_id: '"Iv1.25b5d1e65ffc4022"',
+                  client_secret: '"1d4b2097ac622ba702d19de498f005747a8b21d3"',
+                  webhook_secret: '"6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b"',
+                  pem: '"-----BEGIN RSA PRIVATE KEY-----\\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\\n-----END RSA PRIVATE KEY-----\\n"',
+                })),
+                url: '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions"',
+                users_url:
+                  '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users"',
+                teams_url:
+                  '"https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/teams"',
               },
-              restrictions: {
+              dismiss_stale_reviews: true,
+              require_code_owner_reviews: true,
+              required_approving_review_count: 2,
+            },
+            restrictions: {
+              url: faker.internet.url(),
+              users_url: faker.internet.url(),
+              teams_url: faker.internet.url(),
+              apps_url: faker.internet.url(),
+              users: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => ({
+                login: faker.lorem.slug(1),
+                id: faker.datatype.number(),
+                node_id: faker.lorem.slug(1),
+                avatar_url: faker.internet.url(),
+                gravatar_id: faker.lorem.slug(1),
                 url: faker.internet.url(),
-                users_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                apps_url: faker.internet.url(),
-                users: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => ({
+                html_url: faker.internet.url(),
+                followers_url: faker.internet.url(),
+                following_url: faker.internet.url(),
+                gists_url: faker.internet.url(),
+                starred_url: faker.internet.url(),
+                subscriptions_url: faker.internet.url(),
+                organizations_url: faker.internet.url(),
+                repos_url: faker.internet.url(),
+                events_url: faker.internet.url(),
+                received_events_url: faker.internet.url(),
+                type: faker.lorem.slug(1),
+                site_admin: faker.datatype.boolean(),
+              })),
+              teams: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => ({
+                id: faker.datatype.number(),
+                node_id: faker.lorem.slug(1),
+                url: faker.internet.url(),
+                html_url: faker.internet.url(),
+                name: faker.name.findName(),
+                slug: faker.lorem.slug(1),
+                description: faker.lorem.slug(1),
+                privacy: faker.lorem.slug(1),
+                permission: faker.lorem.slug(1),
+                members_url: faker.internet.url(),
+                repositories_url: faker.internet.url(),
+                parent: faker.lorem.slug(1),
+              })),
+              apps: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => ({
+                id: faker.datatype.number(),
+                slug: faker.lorem.slug(1),
+                node_id: faker.lorem.slug(1),
+                owner: {
                   login: faker.lorem.slug(1),
                   id: faker.datatype.number(),
                   node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
                   url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
                   repos_url: faker.internet.url(),
                   events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                })),
-                teams: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => ({
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  name: faker.name.findName(),
-                  slug: faker.lorem.slug(1),
-                  description: faker.lorem.slug(1),
-                  privacy: faker.lorem.slug(1),
-                  permission: faker.lorem.slug(1),
+                  hooks_url: faker.internet.url(),
+                  issues_url: faker.internet.url(),
                   members_url: faker.internet.url(),
-                  repositories_url: faker.internet.url(),
-                  parent: faker.lorem.slug(1),
-                })),
-                apps: [
+                  public_members_url: faker.internet.url(),
+                  avatar_url: faker.internet.url(),
+                  description: faker.lorem.slug(1),
+                  gravatar_id: '""',
+                  html_url: '"https://github.com/testorg-ea8ec76d71c3af4b"',
+                  followers_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/followers"',
+                  following_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/following{/other_user}"',
+                  gists_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/gists{/gist_id}"',
+                  starred_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/starred{/owner}{/repo}"',
+                  subscriptions_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/subscriptions"',
+                  organizations_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/orgs"',
+                  received_events_url:
+                    '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/received_events"',
+                  type: '"Organization"',
+                  site_admin: faker.datatype.boolean(),
+                },
+                name: faker.name.findName(),
+                description: faker.lorem.slug(1),
+                external_url: faker.internet.url(),
+                html_url: faker.internet.url(),
+                created_at: faker.date.past(),
+                updated_at: faker.date.past(),
+                permissions: {
+                  metadata: faker.lorem.slug(1),
+                  contents: faker.lorem.slug(1),
+                  issues: faker.lorem.slug(1),
+                  single_file: faker.lorem.slug(1),
+                },
+                events: [
                   ...new Array(
                     faker.datatype.number({ max: MAX_ARRAY_LENGTH })
                   ).keys(),
-                ].map(_ => ({
-                  id: faker.datatype.number(),
-                  slug: faker.lorem.slug(1),
-                  node_id: faker.lorem.slug(1),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    hooks_url: faker.internet.url(),
-                    issues_url: faker.internet.url(),
-                    members_url: faker.internet.url(),
-                    public_members_url: faker.internet.url(),
-                    avatar_url: faker.internet.url(),
-                    description: faker.lorem.slug(1),
-                    gravatar_id: '""',
-                    html_url: '"https://github.com/testorg-ea8ec76d71c3af4b"',
-                    followers_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/followers"',
-                    following_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/following{/other_user}"',
-                    gists_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/gists{/gist_id}"',
-                    starred_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/starred{/owner}{/repo}"',
-                    subscriptions_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/subscriptions"',
-                    organizations_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/orgs"',
-                    received_events_url:
-                      '"https://api.github.com/users/testorg-ea8ec76d71c3af4b/received_events"',
-                    type: '"Organization"',
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  name: faker.name.findName(),
-                  description: faker.lorem.slug(1),
-                  external_url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    metadata: faker.lorem.slug(1),
-                    contents: faker.lorem.slug(1),
-                    issues: faker.lorem.slug(1),
-                    single_file: faker.lorem.slug(1),
-                  },
-                  events: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                })),
-              },
-              required_linear_history: {
-                enabled: faker.datatype.boolean(),
-              },
-              allow_force_pushes: {
-                enabled: faker.datatype.boolean(),
-              },
-              allow_deletions: {
-                enabled: faker.datatype.boolean(),
-              },
-              block_creations: {
-                enabled: faker.datatype.boolean(),
-              },
-              required_conversation_resolution: {
-                enabled: faker.datatype.boolean(),
-              },
-              name: '"branch/with/protection"',
-              protection_url:
-                '"https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection"',
-              required_signatures: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures',
-                enabled: true,
-              },
+                ].map(_ => faker.lorem.slug(1)),
+              })),
             },
-            protection_url: faker.internet.url(),
-            pattern: '"mas*"',
-            required_approving_review_count: 1,
-          }),
-        ],
-        [
-          ctx.status(301),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+            required_linear_history: {
+              enabled: faker.datatype.boolean(),
+            },
+            allow_force_pushes: {
+              enabled: faker.datatype.boolean(),
+            },
+            allow_deletions: {
+              enabled: faker.datatype.boolean(),
+            },
+            block_creations: {
+              enabled: faker.datatype.boolean(),
+            },
+            required_conversation_resolution: {
+              enabled: faker.datatype.boolean(),
+            },
+            name: '"branch/with/protection"',
+            protection_url:
+              '"https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection"',
+            required_signatures: {
+              url: 'https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures',
+              enabled: true,
+            },
+          },
+          protection_url: faker.internet.url(),
+          pattern: '"mas*"',
+          required_approving_review_count: 1,
+        }),
+      ],
+      [
+        ctx.status(301),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -30587,7 +26906,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -30909,7 +27228,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -30928,7 +27247,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/enforce_admins`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -30944,7 +27263,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/enforce_admins`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -30960,7 +27279,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/enforce_admins`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -30979,7 +27298,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31131,7 +27450,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31302,7 +27621,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -31321,7 +27640,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_signatures`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31346,7 +27665,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_signatures`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31371,7 +27690,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_signatures`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -31390,7 +27709,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31418,7 +27737,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31465,7 +27784,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -31473,7 +27792,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31501,7 +27820,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31557,7 +27876,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31604,7 +27923,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31651,7 +27970,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31778,7 +28097,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -31786,7 +28105,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/apps`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31860,7 +28179,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/apps`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -31944,7 +28263,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/apps`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32028,7 +28347,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/apps`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32112,7 +28431,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/teams`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32175,7 +28494,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/teams`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32248,7 +28567,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/teams`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32321,7 +28640,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/teams`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32394,7 +28713,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/users`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32449,7 +28768,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/users`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32514,7 +28833,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/users`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32579,7 +28898,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/branches/:branch/protection/restrictions/users`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -32644,7 +28963,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/branches/:branch/rename`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -33122,7 +29441,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/repos/:owner/:repo/check-runs`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/check-runs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -33293,7 +29612,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/check-runs/:checkRunId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -33469,7 +29788,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/check-runs/:checkRunId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -33645,7 +29964,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/check-runs/:checkRunId/annotations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -33675,7 +29994,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/check-runs/:checkRunId/rerequest`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(201), ctx.json({})],
         [
@@ -33710,7 +30029,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/repos/:owner/:repo/check-suites`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/check-suites`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -33940,319 +30259,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -34526,319 +30532,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -34890,7 +30583,7 @@ export const handlers = [
   }),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/check-suites/preferences`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -35052,326 +30745,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -35404,7 +30777,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/check-suites/:checkSuiteId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -35639,326 +31012,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -36011,7 +31064,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/check-suites/:checkSuiteId/check-runs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36197,7 +31250,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/check-suites/:checkSuiteId/rerequest`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(201), ctx.json({})]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -36205,7 +31258,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/alerts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36350,7 +31403,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/alerts/:alertNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36424,6 +31477,7 @@ export const handlers = [
                 ).keys(),
               ].map(_ => faker.lorem.slug(1)),
               help: faker.lorem.slug(1),
+              help_uri: faker.lorem.slug(1),
             },
             tool: {
               name: faker.name.findName(),
@@ -36501,7 +31555,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/code-scanning/alerts/:alertNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36575,6 +31629,7 @@ export const handlers = [
                 ).keys(),
               ].map(_ => faker.lorem.slug(1)),
               help: faker.lorem.slug(1),
+              help_uri: faker.lorem.slug(1),
             },
             tool: {
               name: faker.name.findName(),
@@ -36652,7 +31707,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/alerts/:alertNumber/instances`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36732,7 +31787,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/analyses`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36797,7 +31852,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/analyses/:analysisId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36856,7 +31911,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/code-scanning/analyses/:analysisId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36907,7 +31962,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/code-scanning/sarifs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(202),
@@ -36951,7 +32006,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/code-scanning/sarifs/:sarifId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -36986,7 +32041,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/collaborators`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/collaborators`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -37045,7 +32100,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(404), ctx.json(null)],
@@ -37056,7 +32111,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -37209,326 +32264,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -37652,7 +32387,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/collaborators/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -37660,7 +32395,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/collaborators/:username/permission`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -37716,7 +32451,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/comments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -37787,7 +32522,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -37862,7 +32597,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -37937,7 +32672,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -37956,7 +32691,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -38018,7 +32753,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -38120,13 +32855,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/comments/:commentId/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/commits`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/commits`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -38306,7 +33041,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:commitSha/branches-where-head`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -38351,7 +33086,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:commitSha/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -38424,7 +33159,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/commits/:commitSha/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -38518,7 +33253,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:commitSha/pulls`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -39108,6 +33843,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 sha: faker.lorem.slug(1),
                 user: {
@@ -39465,6 +34201,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 sha: faker.lorem.slug(1),
                 user: {
@@ -39577,7 +34314,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/commits/:ref`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/commits/:ref`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -39744,13 +34481,21 @@ export const handlers = [
           status: faker.lorem.slug(1),
         }),
       ],
+      [
+        ctx.status(503),
+        ctx.json({
+          code: faker.lorem.slug(1),
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
     ];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:ref/check-runs`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -39936,7 +34681,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:ref/check-suites`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -40184,326 +34929,6 @@ export const handlers = [
                   triage: faker.datatype.boolean(),
                   pull: faker.datatype.boolean(),
                 },
-                template_repository: {
-                  id: 42,
-                  node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                  name: 'Team Environment',
-                  full_name: 'octocat/Hello-World',
-                  license: {
-                    key: 'mit',
-                    name: 'MIT License',
-                    url: 'https://api.github.com/licenses/mit',
-                    spdx_id: 'MIT',
-                    node_id: 'MDc6TGljZW5zZW1pdA==',
-                    html_url: faker.internet.url(),
-                  },
-                  organization: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  forks: faker.datatype.number(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                  },
-                  owner: {
-                    name: faker.name.findName(),
-                    email: faker.internet.email(),
-                    login: 'octocat',
-                    id: 1,
-                    node_id: 'MDQ6VXNlcjE=',
-                    avatar_url:
-                      'https://github.com/images/error/octocat_happy.gif',
-                    gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                    url: 'https://api.github.com/users/octocat',
-                    html_url: 'https://github.com/octocat',
-                    followers_url:
-                      'https://api.github.com/users/octocat/followers',
-                    following_url:
-                      'https://api.github.com/users/octocat/following{/other_user}',
-                    gists_url:
-                      'https://api.github.com/users/octocat/gists{/gist_id}',
-                    starred_url:
-                      'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                    subscriptions_url:
-                      'https://api.github.com/users/octocat/subscriptions',
-                    organizations_url:
-                      'https://api.github.com/users/octocat/orgs',
-                    repos_url: 'https://api.github.com/users/octocat/repos',
-                    events_url:
-                      'https://api.github.com/users/octocat/events{/privacy}',
-                    received_events_url:
-                      'https://api.github.com/users/octocat/received_events',
-                    type: 'User',
-                    site_admin: faker.datatype.boolean(),
-                    starred_at: '"2020-07-09T00:17:55Z"',
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: 'https://github.com/octocat/Hello-World',
-                  description: 'This your first repo!',
-                  fork: faker.datatype.boolean(),
-                  url: 'https://api.github.com/repos/octocat/Hello-World',
-                  archive_url:
-                    'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                  assignees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                  blobs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                  branches_url:
-                    'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                  collaborators_url:
-                    'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                  comments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                  commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                  compare_url:
-                    'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                  contents_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                  contributors_url:
-                    'http://api.github.com/repos/octocat/Hello-World/contributors',
-                  deployments_url:
-                    'http://api.github.com/repos/octocat/Hello-World/deployments',
-                  downloads_url:
-                    'http://api.github.com/repos/octocat/Hello-World/downloads',
-                  events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/events',
-                  forks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/forks',
-                  git_commits_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                  git_refs_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                  git_tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                  git_url: 'git:github.com/octocat/Hello-World.git',
-                  issue_comment_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                  issue_events_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                  issues_url:
-                    'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                  keys_url:
-                    'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                  labels_url:
-                    'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                  languages_url:
-                    'http://api.github.com/repos/octocat/Hello-World/languages',
-                  merges_url:
-                    'http://api.github.com/repos/octocat/Hello-World/merges',
-                  milestones_url:
-                    'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                  notifications_url:
-                    'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                  pulls_url:
-                    'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                  releases_url:
-                    'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                  ssh_url: 'git@github.com:octocat/Hello-World.git',
-                  stargazers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                  statuses_url:
-                    'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                  subscribers_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                  subscription_url:
-                    'http://api.github.com/repos/octocat/Hello-World/subscription',
-                  tags_url:
-                    'http://api.github.com/repos/octocat/Hello-World/tags',
-                  teams_url:
-                    'http://api.github.com/repos/octocat/Hello-World/teams',
-                  trees_url:
-                    'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                  clone_url: 'https://github.com/octocat/Hello-World.git',
-                  mirror_url: 'git:git.example.com/octocat/Hello-World',
-                  hooks_url:
-                    'http://api.github.com/repos/octocat/Hello-World/hooks',
-                  svn_url: 'https://svn.github.com/octocat/Hello-World',
-                  homepage: 'https://github.com',
-                  language: faker.lorem.slug(1),
-                  forks_count: 9,
-                  stargazers_count: 80,
-                  watchers_count: 80,
-                  size: 108,
-                  default_branch: 'master',
-                  open_issues_count: faker.datatype.number(),
-                  is_template: true,
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: true,
-                  has_projects: true,
-                  has_wiki: true,
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: true,
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: '2011-01-26T19:06:43Z',
-                  created_at: '2011-01-26T19:01:12Z',
-                  updated_at: '2011-01-26T19:14:43Z',
-                  allow_rebase_merge: true,
-                  template_repository: {
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    name: faker.name.findName(),
-                    full_name: faker.name.findName(),
-                    owner: {
-                      login: faker.lorem.slug(1),
-                      id: faker.datatype.number(),
-                      node_id: faker.lorem.slug(1),
-                      avatar_url: faker.internet.url(),
-                      gravatar_id: faker.lorem.slug(1),
-                      url: faker.internet.url(),
-                      html_url: faker.internet.url(),
-                      followers_url: faker.internet.url(),
-                      following_url: faker.internet.url(),
-                      gists_url: faker.internet.url(),
-                      starred_url: faker.internet.url(),
-                      subscriptions_url: faker.internet.url(),
-                      organizations_url: faker.internet.url(),
-                      repos_url: faker.internet.url(),
-                      events_url: faker.internet.url(),
-                      received_events_url: faker.internet.url(),
-                      type: faker.lorem.slug(1),
-                      site_admin: faker.datatype.boolean(),
-                    },
-                    private: faker.datatype.boolean(),
-                    html_url: faker.internet.url(),
-                    description: faker.lorem.slug(1),
-                    fork: faker.datatype.boolean(),
-                    url: faker.internet.url(),
-                    archive_url: faker.internet.url(),
-                    assignees_url: faker.internet.url(),
-                    blobs_url: faker.internet.url(),
-                    branches_url: faker.internet.url(),
-                    collaborators_url: faker.internet.url(),
-                    comments_url: faker.internet.url(),
-                    commits_url: faker.internet.url(),
-                    compare_url: faker.internet.url(),
-                    contents_url: faker.internet.url(),
-                    contributors_url: faker.internet.url(),
-                    deployments_url: faker.internet.url(),
-                    downloads_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    forks_url: faker.internet.url(),
-                    git_commits_url: faker.internet.url(),
-                    git_refs_url: faker.internet.url(),
-                    git_tags_url: faker.internet.url(),
-                    git_url: faker.internet.url(),
-                    issue_comment_url: faker.internet.url(),
-                    issue_events_url: faker.internet.url(),
-                    issues_url: faker.internet.url(),
-                    keys_url: faker.internet.url(),
-                    labels_url: faker.internet.url(),
-                    languages_url: faker.internet.url(),
-                    merges_url: faker.internet.url(),
-                    milestones_url: faker.internet.url(),
-                    notifications_url: faker.internet.url(),
-                    pulls_url: faker.internet.url(),
-                    releases_url: faker.internet.url(),
-                    ssh_url: faker.internet.url(),
-                    stargazers_url: faker.internet.url(),
-                    statuses_url: faker.internet.url(),
-                    subscribers_url: faker.internet.url(),
-                    subscription_url: faker.internet.url(),
-                    tags_url: faker.internet.url(),
-                    teams_url: faker.internet.url(),
-                    trees_url: faker.internet.url(),
-                    clone_url: faker.internet.url(),
-                    mirror_url: faker.internet.url(),
-                    hooks_url: faker.internet.url(),
-                    svn_url: faker.internet.url(),
-                    homepage: faker.lorem.slug(1),
-                    language: faker.lorem.slug(1),
-                    forks_count: faker.datatype.number(),
-                    stargazers_count: faker.datatype.number(),
-                    watchers_count: faker.datatype.number(),
-                    size: faker.datatype.number(),
-                    default_branch: faker.lorem.slug(1),
-                    open_issues_count: faker.datatype.number(),
-                    is_template: faker.datatype.boolean(),
-                    topics: [
-                      ...new Array(
-                        faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                      ).keys(),
-                    ].map(_ => faker.lorem.slug(1)),
-                    has_issues: faker.datatype.boolean(),
-                    has_projects: faker.datatype.boolean(),
-                    has_wiki: faker.datatype.boolean(),
-                    has_pages: faker.datatype.boolean(),
-                    has_downloads: faker.datatype.boolean(),
-                    archived: faker.datatype.boolean(),
-                    disabled: faker.datatype.boolean(),
-                    visibility: faker.lorem.slug(1),
-                    pushed_at: faker.date.past(),
-                    created_at: faker.date.past(),
-                    updated_at: faker.date.past(),
-                    permissions: {
-                      admin: faker.datatype.boolean(),
-                      maintain: faker.datatype.boolean(),
-                      push: faker.datatype.boolean(),
-                      triage: faker.datatype.boolean(),
-                      pull: faker.datatype.boolean(),
-                    },
-                    allow_rebase_merge: faker.datatype.boolean(),
-                    temp_clone_token: faker.lorem.slug(1),
-                    allow_squash_merge: faker.datatype.boolean(),
-                    allow_auto_merge: faker.datatype.boolean(),
-                    delete_branch_on_merge: faker.datatype.boolean(),
-                    allow_update_branch: faker.datatype.boolean(),
-                    allow_merge_commit: faker.datatype.boolean(),
-                    subscribers_count: faker.datatype.number(),
-                    network_count: faker.datatype.number(),
-                  },
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: true,
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: true,
-                  allow_forking: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                  open_issues: faker.datatype.number(),
-                  watchers: faker.datatype.number(),
-                  master_branch: faker.lorem.slug(1),
-                  starred_at: '"2020-07-09T00:17:42Z"',
-                },
                 temp_clone_token: faker.lorem.slug(1),
                 delete_branch_on_merge: faker.datatype.boolean(),
                 subscribers_count: faker.datatype.number(),
@@ -40557,7 +34982,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:ref/status`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -40729,326 +35154,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -41092,7 +35197,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/commits/:ref/statuses`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -41158,417 +35263,125 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/compare/:basehead`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            url: 'https://api.github.com/repos/octocat/Hello-World/compare/master...topic',
+  rest.get(`${baseURL}/repos/:owner/:repo/compare/:basehead`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          url: 'https://api.github.com/repos/octocat/Hello-World/compare/master...topic',
+          html_url:
+            'https://github.com/octocat/Hello-World/compare/master...topic',
+          permalink_url:
+            'https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17',
+          diff_url:
+            'https://github.com/octocat/Hello-World/compare/master...topic.diff',
+          patch_url:
+            'https://github.com/octocat/Hello-World/compare/master...topic.patch',
+          base_commit: {
+            url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            node_id:
+              'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
             html_url:
-              'https://github.com/octocat/Hello-World/compare/master...topic',
-            permalink_url:
-              'https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17',
-            diff_url:
-              'https://github.com/octocat/Hello-World/compare/master...topic.diff',
-            patch_url:
-              'https://github.com/octocat/Hello-World/compare/master...topic.patch',
-            base_commit: {
+              'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            comments_url:
+              'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
+            commit: {
               url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              node_id:
-                'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
-              html_url:
-                'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              comments_url:
-                'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
-              commit: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                author: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                committer: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                message: 'Fix all the bugs',
-                comment_count: faker.datatype.number(),
-                tree: {
-                  sha: '827efc6d56897b048c772eb4087f854f46256132',
-                  url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
-                },
-                verification: {
-                  verified: faker.datatype.boolean(),
-                  reason: faker.lorem.slug(1),
-                  payload: faker.lorem.slug(1),
-                  signature: faker.lorem.slug(1),
-                },
-              },
               author: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
               },
               committer: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
               },
-              parents: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
-                html_url:
-                  'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
-              })),
-              stats: {
-                additions: faker.datatype.number(),
-                deletions: faker.datatype.number(),
-                total: faker.datatype.number(),
+              message: 'Fix all the bugs',
+              comment_count: faker.datatype.number(),
+              tree: {
+                sha: '827efc6d56897b048c772eb4087f854f46256132',
+                url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
               },
-              files: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
-                filename: 'file1.txt',
-                status: 'added',
-                additions: 103,
-                deletions: 21,
-                changes: 124,
-                blob_url:
-                  'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                raw_url:
-                  'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                contents_url:
-                  'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                patch:
-                  '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
-                previous_filename: 'file.txt',
-              })),
+              verification: {
+                verified: faker.datatype.boolean(),
+                reason: faker.lorem.slug(1),
+                payload: faker.lorem.slug(1),
+                signature: faker.lorem.slug(1),
+              },
             },
-            merge_base_commit: {
-              url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              node_id:
-                'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
-              html_url:
-                'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              comments_url:
-                'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
-              commit: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                author: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                committer: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                message: 'Fix all the bugs',
-                comment_count: faker.datatype.number(),
-                tree: {
-                  sha: '827efc6d56897b048c772eb4087f854f46256132',
-                  url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
-                },
-                verification: {
-                  verified: faker.datatype.boolean(),
-                  reason: faker.lorem.slug(1),
-                  payload: faker.lorem.slug(1),
-                  signature: faker.lorem.slug(1),
-                },
-              },
-              author: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              committer: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              parents: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
-                html_url:
-                  'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
-              })),
-              stats: {
-                additions: faker.datatype.number(),
-                deletions: faker.datatype.number(),
-                total: faker.datatype.number(),
-              },
-              files: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
-                filename: 'file1.txt',
-                status: 'added',
-                additions: 103,
-                deletions: 21,
-                changes: 124,
-                blob_url:
-                  'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                raw_url:
-                  'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                contents_url:
-                  'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                patch:
-                  '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
-                previous_filename: 'file.txt',
-              })),
+            author: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
             },
-            status: 'ahead',
-            ahead_by: 4,
-            behind_by: 5,
-            total_commits: 6,
-            commits: [
+            committer: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            parents: [
               ...new Array(
                 faker.datatype.number({ max: MAX_ARRAY_LENGTH })
               ).keys(),
             ].map(_ => ({
-              url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              node_id:
-                'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
+              sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
               html_url:
-                'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-              comments_url:
-                'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
-              commit: {
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                author: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                committer: {
-                  name: '"Chris Wanstrath"',
-                  email: '"chris@ozmm.org"',
-                  date: '"2007-10-29T02:42:39.000-07:00"',
-                },
-                message: 'Fix all the bugs',
-                comment_count: faker.datatype.number(),
-                tree: {
-                  sha: '827efc6d56897b048c772eb4087f854f46256132',
-                  url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
-                },
-                verification: {
-                  verified: faker.datatype.boolean(),
-                  reason: faker.lorem.slug(1),
-                  payload: faker.lorem.slug(1),
-                  signature: faker.lorem.slug(1),
-                },
-              },
-              author: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              committer: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              parents: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
-                url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
-                html_url:
-                  'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
-              })),
-              stats: {
-                additions: faker.datatype.number(),
-                deletions: faker.datatype.number(),
-                total: faker.datatype.number(),
-              },
-              files: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
-                filename: 'file1.txt',
-                status: 'added',
-                additions: 103,
-                deletions: 21,
-                changes: 124,
-                blob_url:
-                  'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                raw_url:
-                  'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
-                contents_url:
-                  'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
-                patch:
-                  '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
-                previous_filename: 'file.txt',
-              })),
+                'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
             })),
+            stats: {
+              additions: faker.datatype.number(),
+              deletions: faker.datatype.number(),
+              total: faker.datatype.number(),
+            },
             files: [
               ...new Array(
                 faker.datatype.number({ max: MAX_ARRAY_LENGTH })
@@ -41590,34 +35403,325 @@ export const handlers = [
                 '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
               previous_filename: 'file.txt',
             })),
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(500),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+          },
+          merge_base_commit: {
+            url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            node_id:
+              'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
+            html_url:
+              'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            comments_url:
+              'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
+            commit: {
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+              author: {
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
+              },
+              committer: {
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
+              },
+              message: 'Fix all the bugs',
+              comment_count: faker.datatype.number(),
+              tree: {
+                sha: '827efc6d56897b048c772eb4087f854f46256132',
+                url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
+              },
+              verification: {
+                verified: faker.datatype.boolean(),
+                reason: faker.lorem.slug(1),
+                payload: faker.lorem.slug(1),
+                signature: faker.lorem.slug(1),
+              },
+            },
+            author: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            committer: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            parents: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
+              html_url:
+                'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
+            })),
+            stats: {
+              additions: faker.datatype.number(),
+              deletions: faker.datatype.number(),
+              total: faker.datatype.number(),
+            },
+            files: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
+              filename: 'file1.txt',
+              status: 'added',
+              additions: 103,
+              deletions: 21,
+              changes: 124,
+              blob_url:
+                'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              raw_url:
+                'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              contents_url:
+                'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
+              patch:
+                '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
+              previous_filename: 'file.txt',
+            })),
+          },
+          status: 'ahead',
+          ahead_by: 4,
+          behind_by: 5,
+          total_commits: 6,
+          commits: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            node_id:
+              'MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==',
+            html_url:
+              'https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            comments_url:
+              'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments',
+            commit: {
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+              author: {
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
+              },
+              committer: {
+                name: '"Chris Wanstrath"',
+                email: '"chris@ozmm.org"',
+                date: '"2007-10-29T02:42:39.000-07:00"',
+              },
+              message: 'Fix all the bugs',
+              comment_count: faker.datatype.number(),
+              tree: {
+                sha: '827efc6d56897b048c772eb4087f854f46256132',
+                url: 'https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132',
+              },
+              verification: {
+                verified: faker.datatype.boolean(),
+                reason: faker.lorem.slug(1),
+                payload: faker.lorem.slug(1),
+                signature: faker.lorem.slug(1),
+              },
+            },
+            author: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            committer: {
+              name: faker.name.findName(),
+              email: faker.internet.email(),
+              login: 'octocat',
+              id: 1,
+              node_id: 'MDQ6VXNlcjE=',
+              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+              url: 'https://api.github.com/users/octocat',
+              html_url: 'https://github.com/octocat',
+              followers_url: 'https://api.github.com/users/octocat/followers',
+              following_url:
+                'https://api.github.com/users/octocat/following{/other_user}',
+              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+              starred_url:
+                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+              subscriptions_url:
+                'https://api.github.com/users/octocat/subscriptions',
+              organizations_url: 'https://api.github.com/users/octocat/orgs',
+              repos_url: 'https://api.github.com/users/octocat/repos',
+              events_url:
+                'https://api.github.com/users/octocat/events{/privacy}',
+              received_events_url:
+                'https://api.github.com/users/octocat/received_events',
+              type: 'User',
+              site_admin: faker.datatype.boolean(),
+              starred_at: '"2020-07-09T00:17:55Z"',
+            },
+            parents: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: '7638417db6d59f3c431d3e1f261cc637155684cd',
+              url: 'https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd',
+              html_url:
+                'https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd',
+            })),
+            stats: {
+              additions: faker.datatype.number(),
+              deletions: faker.datatype.number(),
+              total: faker.datatype.number(),
+            },
+            files: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
+              filename: 'file1.txt',
+              status: 'added',
+              additions: 103,
+              deletions: 21,
+              changes: 124,
+              blob_url:
+                'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              raw_url:
+                'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+              contents_url:
+                'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
+              patch:
+                '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
+              previous_filename: 'file.txt',
+            })),
+          })),
+          files: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            sha: 'bbcd538c8e72b8c175046e27cc8f907076331401',
+            filename: 'file1.txt',
+            status: 'added',
+            additions: 103,
+            deletions: 21,
+            changes: 124,
+            blob_url:
+              'https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+            raw_url:
+              'https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt',
+            contents_url:
+              'https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            patch:
+              '@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test',
+            previous_filename: 'file.txt',
+          })),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(500),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(503),
+        ctx.json({
+          code: faker.lorem.slug(1),
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.post(
     `${baseURL}/repos/:owner/:repo/content_references/:contentReferenceId/attachments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -41687,7 +35791,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/contents/:path`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/contents/:path`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [ctx.status(302), ctx.json(null)],
@@ -41713,7 +35817,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/contents/:path`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/contents/:path`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -41870,118 +35974,115 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/repos/:owner/:repo/contents/:path`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            content: {
+  rest.delete(`${baseURL}/repos/:owner/:repo/contents/:path`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          content: {
+            name: faker.name.findName(),
+            path: faker.lorem.slug(1),
+            sha: faker.lorem.slug(1),
+            size: faker.datatype.number(),
+            url: faker.internet.url(),
+            html_url: faker.internet.url(),
+            git_url: faker.internet.url(),
+            download_url: faker.internet.url(),
+            type: faker.lorem.slug(1),
+            _links: {
+              self: faker.lorem.slug(1),
+              git: faker.lorem.slug(1),
+              html: faker.lorem.slug(1),
+            },
+          },
+          commit: {
+            sha: faker.lorem.slug(1),
+            node_id: faker.lorem.slug(1),
+            url: faker.internet.url(),
+            html_url: faker.internet.url(),
+            author: {
+              date: faker.lorem.slug(1),
               name: faker.name.findName(),
-              path: faker.lorem.slug(1),
-              sha: faker.lorem.slug(1),
-              size: faker.datatype.number(),
-              url: faker.internet.url(),
-              html_url: faker.internet.url(),
-              git_url: faker.internet.url(),
-              download_url: faker.internet.url(),
-              type: faker.lorem.slug(1),
-              _links: {
-                self: faker.lorem.slug(1),
-                git: faker.lorem.slug(1),
-                html: faker.lorem.slug(1),
-              },
+              email: faker.internet.email(),
             },
-            commit: {
-              sha: faker.lorem.slug(1),
-              node_id: faker.lorem.slug(1),
-              url: faker.internet.url(),
-              html_url: faker.internet.url(),
-              author: {
-                date: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-              },
-              committer: {
-                date: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-              },
-              message: faker.lorem.slug(1),
-              tree: {
-                url: faker.internet.url(),
-                sha: faker.lorem.slug(1),
-              },
-              parents: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => ({
-                url: faker.internet.url(),
-                html_url: faker.internet.url(),
-                sha: faker.lorem.slug(1),
-              })),
-              verification: {
-                verified: faker.datatype.boolean(),
-                reason: faker.lorem.slug(1),
-                signature: faker.lorem.slug(1),
-                payload: faker.lorem.slug(1),
-              },
+            committer: {
+              date: faker.lorem.slug(1),
+              name: faker.name.findName(),
+              email: faker.internet.email(),
             },
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
             message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(409),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(422),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            errors: [
+            tree: {
+              url: faker.internet.url(),
+              sha: faker.lorem.slug(1),
+            },
+            parents: [
               ...new Array(
                 faker.datatype.number({ max: MAX_ARRAY_LENGTH })
               ).keys(),
             ].map(_ => ({
-              resource: faker.lorem.slug(1),
-              field: faker.lorem.slug(1),
-              message: faker.lorem.slug(1),
-              code: faker.lorem.slug(1),
-              index: faker.datatype.number(),
-              value: null,
+              url: faker.internet.url(),
+              html_url: faker.internet.url(),
+              sha: faker.lorem.slug(1),
             })),
-          }),
-        ],
-        [
-          ctx.status(503),
-          ctx.json({
-            code: faker.lorem.slug(1),
+            verification: {
+              verified: faker.datatype.boolean(),
+              reason: faker.lorem.slug(1),
+              signature: faker.lorem.slug(1),
+              payload: faker.lorem.slug(1),
+            },
+          },
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(409),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
             message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-          }),
-        ],
-      ];
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
+      [
+        ctx.status(503),
+        ctx.json({
+          code: faker.lorem.slug(1),
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.get(`${baseURL}/repos/:owner/:repo/contributors`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.get(`${baseURL}/repos/:owner/:repo/contributors`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -42038,7 +36139,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/deployments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/deployments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -42147,7 +36248,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/deployments`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/deployments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -42276,7 +36377,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -42391,7 +36492,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -42422,7 +36523,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId/statuses`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -42544,7 +36645,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId/statuses`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -42666,7 +36767,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/deployments/:deploymentId/statuses/:statusId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -42776,7 +36877,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/repos/:owner/:repo/dispatches`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/dispatches`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -42802,7 +36903,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/environments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/environments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -42839,7 +36940,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/environments/:environmentName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -42870,7 +36971,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/environments/:environmentName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -42910,13 +37011,98 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/environments/:environmentName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/events`, (req, res, ctx) => {
+  rest.get(
+    `${baseURL}/repos/:owner/:repo/environments/:environmentName/deployment-branch-policies`,
+    (_, res, ctx) => {
+      const resultArray = [
+        [
+          ctx.status(200),
+          ctx.json({
+            total_count: 2,
+            branch_policies: [
+              ...new Array(
+                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+              ).keys(),
+            ].map(_ => ({
+              id: 361471,
+              node_id: 'MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE=',
+              name: 'release/*',
+            })),
+          }),
+        ],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.post(
+    `${baseURL}/repos/:owner/:repo/environments/:environmentName/deployment-branch-policies`,
+    (_, res, ctx) => {
+      const resultArray = [
+        [
+          ctx.status(200),
+          ctx.json({
+            id: 361471,
+            node_id: 'MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE=',
+            name: 'release/*',
+          }),
+        ],
+        [ctx.status(303), ctx.json(null)],
+        [ctx.status(404), ctx.json(null)],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.get(
+    `${baseURL}/repos/:owner/:repo/environments/:environmentName/deployment-branch-policies/:branchPolicyId`,
+    (_, res, ctx) => {
+      const resultArray = [
+        [
+          ctx.status(200),
+          ctx.json({
+            id: 361471,
+            node_id: 'MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE=',
+            name: 'release/*',
+          }),
+        ],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.put(
+    `${baseURL}/repos/:owner/:repo/environments/:environmentName/deployment-branch-policies/:branchPolicyId`,
+    (_, res, ctx) => {
+      const resultArray = [
+        [
+          ctx.status(200),
+          ctx.json({
+            id: 361471,
+            node_id: 'MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE=',
+            name: 'release/*',
+          }),
+        ],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.delete(
+    `${baseURL}/repos/:owner/:repo/environments/:environmentName/deployment-branch-policies/:branchPolicyId`,
+    (_, res, ctx) => {
+      const resultArray = [[ctx.status(204), ctx.json(null)]];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.get(`${baseURL}/repos/:owner/:repo/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -43485,6 +37671,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -43679,7 +37866,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/forks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/forks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -43831,319 +38018,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -44182,7 +38056,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/forks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/forks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -44630,6 +38504,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           temp_clone_token: faker.lorem.slug(1),
           allow_squash_merge: true,
@@ -44982,6 +38857,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           source: {
             id: 42,
@@ -45290,6 +39166,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           forks: faker.datatype.number(),
           master_branch: faker.lorem.slug(1),
@@ -45366,7 +39243,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/git/blobs`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/git/blobs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -45427,7 +39304,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/blobs/:fileSha`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -45483,7 +39360,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/repos/:owner/:repo/git/commits`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/git/commits`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -45558,7 +39435,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/commits/:commitSha`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -45615,7 +39492,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/matching-refs/:ref`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -45641,7 +39518,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/git/ref/:ref`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/git/ref/:ref`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -45669,7 +39546,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/git/refs`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/git/refs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -45707,7 +39584,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/repos/:owner/:repo/git/refs/:ref`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/repos/:owner/:repo/git/refs/:ref`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -45745,36 +39622,33 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/repos/:owner/:repo/git/refs/:ref`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [
-          ctx.status(422),
-          ctx.json({
+  rest.delete(`${baseURL}/repos/:owner/:repo/git/refs/:ref`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
             message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            errors: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              resource: faker.lorem.slug(1),
-              field: faker.lorem.slug(1),
-              message: faker.lorem.slug(1),
-              code: faker.lorem.slug(1),
-              index: faker.datatype.number(),
-              value: null,
-            })),
-          }),
-        ],
-      ];
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.post(`${baseURL}/repos/:owner/:repo/git/tags`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.post(`${baseURL}/repos/:owner/:repo/git/tags`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -45826,52 +39700,49 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/git/tags/:tagSha`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            node_id:
-              'MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw==',
-            tag: 'v0.0.1',
-            sha: '940bd336248efae0f9ee5bc7b2d5c985887b16ac',
-            url: 'https://api.github.com/repositories/42/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac',
-            message: 'Initial public release',
-            tagger: {
-              date: faker.lorem.slug(1),
-              email: faker.internet.email(),
-              name: faker.name.findName(),
-            },
-            object: {
-              sha: faker.lorem.slug(1),
-              type: faker.lorem.slug(1),
-              url: faker.internet.url(),
-            },
-            verification: {
-              verified: faker.datatype.boolean(),
-              reason: faker.lorem.slug(1),
-              payload: faker.lorem.slug(1),
-              signature: faker.lorem.slug(1),
-            },
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
+  rest.get(`${baseURL}/repos/:owner/:repo/git/tags/:tagSha`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          node_id:
+            'MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw==',
+          tag: 'v0.0.1',
+          sha: '940bd336248efae0f9ee5bc7b2d5c985887b16ac',
+          url: 'https://api.github.com/repositories/42/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac',
+          message: 'Initial public release',
+          tagger: {
+            date: faker.lorem.slug(1),
+            email: faker.internet.email(),
+            name: faker.name.findName(),
+          },
+          object: {
+            sha: faker.lorem.slug(1),
+            type: faker.lorem.slug(1),
             url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+          },
+          verification: {
+            verified: faker.datatype.boolean(),
+            reason: faker.lorem.slug(1),
+            payload: faker.lorem.slug(1),
+            signature: faker.lorem.slug(1),
+          },
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.post(`${baseURL}/repos/:owner/:repo/git/trees`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.post(`${baseURL}/repos/:owner/:repo/git/trees`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -45943,7 +39814,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/git/trees/:treeSha`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -46005,7 +39876,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/hooks`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -46062,7 +39933,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/hooks`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/hooks`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -46141,7 +40012,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -46192,7 +40063,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -46262,28 +40133,25 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/repos/:owner/:repo/hooks/:hookId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+  rest.delete(`${baseURL}/repos/:owner/:repo/hooks/:hookId`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/config`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -46301,7 +40169,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/config`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -46319,7 +40187,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/deliveries`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -46378,7 +40246,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/deliveries/:deliveryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -46440,7 +40308,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/deliveries/:deliveryId/attempts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(202), ctx.json({})],
         [
@@ -46478,7 +40346,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/pings`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -46497,7 +40365,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/hooks/:hookId/tests`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -46514,7 +40382,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/installation`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/installation`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -46600,7 +40468,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/invitations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/invitations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -46758,326 +40626,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -47172,7 +40720,7 @@ export const handlers = [
   }),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/invitations/:invitationId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -47325,326 +40873,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -47739,13 +40967,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/invitations/:invitationId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -48262,6 +41490,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -48367,7 +41596,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/issues`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -48868,6 +42097,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           performed_via_github_app: {
             id: 37,
@@ -48988,7 +42218,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/issues/comments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/issues/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -49133,7 +42363,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -49254,7 +42484,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -49385,7 +42615,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -49393,7 +42623,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -49455,7 +42685,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -49557,13 +42787,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/comments/:commentId/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/issues/events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/issues/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -50131,6 +43361,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               performed_via_github_app: {
                 id: 37,
@@ -50446,7 +43677,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/events/:eventId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -51009,6 +44240,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               performed_via_github_app: {
                 id: 37,
@@ -51332,7 +44564,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -51844,6 +45076,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -51942,7 +45175,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -52454,6 +45687,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -52587,7 +45821,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/assignees`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -53099,6 +46333,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -53169,7 +46404,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/assignees`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -53681,6 +46916,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -53750,8 +46986,27 @@ export const handlers = [
     }
   ),
   rest.get(
+    `${baseURL}/repos/:owner/:repo/issues/:issueNumber/assignees/:assignee`,
+    (_, res, ctx) => {
+      const resultArray = [
+        [ctx.status(204), ctx.json(null)],
+        [
+          ctx.status(404),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
+      ];
+
+      return res(...resultArray[next() % resultArray.length]);
+    }
+  ),
+  rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -53891,7 +47146,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -54049,7 +47304,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/events`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54077,7 +47332,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/labels`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54096,6 +47351,24 @@ export const handlers = [
               default: true,
             }))
           ),
+        ],
+        [
+          ctx.status(301),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
+        [
+          ctx.status(404),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
         ],
         [
           ctx.status(410),
@@ -54113,7 +47386,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/labels`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54132,6 +47405,24 @@ export const handlers = [
               default: true,
             }))
           ),
+        ],
+        [
+          ctx.status(301),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
+        [
+          ctx.status(404),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
         ],
         [
           ctx.status(410),
@@ -54168,7 +47459,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/labels`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54187,6 +47478,24 @@ export const handlers = [
               default: true,
             }))
           ),
+        ],
+        [
+          ctx.status(301),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
+        [
+          ctx.status(404),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
         ],
         [
           ctx.status(410),
@@ -54223,9 +47532,27 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/labels`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
+        [
+          ctx.status(301),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
+        [
+          ctx.status(404),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
+        ],
         [
           ctx.status(410),
           ctx.json({
@@ -54242,7 +47569,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/labels/:name`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54261,6 +47588,15 @@ export const handlers = [
               default: true,
             }))
           ),
+        ],
+        [
+          ctx.status(301),
+          ctx.json({
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+            url: faker.internet.url(),
+            status: faker.lorem.slug(1),
+          }),
         ],
         [
           ctx.status(404),
@@ -54287,7 +47623,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/lock`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -54343,7 +47679,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/lock`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -54371,7 +47707,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54442,7 +47778,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54544,7 +47880,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -54552,7 +47888,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/issues/:issueNumber/timeline`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -54587,7 +47923,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54611,7 +47947,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/keys`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -54648,7 +47984,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54675,12 +48011,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo/keys/:keyId`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/labels`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/labels`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54713,7 +48049,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/labels`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/labels`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -54759,7 +48095,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/labels/:name`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54786,7 +48122,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/repos/:owner/:repo/labels/:name`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54804,12 +48140,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/repos/:owner/:repo/labels/:name`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo/labels/:name`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/languages`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/languages`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54823,7 +48159,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/lfs`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/lfs`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(202), ctx.json({})],
       [ctx.status(403), ctx.json(null)],
@@ -54831,12 +48167,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/repos/:owner/:repo/lfs`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo/lfs`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/license`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/license`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54871,7 +48207,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/merge-upstream`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/merge-upstream`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -54891,7 +48227,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/merges`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/merges`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -55056,7 +48392,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/milestones`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/milestones`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -55126,7 +48462,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/milestones`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/milestones`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -55210,7 +48546,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/milestones/:milestoneNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -55277,7 +48613,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/milestones/:milestoneNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -55335,7 +48671,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/milestones/:milestoneNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -55354,7 +48690,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/milestones/:milestoneNumber/labels`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -55379,7 +48715,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/notifications`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/notifications`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -55537,326 +48873,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -55900,7 +48916,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/notifications`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/notifications`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -55914,7 +48930,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/pages`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -55954,7 +48970,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/pages`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -56013,7 +49029,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/pages`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -56026,33 +49042,7 @@ export const handlers = [
         }),
       ],
       [
-        ctx.status(422),
-        ctx.json({
-          message: faker.lorem.slug(1),
-          documentation_url: faker.internet.url(),
-          errors: [
-            ...new Array(
-              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-            ).keys(),
-          ].map(_ => ({
-            resource: faker.lorem.slug(1),
-            field: faker.lorem.slug(1),
-            message: faker.lorem.slug(1),
-            code: faker.lorem.slug(1),
-            index: faker.datatype.number(),
-            value: null,
-          })),
-        }),
-      ],
-    ];
-
-    return res(...resultArray[next() % resultArray.length]);
-  }),
-  rest.delete(`${baseURL}/repos/:owner/:repo/pages`, (req, res, ctx) => {
-    const resultArray = [
-      [ctx.status(204), ctx.json(null)],
-      [
-        ctx.status(404),
+        ctx.status(409),
         ctx.json({
           message: faker.lorem.slug(1),
           documentation_url: faker.internet.url(),
@@ -56083,7 +49073,51 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/pages/builds`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo/pages`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(409),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
+            message: faker.lorem.slug(1),
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
+    ];
+
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.get(`${baseURL}/repos/:owner/:repo/pages/builds`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -56137,7 +49171,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/pages/builds`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/pages/builds`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -56152,7 +49186,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pages/builds/latest`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -56203,7 +49237,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pages/builds/:buildId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -56252,33 +49286,30 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/pre-receive-hooks`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json(
-            [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: faker.datatype.number(),
-              name: faker.name.findName(),
-              enforcement: faker.lorem.slug(1),
-              configuration_url: faker.internet.url(),
-            }))
-          ),
-        ],
-      ];
+  rest.get(`${baseURL}/repos/:owner/:repo/pre-receive-hooks`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json(
+          [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: faker.datatype.number(),
+            name: faker.name.findName(),
+            enforcement: faker.lorem.slug(1),
+            configuration_url: faker.internet.url(),
+          }))
+        ),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -56296,7 +49327,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -56314,7 +49345,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/pre-receive-hooks/:preReceiveHookId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -56330,7 +49361,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/projects`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -56444,7 +49475,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/projects`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -56551,7 +49582,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/pulls`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/pulls`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -57133,6 +50164,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -57487,6 +50519,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -57612,7 +50645,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/pulls`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/pulls`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -57920,6 +50953,7 @@ export const handlers = [
               has_projects: faker.datatype.boolean(),
               has_wiki: faker.datatype.boolean(),
               has_pages: faker.datatype.boolean(),
+              has_discussions: faker.datatype.boolean(),
               homepage: faker.internet.url(),
               language: faker.lorem.slug(1),
               master_branch: faker.lorem.slug(1),
@@ -58066,6 +51100,7 @@ export const handlers = [
               has_projects: faker.datatype.boolean(),
               has_wiki: faker.datatype.boolean(),
               has_pages: faker.datatype.boolean(),
+              has_discussions: faker.datatype.boolean(),
               homepage: faker.internet.url(),
               language: faker.lorem.slug(1),
               master_branch: faker.lorem.slug(1),
@@ -58269,7 +51304,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/pulls/comments`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/pulls/comments`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -58367,7 +51402,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -58469,7 +51504,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -58562,7 +51597,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [
@@ -58581,7 +51616,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -58643,7 +51678,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -58745,42 +51780,92 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/pulls/comments/:commentId/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/pulls/:pullNumber`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            url: 'https://api.github.com/repos/octocat/Hello-World/pulls/1347',
+  rest.get(`${baseURL}/repos/:owner/:repo/pulls/:pullNumber`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          url: 'https://api.github.com/repos/octocat/Hello-World/pulls/1347',
+          id: 1,
+          node_id: 'MDExOlB1bGxSZXF1ZXN0MQ==',
+          html_url: 'https://github.com/octocat/Hello-World/pull/1347',
+          diff_url: 'https://github.com/octocat/Hello-World/pull/1347.diff',
+          patch_url: 'https://github.com/octocat/Hello-World/pull/1347.patch',
+          issue_url:
+            'https://api.github.com/repos/octocat/Hello-World/issues/1347',
+          commits_url:
+            'https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits',
+          review_comments_url:
+            'https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments',
+          review_comment_url:
+            'https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number}',
+          comments_url:
+            'https://api.github.com/repos/octocat/Hello-World/issues/1347/comments',
+          statuses_url:
+            'https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+          number: 42,
+          state: 'open',
+          locked: true,
+          title: 'Amazing new feature',
+          user: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
             id: 1,
-            node_id: 'MDExOlB1bGxSZXF1ZXN0MQ==',
-            html_url: 'https://github.com/octocat/Hello-World/pull/1347',
-            diff_url: 'https://github.com/octocat/Hello-World/pull/1347.diff',
-            patch_url: 'https://github.com/octocat/Hello-World/pull/1347.patch',
-            issue_url:
-              'https://api.github.com/repos/octocat/Hello-World/issues/1347',
-            commits_url:
-              'https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits',
-            review_comments_url:
-              'https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments',
-            review_comment_url:
-              'https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number}',
-            comments_url:
-              'https://api.github.com/repos/octocat/Hello-World/issues/1347/comments',
-            statuses_url:
-              'https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e',
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          },
+          body: 'Please pull these awesome changes',
+          labels: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: faker.datatype.number(),
+            node_id: faker.lorem.slug(1),
+            url: faker.internet.url(),
+            name: faker.name.findName(),
+            description: faker.lorem.slug(1),
+            color: faker.lorem.slug(1),
+            default: faker.datatype.boolean(),
+          })),
+          milestone: {
+            url: 'https://api.github.com/repos/octocat/Hello-World/milestones/1',
+            html_url: 'https://github.com/octocat/Hello-World/milestones/v1.0',
+            labels_url:
+              'https://api.github.com/repos/octocat/Hello-World/milestones/1/labels',
+            id: 1002604,
+            node_id: 'MDk6TWlsZXN0b25lMTAwMjYwNA==',
             number: 42,
             state: 'open',
-            locked: true,
-            title: 'Amazing new feature',
-            user: {
+            title: 'v1.0',
+            description: 'Tracking milestone for version 1.0',
+            creator: {
               name: faker.name.findName(),
               email: faker.internet.email(),
               login: 'octocat',
@@ -58808,311 +51893,314 @@ export const handlers = [
               site_admin: faker.datatype.boolean(),
               starred_at: '"2020-07-09T00:17:55Z"',
             },
-            body: 'Please pull these awesome changes',
-            labels: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
+            open_issues: 4,
+            closed_issues: 8,
+            created_at: '2011-04-10T20:09:31Z',
+            updated_at: '2014-03-03T18:58:10Z',
+            closed_at: '2013-02-12T13:22:01Z',
+            due_on: '2012-10-09T23:39:01Z',
+          },
+          active_lock_reason: 'too heated',
+          created_at: '2011-01-26T19:01:12Z',
+          updated_at: '2011-01-26T19:01:12Z',
+          closed_at: '2011-01-26T19:01:12Z',
+          merged_at: '2011-01-26T19:01:12Z',
+          merge_commit_sha: 'e5bd3914e2e596debea16f433f57875b5b90bcd6',
+          assignee: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
+            id: 1,
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          },
+          assignees: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
+            id: 1,
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          })),
+          requested_reviewers: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
+            id: 1,
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          })),
+          requested_teams: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            id: 1,
+            node_id: 'MDQ6VGVhbTE=',
+            url: 'https://api.github.com/organizations/1/team/1',
+            members_url:
+              'https://api.github.com/organizations/1/team/1/members{/member}',
+            name: 'Justice League',
+            description: 'A great team.',
+            permission: 'admin',
+            privacy: 'closed',
+            html_url: 'https://github.com/orgs/rails/teams/core',
+            repositories_url:
+              'https://api.github.com/organizations/1/team/1/repos',
+            slug: 'justice-league',
+            ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
+          })),
+          head: {
+            label: faker.lorem.slug(1),
+            ref: faker.lorem.slug(1),
+            repo: {
+              archive_url: faker.internet.url(),
+              assignees_url: faker.internet.url(),
+              blobs_url: faker.internet.url(),
+              branches_url: faker.internet.url(),
+              collaborators_url: faker.internet.url(),
+              comments_url: faker.internet.url(),
+              commits_url: faker.internet.url(),
+              compare_url: faker.internet.url(),
+              contents_url: faker.internet.url(),
+              contributors_url: faker.internet.url(),
+              deployments_url: faker.internet.url(),
+              description: faker.lorem.slug(1),
+              downloads_url: faker.internet.url(),
+              events_url: faker.internet.url(),
+              fork: faker.datatype.boolean(),
+              forks_url: faker.internet.url(),
+              full_name: faker.name.findName(),
+              git_commits_url: faker.internet.url(),
+              git_refs_url: faker.internet.url(),
+              git_tags_url: faker.internet.url(),
+              hooks_url: faker.internet.url(),
+              html_url: faker.internet.url(),
               id: faker.datatype.number(),
               node_id: faker.lorem.slug(1),
+              issue_comment_url: faker.internet.url(),
+              issue_events_url: faker.internet.url(),
+              issues_url: faker.internet.url(),
+              keys_url: faker.internet.url(),
+              labels_url: faker.internet.url(),
+              languages_url: faker.internet.url(),
+              merges_url: faker.internet.url(),
+              milestones_url: faker.internet.url(),
+              name: faker.name.findName(),
+              notifications_url: faker.internet.url(),
+              owner: {
+                avatar_url: faker.internet.url(),
+                events_url: faker.internet.url(),
+                followers_url: faker.internet.url(),
+                following_url: faker.internet.url(),
+                gists_url: faker.internet.url(),
+                gravatar_id: faker.lorem.slug(1),
+                html_url: faker.internet.url(),
+                id: faker.datatype.number(),
+                node_id: faker.lorem.slug(1),
+                login: faker.lorem.slug(1),
+                organizations_url: faker.internet.url(),
+                received_events_url: faker.internet.url(),
+                repos_url: faker.internet.url(),
+                site_admin: faker.datatype.boolean(),
+                starred_url: faker.internet.url(),
+                subscriptions_url: faker.internet.url(),
+                type: faker.lorem.slug(1),
+                url: faker.internet.url(),
+              },
+              private: faker.datatype.boolean(),
+              pulls_url: faker.internet.url(),
+              releases_url: faker.internet.url(),
+              stargazers_url: faker.internet.url(),
+              statuses_url: faker.internet.url(),
+              subscribers_url: faker.internet.url(),
+              subscription_url: faker.internet.url(),
+              tags_url: faker.internet.url(),
+              teams_url: faker.internet.url(),
+              trees_url: faker.internet.url(),
               url: faker.internet.url(),
-              name: faker.name.findName(),
+              clone_url: faker.internet.url(),
+              default_branch: faker.lorem.slug(1),
+              forks: faker.datatype.number(),
+              forks_count: faker.datatype.number(),
+              git_url: faker.internet.url(),
+              has_downloads: faker.datatype.boolean(),
+              has_issues: faker.datatype.boolean(),
+              has_projects: faker.datatype.boolean(),
+              has_wiki: faker.datatype.boolean(),
+              has_pages: faker.datatype.boolean(),
+              has_discussions: faker.datatype.boolean(),
+              homepage: faker.internet.url(),
+              language: faker.lorem.slug(1),
+              master_branch: faker.lorem.slug(1),
+              archived: faker.datatype.boolean(),
+              disabled: faker.datatype.boolean(),
+              visibility: faker.lorem.slug(1),
+              mirror_url: faker.internet.url(),
+              open_issues: faker.datatype.number(),
+              open_issues_count: faker.datatype.number(),
+              permissions: {
+                admin: faker.datatype.boolean(),
+                maintain: faker.datatype.boolean(),
+                push: faker.datatype.boolean(),
+                triage: faker.datatype.boolean(),
+                pull: faker.datatype.boolean(),
+              },
+              temp_clone_token: faker.lorem.slug(1),
+              allow_merge_commit: faker.datatype.boolean(),
+              allow_squash_merge: faker.datatype.boolean(),
+              allow_rebase_merge: faker.datatype.boolean(),
+              license: {
+                key: faker.lorem.slug(1),
+                name: faker.name.findName(),
+                url: faker.internet.url(),
+                spdx_id: faker.lorem.slug(1),
+                node_id: faker.lorem.slug(1),
+              },
+              pushed_at: faker.date.past(),
+              size: faker.datatype.number(),
+              ssh_url: faker.internet.url(),
+              stargazers_count: faker.datatype.number(),
+              svn_url: faker.internet.url(),
+              topics: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => faker.lorem.slug(1)),
+              watchers: faker.datatype.number(),
+              watchers_count: faker.datatype.number(),
+              created_at: faker.date.past(),
+              updated_at: faker.date.past(),
+              allow_forking: faker.datatype.boolean(),
+              is_template: faker.datatype.boolean(),
+            },
+            sha: faker.lorem.slug(1),
+            user: {
+              avatar_url: faker.internet.url(),
+              events_url: faker.internet.url(),
+              followers_url: faker.internet.url(),
+              following_url: faker.internet.url(),
+              gists_url: faker.internet.url(),
+              gravatar_id: faker.lorem.slug(1),
+              html_url: faker.internet.url(),
+              id: faker.datatype.number(),
+              node_id: faker.lorem.slug(1),
+              login: faker.lorem.slug(1),
+              organizations_url: faker.internet.url(),
+              received_events_url: faker.internet.url(),
+              repos_url: faker.internet.url(),
+              site_admin: faker.datatype.boolean(),
+              starred_url: faker.internet.url(),
+              subscriptions_url: faker.internet.url(),
+              type: faker.lorem.slug(1),
+              url: faker.internet.url(),
+            },
+          },
+          base: {
+            label: faker.lorem.slug(1),
+            ref: faker.lorem.slug(1),
+            repo: {
+              archive_url: faker.internet.url(),
+              assignees_url: faker.internet.url(),
+              blobs_url: faker.internet.url(),
+              branches_url: faker.internet.url(),
+              collaborators_url: faker.internet.url(),
+              comments_url: faker.internet.url(),
+              commits_url: faker.internet.url(),
+              compare_url: faker.internet.url(),
+              contents_url: faker.internet.url(),
+              contributors_url: faker.internet.url(),
+              deployments_url: faker.internet.url(),
               description: faker.lorem.slug(1),
-              color: faker.lorem.slug(1),
-              default: faker.datatype.boolean(),
-            })),
-            milestone: {
-              url: 'https://api.github.com/repos/octocat/Hello-World/milestones/1',
-              html_url:
-                'https://github.com/octocat/Hello-World/milestones/v1.0',
-              labels_url:
-                'https://api.github.com/repos/octocat/Hello-World/milestones/1/labels',
-              id: 1002604,
-              node_id: 'MDk6TWlsZXN0b25lMTAwMjYwNA==',
-              number: 42,
-              state: 'open',
-              title: 'v1.0',
-              description: 'Tracking milestone for version 1.0',
-              creator: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              open_issues: 4,
-              closed_issues: 8,
-              created_at: '2011-04-10T20:09:31Z',
-              updated_at: '2014-03-03T18:58:10Z',
-              closed_at: '2013-02-12T13:22:01Z',
-              due_on: '2012-10-09T23:39:01Z',
-            },
-            active_lock_reason: 'too heated',
-            created_at: '2011-01-26T19:01:12Z',
-            updated_at: '2011-01-26T19:01:12Z',
-            closed_at: '2011-01-26T19:01:12Z',
-            merged_at: '2011-01-26T19:01:12Z',
-            merge_commit_sha: 'e5bd3914e2e596debea16f433f57875b5b90bcd6',
-            assignee: {
+              downloads_url: faker.internet.url(),
+              events_url: faker.internet.url(),
+              fork: faker.datatype.boolean(),
+              forks_url: faker.internet.url(),
+              full_name: faker.name.findName(),
+              git_commits_url: faker.internet.url(),
+              git_refs_url: faker.internet.url(),
+              git_tags_url: faker.internet.url(),
+              hooks_url: faker.internet.url(),
+              html_url: faker.internet.url(),
+              id: faker.datatype.number(),
+              is_template: faker.datatype.boolean(),
+              node_id: faker.lorem.slug(1),
+              issue_comment_url: faker.internet.url(),
+              issue_events_url: faker.internet.url(),
+              issues_url: faker.internet.url(),
+              keys_url: faker.internet.url(),
+              labels_url: faker.internet.url(),
+              languages_url: faker.internet.url(),
+              merges_url: faker.internet.url(),
+              milestones_url: faker.internet.url(),
               name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            },
-            assignees: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            })),
-            requested_reviewers: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            })),
-            requested_teams: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              id: 1,
-              node_id: 'MDQ6VGVhbTE=',
-              url: 'https://api.github.com/organizations/1/team/1',
-              members_url:
-                'https://api.github.com/organizations/1/team/1/members{/member}',
-              name: 'Justice League',
-              description: 'A great team.',
-              permission: 'admin',
-              privacy: 'closed',
-              html_url: 'https://github.com/orgs/rails/teams/core',
-              repositories_url:
-                'https://api.github.com/organizations/1/team/1/repos',
-              slug: 'justice-league',
-              ldap_dn: 'uid=example,ou=users,dc=github,dc=com',
-            })),
-            head: {
-              label: faker.lorem.slug(1),
-              ref: faker.lorem.slug(1),
-              repo: {
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                fork: faker.datatype.boolean(),
-                forks_url: faker.internet.url(),
-                full_name: faker.name.findName(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                html_url: faker.internet.url(),
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                name: faker.name.findName(),
-                notifications_url: faker.internet.url(),
-                owner: {
-                  avatar_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  html_url: faker.internet.url(),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  login: faker.lorem.slug(1),
-                  organizations_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  site_admin: faker.datatype.boolean(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                },
-                private: faker.datatype.boolean(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                default_branch: faker.lorem.slug(1),
-                forks: faker.datatype.number(),
-                forks_count: faker.datatype.number(),
-                git_url: faker.internet.url(),
-                has_downloads: faker.datatype.boolean(),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                homepage: faker.internet.url(),
-                language: faker.lorem.slug(1),
-                master_branch: faker.lorem.slug(1),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                mirror_url: faker.internet.url(),
-                open_issues: faker.datatype.number(),
-                open_issues_count: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_merge_commit: faker.datatype.boolean(),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_rebase_merge: faker.datatype.boolean(),
-                license: {
-                  key: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  url: faker.internet.url(),
-                  spdx_id: faker.lorem.slug(1),
-                  node_id: faker.lorem.slug(1),
-                },
-                pushed_at: faker.date.past(),
-                size: faker.datatype.number(),
-                ssh_url: faker.internet.url(),
-                stargazers_count: faker.datatype.number(),
-                svn_url: faker.internet.url(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                watchers: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                allow_forking: faker.datatype.boolean(),
-                is_template: faker.datatype.boolean(),
-              },
-              sha: faker.lorem.slug(1),
-              user: {
+              notifications_url: faker.internet.url(),
+              owner: {
                 avatar_url: faker.internet.url(),
                 events_url: faker.internet.url(),
                 followers_url: faker.internet.url(),
@@ -59132,224 +52220,123 @@ export const handlers = [
                 type: faker.lorem.slug(1),
                 url: faker.internet.url(),
               },
-            },
-            base: {
-              label: faker.lorem.slug(1),
-              ref: faker.lorem.slug(1),
-              repo: {
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                fork: faker.datatype.boolean(),
-                forks_url: faker.internet.url(),
-                full_name: faker.name.findName(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
+              private: faker.datatype.boolean(),
+              pulls_url: faker.internet.url(),
+              releases_url: faker.internet.url(),
+              stargazers_url: faker.internet.url(),
+              statuses_url: faker.internet.url(),
+              subscribers_url: faker.internet.url(),
+              subscription_url: faker.internet.url(),
+              tags_url: faker.internet.url(),
+              teams_url: faker.internet.url(),
+              trees_url: faker.internet.url(),
+              url: faker.internet.url(),
+              clone_url: faker.internet.url(),
+              default_branch: faker.lorem.slug(1),
+              forks: faker.datatype.number(),
+              forks_count: faker.datatype.number(),
+              git_url: faker.internet.url(),
+              has_downloads: faker.datatype.boolean(),
+              has_issues: faker.datatype.boolean(),
+              has_projects: faker.datatype.boolean(),
+              has_wiki: faker.datatype.boolean(),
+              has_pages: faker.datatype.boolean(),
+              has_discussions: faker.datatype.boolean(),
+              homepage: faker.internet.url(),
+              language: faker.lorem.slug(1),
+              master_branch: faker.lorem.slug(1),
+              archived: faker.datatype.boolean(),
+              disabled: faker.datatype.boolean(),
+              visibility: faker.lorem.slug(1),
+              mirror_url: faker.internet.url(),
+              open_issues: faker.datatype.number(),
+              open_issues_count: faker.datatype.number(),
+              permissions: {
+                admin: faker.datatype.boolean(),
+                maintain: faker.datatype.boolean(),
+                push: faker.datatype.boolean(),
+                triage: faker.datatype.boolean(),
+                pull: faker.datatype.boolean(),
+              },
+              temp_clone_token: faker.lorem.slug(1),
+              allow_merge_commit: faker.datatype.boolean(),
+              allow_squash_merge: faker.datatype.boolean(),
+              allow_rebase_merge: faker.datatype.boolean(),
+              license: {
+                key: 'mit',
+                name: 'MIT License',
+                url: 'https://api.github.com/licenses/mit',
+                spdx_id: 'MIT',
+                node_id: 'MDc6TGljZW5zZW1pdA==',
                 html_url: faker.internet.url(),
-                id: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                node_id: faker.lorem.slug(1),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                name: faker.name.findName(),
-                notifications_url: faker.internet.url(),
-                owner: {
-                  avatar_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  html_url: faker.internet.url(),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  login: faker.lorem.slug(1),
-                  organizations_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  site_admin: faker.datatype.boolean(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                },
-                private: faker.datatype.boolean(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                default_branch: faker.lorem.slug(1),
-                forks: faker.datatype.number(),
-                forks_count: faker.datatype.number(),
-                git_url: faker.internet.url(),
-                has_downloads: faker.datatype.boolean(),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                homepage: faker.internet.url(),
-                language: faker.lorem.slug(1),
-                master_branch: faker.lorem.slug(1),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                mirror_url: faker.internet.url(),
-                open_issues: faker.datatype.number(),
-                open_issues_count: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_merge_commit: faker.datatype.boolean(),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_rebase_merge: faker.datatype.boolean(),
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                pushed_at: faker.date.past(),
-                size: faker.datatype.number(),
-                ssh_url: faker.internet.url(),
-                stargazers_count: faker.datatype.number(),
-                svn_url: faker.internet.url(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                watchers: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                allow_forking: faker.datatype.boolean(),
               },
-              sha: faker.lorem.slug(1),
-              user: {
-                avatar_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                followers_url: faker.internet.url(),
-                following_url: faker.internet.url(),
-                gists_url: faker.internet.url(),
-                gravatar_id: faker.lorem.slug(1),
-                html_url: faker.internet.url(),
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                login: faker.lorem.slug(1),
-                organizations_url: faker.internet.url(),
-                received_events_url: faker.internet.url(),
-                repos_url: faker.internet.url(),
-                site_admin: faker.datatype.boolean(),
-                starred_url: faker.internet.url(),
-                subscriptions_url: faker.internet.url(),
-                type: faker.lorem.slug(1),
-                url: faker.internet.url(),
-              },
+              pushed_at: faker.date.past(),
+              size: faker.datatype.number(),
+              ssh_url: faker.internet.url(),
+              stargazers_count: faker.datatype.number(),
+              svn_url: faker.internet.url(),
+              topics: [
+                ...new Array(
+                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+                ).keys(),
+              ].map(_ => faker.lorem.slug(1)),
+              watchers: faker.datatype.number(),
+              watchers_count: faker.datatype.number(),
+              created_at: faker.date.past(),
+              updated_at: faker.date.past(),
+              allow_forking: faker.datatype.boolean(),
             },
-            _links: {
-              comments: {
-                href: faker.lorem.slug(1),
-              },
-              commits: {
-                href: faker.lorem.slug(1),
-              },
-              statuses: {
-                href: faker.lorem.slug(1),
-              },
-              html: {
-                href: faker.lorem.slug(1),
-              },
-              issue: {
-                href: faker.lorem.slug(1),
-              },
-              review_comments: {
-                href: faker.lorem.slug(1),
-              },
-              review_comment: {
-                href: faker.lorem.slug(1),
-              },
-              self: {
-                href: faker.lorem.slug(1),
-              },
+            sha: faker.lorem.slug(1),
+            user: {
+              avatar_url: faker.internet.url(),
+              events_url: faker.internet.url(),
+              followers_url: faker.internet.url(),
+              following_url: faker.internet.url(),
+              gists_url: faker.internet.url(),
+              gravatar_id: faker.lorem.slug(1),
+              html_url: faker.internet.url(),
+              id: faker.datatype.number(),
+              node_id: faker.lorem.slug(1),
+              login: faker.lorem.slug(1),
+              organizations_url: faker.internet.url(),
+              received_events_url: faker.internet.url(),
+              repos_url: faker.internet.url(),
+              site_admin: faker.datatype.boolean(),
+              starred_url: faker.internet.url(),
+              subscriptions_url: faker.internet.url(),
+              type: faker.lorem.slug(1),
+              url: faker.internet.url(),
             },
-            author_association: 'OWNER',
-            auto_merge: {
-              enabled_by: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              merge_method: faker.helpers.arrayElement([
-                'merge',
-                'squash',
-                'rebase',
-              ]),
-              commit_title: faker.lorem.slug(1),
-              commit_message: faker.lorem.slug(1),
+          },
+          _links: {
+            comments: {
+              href: faker.lorem.slug(1),
             },
-            draft: faker.datatype.boolean(),
-            merged: faker.datatype.boolean(),
-            mergeable: true,
-            rebaseable: true,
-            mergeable_state: 'clean',
-            merged_by: {
+            commits: {
+              href: faker.lorem.slug(1),
+            },
+            statuses: {
+              href: faker.lorem.slug(1),
+            },
+            html: {
+              href: faker.lorem.slug(1),
+            },
+            issue: {
+              href: faker.lorem.slug(1),
+            },
+            review_comments: {
+              href: faker.lorem.slug(1),
+            },
+            review_comment: {
+              href: faker.lorem.slug(1),
+            },
+            self: {
+              href: faker.lorem.slug(1),
+            },
+          },
+          author_association: 'OWNER',
+          auto_merge: {
+            enabled_by: {
               name: faker.name.findName(),
               email: faker.internet.email(),
               login: 'octocat',
@@ -59377,42 +52364,89 @@ export const handlers = [
               site_admin: faker.datatype.boolean(),
               starred_at: '"2020-07-09T00:17:55Z"',
             },
-            comments: 10,
-            review_comments: faker.datatype.number(),
-            maintainer_can_modify: true,
-            commits: 3,
-            additions: 100,
-            deletions: 3,
-            changed_files: 5,
-          }),
-        ],
-        [ctx.status(304), ctx.json(null)],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(500),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+            merge_method: faker.helpers.arrayElement([
+              'merge',
+              'squash',
+              'rebase',
+            ]),
+            commit_title: faker.lorem.slug(1),
+            commit_message: faker.lorem.slug(1),
+          },
+          draft: faker.datatype.boolean(),
+          merged: faker.datatype.boolean(),
+          mergeable: true,
+          rebaseable: true,
+          mergeable_state: 'clean',
+          merged_by: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            login: 'octocat',
+            id: 1,
+            node_id: 'MDQ6VXNlcjE=',
+            avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+            gravatar_id: '41d064eb2195891e12d0413f63227ea7',
+            url: 'https://api.github.com/users/octocat',
+            html_url: 'https://github.com/octocat',
+            followers_url: 'https://api.github.com/users/octocat/followers',
+            following_url:
+              'https://api.github.com/users/octocat/following{/other_user}',
+            gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
+            starred_url:
+              'https://api.github.com/users/octocat/starred{/owner}{/repo}',
+            subscriptions_url:
+              'https://api.github.com/users/octocat/subscriptions',
+            organizations_url: 'https://api.github.com/users/octocat/orgs',
+            repos_url: 'https://api.github.com/users/octocat/repos',
+            events_url: 'https://api.github.com/users/octocat/events{/privacy}',
+            received_events_url:
+              'https://api.github.com/users/octocat/received_events',
+            type: 'User',
+            site_admin: faker.datatype.boolean(),
+            starred_at: '"2020-07-09T00:17:55Z"',
+          },
+          comments: 10,
+          review_comments: faker.datatype.number(),
+          maintainer_can_modify: true,
+          commits: 3,
+          additions: 100,
+          deletions: 3,
+          changed_files: 5,
+        }),
+      ],
+      [ctx.status(304), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(500),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(503),
+        ctx.json({
+          code: faker.lorem.slug(1),
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -59726,6 +52760,7 @@ export const handlers = [
                 has_projects: faker.datatype.boolean(),
                 has_wiki: faker.datatype.boolean(),
                 has_pages: faker.datatype.boolean(),
+                has_discussions: faker.datatype.boolean(),
                 homepage: faker.internet.url(),
                 language: faker.lorem.slug(1),
                 master_branch: faker.lorem.slug(1),
@@ -59872,6 +52907,7 @@ export const handlers = [
                 has_projects: faker.datatype.boolean(),
                 has_wiki: faker.datatype.boolean(),
                 has_pages: faker.datatype.boolean(),
+                has_discussions: faker.datatype.boolean(),
                 homepage: faker.internet.url(),
                 language: faker.lorem.slug(1),
                 master_branch: faker.lorem.slug(1),
@@ -60080,7 +53116,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -60180,7 +53216,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -60301,7 +53337,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/comments/:commentId/replies`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -60403,7 +53439,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/commits`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -60550,7 +53586,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/files`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -60606,6 +53642,14 @@ export const handlers = [
             status: faker.lorem.slug(1),
           }),
         ],
+        [
+          ctx.status(503),
+          ctx.json({
+            code: faker.lorem.slug(1),
+            message: faker.lorem.slug(1),
+            documentation_url: faker.internet.url(),
+          }),
+        ],
       ];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -60613,7 +53657,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/merge`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(404), ctx.json(null)],
@@ -60624,7 +53668,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/merge`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -60692,7 +53736,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/requested_reviewers`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -60778,7 +53822,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/requested_reviewers`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -61355,6 +54399,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -61709,6 +54754,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -61826,7 +54872,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/requested_reviewers`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -62403,6 +55449,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -62757,6 +55804,7 @@ export const handlers = [
                 watchers: faker.datatype.number(),
                 master_branch: faker.lorem.slug(1),
                 starred_at: '"2020-07-09T00:17:42Z"',
+                anonymous_access_enabled: faker.datatype.boolean(),
               },
               sha: faker.lorem.slug(1),
               user: {
@@ -62883,7 +55931,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -62953,7 +56001,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63037,7 +56085,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63109,7 +56157,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63184,7 +56232,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63268,7 +56316,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63377,7 +56425,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId/dismissals`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63461,7 +56509,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/reviews/:reviewId/events`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -63554,7 +56602,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repos/:owner/:repo/pulls/:pullNumber/update-branch`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(202),
@@ -63596,12 +56644,12 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/readme`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/readme`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
         ctx.json({
-          type: faker.lorem.slug(1),
+          type: faker.helpers.arrayElement(['file']),
           encoding: faker.lorem.slug(1),
           size: faker.datatype.number(),
           name: faker.name.findName(),
@@ -63653,12 +56701,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/readme/:dir`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/readme/:dir`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
         ctx.json({
-          type: faker.lorem.slug(1),
+          type: faker.helpers.arrayElement(['file']),
           encoding: faker.lorem.slug(1),
           size: faker.datatype.number(),
           name: faker.name.findName(),
@@ -63710,7 +56758,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/releases`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/releases`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -63842,7 +56890,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/releases`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/releases`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -63978,7 +57026,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/assets/:assetId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64042,7 +57090,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/releases/assets/:assetId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64096,7 +57144,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/releases/assets/:assetId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -64104,7 +57152,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/releases/generate-notes`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64127,7 +57175,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/releases/latest`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/releases/latest`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -64244,7 +57292,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/tags/:tag`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64373,7 +57421,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64502,7 +57550,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64622,7 +57670,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -64630,7 +57678,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId/assets`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64691,7 +57739,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId/assets`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -64746,7 +57794,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64808,7 +57856,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64910,7 +57958,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repos/:owner/:repo/releases/:releaseId/reactions/:reactionId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -64918,7 +57966,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/secret-scanning/alerts`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -64993,7 +58041,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/secret-scanning/alerts/:alertNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65062,7 +58110,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/repos/:owner/:repo/secret-scanning/alerts/:alertNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65131,7 +58179,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/secret-scanning/alerts/:alertNumber/locations`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65160,7 +58208,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repos/:owner/:repo/stargazers`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/stargazers`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [
@@ -65188,7 +58236,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repos/:owner/:repo/stats/code_frequency`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65215,7 +58263,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/stats/commit_activity`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65240,7 +58288,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/stats/contributors`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65293,7 +58341,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repos/:owner/:repo/stats/participation`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -65324,33 +58372,30 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(
-    `${baseURL}/repos/:owner/:repo/stats/punch_card`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json(
+  rest.get(`${baseURL}/repos/:owner/:repo/stats/punch_card`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json(
+          [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ =>
             [
               ...new Array(
                 faker.datatype.number({ max: MAX_ARRAY_LENGTH })
               ).keys(),
-            ].map(_ =>
-              [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.datatype.number())
-            )
-          ),
-        ],
-        [ctx.status(204), ctx.json(null)],
-      ];
+            ].map(_ => faker.datatype.number())
+          )
+        ),
+      ],
+      [ctx.status(204), ctx.json(null)],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.post(`${baseURL}/repos/:owner/:repo/statuses/:sha`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.post(`${baseURL}/repos/:owner/:repo/statuses/:sha`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -65398,7 +58443,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/subscribers`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/subscribers`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65440,7 +58485,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/subscription`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65467,7 +58512,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/subscription`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65484,12 +58529,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/repos/:owner/:repo/subscription`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/repos/:owner/:repo/subscription`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/tags`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/tags`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65514,12 +58559,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/tarball/:ref`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/tarball/:ref`, (_, res, ctx) => {
     const resultArray = [[ctx.status(302), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/teams`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65570,7 +58615,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/topics`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/topics`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65595,7 +58640,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/repos/:owner/:repo/topics`, (req, res, ctx) => {
+  rest.put(`${baseURL}/repos/:owner/:repo/topics`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -65632,7 +58677,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/repos/:owner/:repo/transfer`, (req, res, ctx) => {
+  rest.post(`${baseURL}/repos/:owner/:repo/transfer`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(202),
@@ -65776,314 +58821,6 @@ export const handlers = [
             triage: faker.datatype.boolean(),
             pull: faker.datatype.boolean(),
           },
-          template_repository: {
-            id: 42,
-            node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-            name: 'Team Environment',
-            full_name: 'octocat/Hello-World',
-            license: {
-              key: 'mit',
-              name: 'MIT License',
-              url: 'https://api.github.com/licenses/mit',
-              spdx_id: 'MIT',
-              node_id: 'MDc6TGljZW5zZW1pdA==',
-              html_url: faker.internet.url(),
-            },
-            organization: {
-              name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            },
-            forks: faker.datatype.number(),
-            permissions: {
-              admin: faker.datatype.boolean(),
-              pull: faker.datatype.boolean(),
-              triage: faker.datatype.boolean(),
-              push: faker.datatype.boolean(),
-              maintain: faker.datatype.boolean(),
-            },
-            owner: {
-              name: faker.name.findName(),
-              email: faker.internet.email(),
-              login: 'octocat',
-              id: 1,
-              node_id: 'MDQ6VXNlcjE=',
-              avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-              gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-              url: 'https://api.github.com/users/octocat',
-              html_url: 'https://github.com/octocat',
-              followers_url: 'https://api.github.com/users/octocat/followers',
-              following_url:
-                'https://api.github.com/users/octocat/following{/other_user}',
-              gists_url: 'https://api.github.com/users/octocat/gists{/gist_id}',
-              starred_url:
-                'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-              subscriptions_url:
-                'https://api.github.com/users/octocat/subscriptions',
-              organizations_url: 'https://api.github.com/users/octocat/orgs',
-              repos_url: 'https://api.github.com/users/octocat/repos',
-              events_url:
-                'https://api.github.com/users/octocat/events{/privacy}',
-              received_events_url:
-                'https://api.github.com/users/octocat/received_events',
-              type: 'User',
-              site_admin: faker.datatype.boolean(),
-              starred_at: '"2020-07-09T00:17:55Z"',
-            },
-            private: faker.datatype.boolean(),
-            html_url: 'https://github.com/octocat/Hello-World',
-            description: 'This your first repo!',
-            fork: faker.datatype.boolean(),
-            url: 'https://api.github.com/repos/octocat/Hello-World',
-            archive_url:
-              'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-            assignees_url:
-              'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-            blobs_url:
-              'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-            branches_url:
-              'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-            collaborators_url:
-              'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-            comments_url:
-              'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-            commits_url:
-              'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-            compare_url:
-              'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-            contents_url:
-              'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-            contributors_url:
-              'http://api.github.com/repos/octocat/Hello-World/contributors',
-            deployments_url:
-              'http://api.github.com/repos/octocat/Hello-World/deployments',
-            downloads_url:
-              'http://api.github.com/repos/octocat/Hello-World/downloads',
-            events_url:
-              'http://api.github.com/repos/octocat/Hello-World/events',
-            forks_url: 'http://api.github.com/repos/octocat/Hello-World/forks',
-            git_commits_url:
-              'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-            git_refs_url:
-              'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-            git_tags_url:
-              'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-            git_url: 'git:github.com/octocat/Hello-World.git',
-            issue_comment_url:
-              'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-            issue_events_url:
-              'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-            issues_url:
-              'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-            keys_url:
-              'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-            labels_url:
-              'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-            languages_url:
-              'http://api.github.com/repos/octocat/Hello-World/languages',
-            merges_url:
-              'http://api.github.com/repos/octocat/Hello-World/merges',
-            milestones_url:
-              'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-            notifications_url:
-              'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-            pulls_url:
-              'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-            releases_url:
-              'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-            ssh_url: 'git@github.com:octocat/Hello-World.git',
-            stargazers_url:
-              'http://api.github.com/repos/octocat/Hello-World/stargazers',
-            statuses_url:
-              'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-            subscribers_url:
-              'http://api.github.com/repos/octocat/Hello-World/subscribers',
-            subscription_url:
-              'http://api.github.com/repos/octocat/Hello-World/subscription',
-            tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-            teams_url: 'http://api.github.com/repos/octocat/Hello-World/teams',
-            trees_url:
-              'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-            clone_url: 'https://github.com/octocat/Hello-World.git',
-            mirror_url: 'git:git.example.com/octocat/Hello-World',
-            hooks_url: 'http://api.github.com/repos/octocat/Hello-World/hooks',
-            svn_url: 'https://svn.github.com/octocat/Hello-World',
-            homepage: 'https://github.com',
-            language: faker.lorem.slug(1),
-            forks_count: 9,
-            stargazers_count: 80,
-            watchers_count: 80,
-            size: 108,
-            default_branch: 'master',
-            open_issues_count: faker.datatype.number(),
-            is_template: true,
-            topics: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => faker.lorem.slug(1)),
-            has_issues: true,
-            has_projects: true,
-            has_wiki: true,
-            has_pages: faker.datatype.boolean(),
-            has_downloads: true,
-            archived: faker.datatype.boolean(),
-            disabled: faker.datatype.boolean(),
-            visibility: faker.lorem.slug(1),
-            pushed_at: '2011-01-26T19:06:43Z',
-            created_at: '2011-01-26T19:01:12Z',
-            updated_at: '2011-01-26T19:14:43Z',
-            allow_rebase_merge: true,
-            template_repository: {
-              id: faker.datatype.number(),
-              node_id: faker.lorem.slug(1),
-              name: faker.name.findName(),
-              full_name: faker.name.findName(),
-              owner: {
-                login: faker.lorem.slug(1),
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                avatar_url: faker.internet.url(),
-                gravatar_id: faker.lorem.slug(1),
-                url: faker.internet.url(),
-                html_url: faker.internet.url(),
-                followers_url: faker.internet.url(),
-                following_url: faker.internet.url(),
-                gists_url: faker.internet.url(),
-                starred_url: faker.internet.url(),
-                subscriptions_url: faker.internet.url(),
-                organizations_url: faker.internet.url(),
-                repos_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                received_events_url: faker.internet.url(),
-                type: faker.lorem.slug(1),
-                site_admin: faker.datatype.boolean(),
-              },
-              private: faker.datatype.boolean(),
-              html_url: faker.internet.url(),
-              description: faker.lorem.slug(1),
-              fork: faker.datatype.boolean(),
-              url: faker.internet.url(),
-              archive_url: faker.internet.url(),
-              assignees_url: faker.internet.url(),
-              blobs_url: faker.internet.url(),
-              branches_url: faker.internet.url(),
-              collaborators_url: faker.internet.url(),
-              comments_url: faker.internet.url(),
-              commits_url: faker.internet.url(),
-              compare_url: faker.internet.url(),
-              contents_url: faker.internet.url(),
-              contributors_url: faker.internet.url(),
-              deployments_url: faker.internet.url(),
-              downloads_url: faker.internet.url(),
-              events_url: faker.internet.url(),
-              forks_url: faker.internet.url(),
-              git_commits_url: faker.internet.url(),
-              git_refs_url: faker.internet.url(),
-              git_tags_url: faker.internet.url(),
-              git_url: faker.internet.url(),
-              issue_comment_url: faker.internet.url(),
-              issue_events_url: faker.internet.url(),
-              issues_url: faker.internet.url(),
-              keys_url: faker.internet.url(),
-              labels_url: faker.internet.url(),
-              languages_url: faker.internet.url(),
-              merges_url: faker.internet.url(),
-              milestones_url: faker.internet.url(),
-              notifications_url: faker.internet.url(),
-              pulls_url: faker.internet.url(),
-              releases_url: faker.internet.url(),
-              ssh_url: faker.internet.url(),
-              stargazers_url: faker.internet.url(),
-              statuses_url: faker.internet.url(),
-              subscribers_url: faker.internet.url(),
-              subscription_url: faker.internet.url(),
-              tags_url: faker.internet.url(),
-              teams_url: faker.internet.url(),
-              trees_url: faker.internet.url(),
-              clone_url: faker.internet.url(),
-              mirror_url: faker.internet.url(),
-              hooks_url: faker.internet.url(),
-              svn_url: faker.internet.url(),
-              homepage: faker.lorem.slug(1),
-              language: faker.lorem.slug(1),
-              forks_count: faker.datatype.number(),
-              stargazers_count: faker.datatype.number(),
-              watchers_count: faker.datatype.number(),
-              size: faker.datatype.number(),
-              default_branch: faker.lorem.slug(1),
-              open_issues_count: faker.datatype.number(),
-              is_template: faker.datatype.boolean(),
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: faker.datatype.boolean(),
-              has_projects: faker.datatype.boolean(),
-              has_wiki: faker.datatype.boolean(),
-              has_pages: faker.datatype.boolean(),
-              has_downloads: faker.datatype.boolean(),
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: faker.date.past(),
-              created_at: faker.date.past(),
-              updated_at: faker.date.past(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-              },
-              allow_rebase_merge: faker.datatype.boolean(),
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: faker.datatype.boolean(),
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-            },
-            temp_clone_token: faker.lorem.slug(1),
-            allow_squash_merge: true,
-            allow_auto_merge: faker.datatype.boolean(),
-            delete_branch_on_merge: faker.datatype.boolean(),
-            allow_update_branch: faker.datatype.boolean(),
-            allow_merge_commit: true,
-            allow_forking: faker.datatype.boolean(),
-            subscribers_count: faker.datatype.number(),
-            network_count: faker.datatype.number(),
-            open_issues: faker.datatype.number(),
-            watchers: faker.datatype.number(),
-            master_branch: faker.lorem.slug(1),
-            starred_at: '"2020-07-09T00:17:42Z"',
-          },
           temp_clone_token: faker.lorem.slug(1),
           delete_branch_on_merge: faker.datatype.boolean(),
           subscribers_count: faker.datatype.number(),
@@ -66112,14 +58849,14 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/repos/:owner/:repo/zipball/:ref`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repos/:owner/:repo/zipball/:ref`, (_, res, ctx) => {
     const resultArray = [[ctx.status(302), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
   rest.post(
     `${baseURL}/repos/:templateOwner/:templateRepo/generate`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -66430,6 +59167,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           }),
         ],
       ];
@@ -66437,7 +59175,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/repositories`, (req, res, ctx) => {
+  rest.get(`${baseURL}/repositories`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -66589,319 +59327,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -66953,7 +59378,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -66977,7 +59402,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets/public-key`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -66997,7 +59422,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -67014,7 +59439,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(201), ctx.json({})],
         [ctx.status(204), ctx.json(null)],
@@ -67025,13 +59450,13 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/repositories/:repositoryId/environments/:environmentName/secrets/:secretName`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/search/code`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/code`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -67196,326 +59621,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -67610,7 +59715,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/commits`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/commits`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -67840,326 +59945,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -68215,7 +60000,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -68739,6 +60524,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             body_html: faker.lorem.slug(1),
             body_text: faker.lorem.slug(1),
@@ -68846,7 +60632,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/labels`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/labels`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -68933,7 +60719,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/repositories`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/repositories`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69132,7 +60918,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/topics`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/topics`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69211,7 +60997,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/search/users`, (req, res, ctx) => {
+  rest.get(`${baseURL}/search/users`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69313,7 +61099,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/setup/api/configcheck`, (req, res, ctx) => {
+  rest.get(`${baseURL}/setup/api/configcheck`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69333,12 +61119,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/setup/api/configure`, (req, res, ctx) => {
+  rest.post(`${baseURL}/setup/api/configure`, (_, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/setup/api/maintenance`, (req, res, ctx) => {
+  rest.get(`${baseURL}/setup/api/maintenance`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69359,7 +61145,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/setup/api/maintenance`, (req, res, ctx) => {
+  rest.post(`${baseURL}/setup/api/maintenance`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69380,7 +61166,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/setup/api/settings`, (req, res, ctx) => {
+  rest.get(`${baseURL}/setup/api/settings`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69539,12 +61325,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/setup/api/settings`, (req, res, ctx) => {
+  rest.put(`${baseURL}/setup/api/settings`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/setup/api/settings/authorized-keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/setup/api/settings/authorized-keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69563,31 +61349,28 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(
-    `${baseURL}/setup/api/settings/authorized-keys`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(201),
-          ctx.json(
-            [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              key: faker.lorem.slug(1),
-              'pretty-print': faker.lorem.slug(1),
-            }))
-          ),
-        ],
-      ];
+  rest.post(`${baseURL}/setup/api/settings/authorized-keys`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(201),
+        ctx.json(
+          [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            key: faker.lorem.slug(1),
+            'pretty-print': faker.lorem.slug(1),
+          }))
+        ),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.delete(
     `${baseURL}/setup/api/settings/authorized-keys`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -69607,17 +61390,17 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.post(`${baseURL}/setup/api/start`, (req, res, ctx) => {
+  rest.post(`${baseURL}/setup/api/start`, (_, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/setup/api/upgrade`, (req, res, ctx) => {
+  rest.post(`${baseURL}/setup/api/upgrade`, (_, res, ctx) => {
     const resultArray = [[ctx.status(202), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69726,7 +61509,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/teams/:teamId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -69957,7 +61740,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/teams/:teamId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/teams/:teamId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -69992,7 +61775,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/teams/:teamId/discussions`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/discussions`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -70068,7 +61851,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/teams/:teamId/discussions`, (req, res, ctx) => {
+  rest.post(`${baseURL}/teams/:teamId/discussions`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -70139,7 +61922,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70212,7 +61995,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70285,7 +62068,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -70293,7 +62076,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70367,7 +62150,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -70434,7 +62217,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70501,7 +62284,7 @@ export const handlers = [
   ),
   rest.patch(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70568,7 +62351,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments/:commentNumber`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [[ctx.status(204), ctx.json(null)]];
 
       return res(...resultArray[next() % resultArray.length]);
@@ -70576,7 +62359,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments/:commentNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70629,7 +62412,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/comments/:commentNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -70675,7 +62458,7 @@ export const handlers = [
   ),
   rest.get(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -70728,7 +62511,7 @@ export const handlers = [
   ),
   rest.post(
     `${baseURL}/teams/:teamId/discussions/:discussionNumber/reactions`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(201),
@@ -70772,7 +62555,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/teams/:teamId/members`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/members`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -70823,7 +62606,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(404), ctx.json(null)],
@@ -70831,7 +62614,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
+  rest.put(`${baseURL}/teams/:teamId/members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -70849,7 +62632,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/teams/:teamId/members/:username`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/teams/:teamId/members/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(404), ctx.json(null)],
@@ -70857,63 +62640,57 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(
-    `${baseURL}/teams/:teamId/memberships/:username`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            url: faker.internet.url(),
-            role: 'member',
-            state: faker.helpers.arrayElement(['active', 'pending']),
-          }),
-        ],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-      ];
+  rest.get(`${baseURL}/teams/:teamId/memberships/:username`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          url: faker.internet.url(),
+          role: 'member',
+          state: faker.helpers.arrayElement(['active', 'pending']),
+        }),
+      ],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.put(
-    `${baseURL}/teams/:teamId/memberships/:username`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [
-          ctx.status(200),
-          ctx.json({
-            url: faker.internet.url(),
-            role: 'member',
-            state: faker.helpers.arrayElement(['active', 'pending']),
-          }),
-        ],
-        [ctx.status(403), ctx.json(null)],
-        [
-          ctx.status(404),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [ctx.status(422), ctx.json(null)],
-      ];
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.put(`${baseURL}/teams/:teamId/memberships/:username`, (_, res, ctx) => {
+    const resultArray = [
+      [
+        ctx.status(200),
+        ctx.json({
+          url: faker.internet.url(),
+          role: 'member',
+          state: faker.helpers.arrayElement(['active', 'pending']),
+        }),
+      ],
+      [ctx.status(403), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [ctx.status(422), ctx.json(null)],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
+    return res(...resultArray[next() % resultArray.length]);
+  }),
   rest.delete(
     `${baseURL}/teams/:teamId/memberships/:username`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(403), ctx.json(null)],
@@ -70922,7 +62699,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/teams/:teamId/projects`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -70995,7 +62772,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/teams/:teamId/projects/:projectId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/projects/:projectId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -71053,7 +62830,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/teams/:teamId/projects/:projectId`, (req, res, ctx) => {
+  rest.put(`${baseURL}/teams/:teamId/projects/:projectId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -71095,45 +62872,42 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/teams/:teamId/projects/:projectId`,
-    (req, res, ctx) => {
-      const resultArray = [
-        [ctx.status(204), ctx.json(null)],
-        [
-          ctx.status(404),
-          ctx.json({
+  rest.delete(`${baseURL}/teams/:teamId/projects/:projectId`, (_, res, ctx) => {
+    const resultArray = [
+      [ctx.status(204), ctx.json(null)],
+      [
+        ctx.status(404),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          url: faker.internet.url(),
+          status: faker.lorem.slug(1),
+        }),
+      ],
+      [
+        ctx.status(422),
+        ctx.json({
+          message: faker.lorem.slug(1),
+          documentation_url: faker.internet.url(),
+          errors: [
+            ...new Array(
+              faker.datatype.number({ max: MAX_ARRAY_LENGTH })
+            ).keys(),
+          ].map(_ => ({
+            resource: faker.lorem.slug(1),
+            field: faker.lorem.slug(1),
             message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            url: faker.internet.url(),
-            status: faker.lorem.slug(1),
-          }),
-        ],
-        [
-          ctx.status(422),
-          ctx.json({
-            message: faker.lorem.slug(1),
-            documentation_url: faker.internet.url(),
-            errors: [
-              ...new Array(
-                faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-              ).keys(),
-            ].map(_ => ({
-              resource: faker.lorem.slug(1),
-              field: faker.lorem.slug(1),
-              message: faker.lorem.slug(1),
-              code: faker.lorem.slug(1),
-              index: faker.datatype.number(),
-              value: null,
-            })),
-          }),
-        ],
-      ];
+            code: faker.lorem.slug(1),
+            index: faker.datatype.number(),
+            value: null,
+          })),
+        }),
+      ],
+    ];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.get(`${baseURL}/teams/:teamId/repos`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.get(`${baseURL}/teams/:teamId/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -71285,319 +63059,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -71636,7 +63097,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (req, res, ctx) => {
+  rest.get(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72097,6 +63558,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           },
           temp_clone_token: faker.lorem.slug(1),
           allow_squash_merge: true,
@@ -72117,7 +63579,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (req, res, ctx) => {
+  rest.put(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [
@@ -72152,15 +63614,12 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(
-    `${baseURL}/teams/:teamId/repos/:owner/:repo`,
-    (req, res, ctx) => {
-      const resultArray = [[ctx.status(204), ctx.json(null)]];
+  rest.delete(`${baseURL}/teams/:teamId/repos/:owner/:repo`, (_, res, ctx) => {
+    const resultArray = [[ctx.status(204), ctx.json(null)]];
 
-      return res(...resultArray[next() % resultArray.length]);
-    }
-  ),
-  rest.get(`${baseURL}/teams/:teamId/teams`, (req, res, ctx) => {
+    return res(...resultArray[next() % resultArray.length]);
+  }),
+  rest.get(`${baseURL}/teams/:teamId/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72248,7 +63707,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -72274,7 +63733,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/user`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/user`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72383,7 +63842,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/emails`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/emails`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72432,7 +63891,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/user/emails`, (req, res, ctx) => {
+  rest.post(`${baseURL}/user/emails`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -72500,7 +63959,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/user/emails`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/user/emails`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -72554,7 +64013,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/followers`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/followers`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72615,7 +64074,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/following`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/following`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72676,7 +64135,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/following/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/following/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -72711,7 +64170,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/user/following/:username`, (req, res, ctx) => {
+  rest.put(`${baseURL}/user/following/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -72746,7 +64205,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/user/following/:username`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/user/following/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -72781,7 +64240,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/gpg_keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/gpg_keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -72856,7 +64315,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/user/gpg_keys`, (req, res, ctx) => {
+  rest.post(`${baseURL}/user/gpg_keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -72944,7 +64403,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/gpg_keys/:gpgKeyId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/gpg_keys/:gpgKeyId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -73013,7 +64472,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/user/gpg_keys/:gpgKeyId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/user/gpg_keys/:gpgKeyId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -73067,7 +64526,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/installations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/installations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -73168,7 +64627,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/user/installations/:installationId/repositories`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -73491,6 +64950,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             })),
           }),
         ],
@@ -73520,7 +64980,7 @@ export const handlers = [
   ),
   rest.put(
     `${baseURL}/user/installations/:installationId/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -73549,7 +65009,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/user/installations/:installationId/repositories/:repositoryId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -73576,7 +65036,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/user/issues`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/issues`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74093,6 +65553,7 @@ export const handlers = [
               watchers: faker.datatype.number(),
               master_branch: faker.lorem.slug(1),
               starred_at: '"2020-07-09T00:17:42Z"',
+              anonymous_access_enabled: faker.datatype.boolean(),
             },
             performed_via_github_app: {
               id: 37,
@@ -74171,7 +65632,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74223,7 +65684,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/user/keys`, (req, res, ctx) => {
+  rest.post(`${baseURL}/user/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -74288,7 +65749,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/keys/:keyId`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/keys/:keyId`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74334,7 +65795,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/user/keys/:keyId`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/user/keys/:keyId`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -74369,7 +65830,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/memberships/orgs`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/memberships/orgs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74475,7 +65936,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/memberships/orgs/:org`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/memberships/orgs/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74553,7 +66014,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.patch(`${baseURL}/user/memberships/orgs/:org`, (req, res, ctx) => {
+  rest.patch(`${baseURL}/user/memberships/orgs/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74650,7 +66111,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/orgs`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/orgs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74699,7 +66160,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/user/projects`, (req, res, ctx) => {
+  rest.post(`${baseURL}/user/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -74789,7 +66250,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/public_emails`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/public_emails`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -74838,7 +66299,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/repos`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -75154,6 +66615,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           }))
         ),
       ],
@@ -75199,7 +66661,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.post(`${baseURL}/user/repos`, (req, res, ctx) => {
+  rest.post(`${baseURL}/user/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(201),
@@ -75506,6 +66968,7 @@ export const handlers = [
           watchers: faker.datatype.number(),
           master_branch: faker.lorem.slug(1),
           starred_at: '"2020-07-09T00:17:42Z"',
+          anonymous_access_enabled: faker.datatype.boolean(),
         }),
       ],
       [ctx.status(304), ctx.json(null)],
@@ -75568,7 +67031,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/repository_invitations`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/repository_invitations`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -75726,326 +67189,6 @@ export const handlers = [
                 triage: faker.datatype.boolean(),
                 pull: faker.datatype.boolean(),
               },
-              template_repository: {
-                id: 42,
-                node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-                name: 'Team Environment',
-                full_name: 'octocat/Hello-World',
-                license: {
-                  key: 'mit',
-                  name: 'MIT License',
-                  url: 'https://api.github.com/licenses/mit',
-                  spdx_id: 'MIT',
-                  node_id: 'MDc6TGljZW5zZW1pdA==',
-                  html_url: faker.internet.url(),
-                },
-                organization: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                forks: faker.datatype.number(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                },
-                owner: {
-                  name: faker.name.findName(),
-                  email: faker.internet.email(),
-                  login: 'octocat',
-                  id: 1,
-                  node_id: 'MDQ6VXNlcjE=',
-                  avatar_url:
-                    'https://github.com/images/error/octocat_happy.gif',
-                  gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                  url: 'https://api.github.com/users/octocat',
-                  html_url: 'https://github.com/octocat',
-                  followers_url:
-                    'https://api.github.com/users/octocat/followers',
-                  following_url:
-                    'https://api.github.com/users/octocat/following{/other_user}',
-                  gists_url:
-                    'https://api.github.com/users/octocat/gists{/gist_id}',
-                  starred_url:
-                    'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                  subscriptions_url:
-                    'https://api.github.com/users/octocat/subscriptions',
-                  organizations_url:
-                    'https://api.github.com/users/octocat/orgs',
-                  repos_url: 'https://api.github.com/users/octocat/repos',
-                  events_url:
-                    'https://api.github.com/users/octocat/events{/privacy}',
-                  received_events_url:
-                    'https://api.github.com/users/octocat/received_events',
-                  type: 'User',
-                  site_admin: faker.datatype.boolean(),
-                  starred_at: '"2020-07-09T00:17:55Z"',
-                },
-                private: faker.datatype.boolean(),
-                html_url: 'https://github.com/octocat/Hello-World',
-                description: 'This your first repo!',
-                fork: faker.datatype.boolean(),
-                url: 'https://api.github.com/repos/octocat/Hello-World',
-                archive_url:
-                  'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-                assignees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-                blobs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-                branches_url:
-                  'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-                collaborators_url:
-                  'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-                comments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-                commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-                compare_url:
-                  'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-                contents_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-                contributors_url:
-                  'http://api.github.com/repos/octocat/Hello-World/contributors',
-                deployments_url:
-                  'http://api.github.com/repos/octocat/Hello-World/deployments',
-                downloads_url:
-                  'http://api.github.com/repos/octocat/Hello-World/downloads',
-                events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/events',
-                forks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/forks',
-                git_commits_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-                git_refs_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-                git_tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-                git_url: 'git:github.com/octocat/Hello-World.git',
-                issue_comment_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-                issue_events_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-                issues_url:
-                  'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-                keys_url:
-                  'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-                labels_url:
-                  'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-                languages_url:
-                  'http://api.github.com/repos/octocat/Hello-World/languages',
-                merges_url:
-                  'http://api.github.com/repos/octocat/Hello-World/merges',
-                milestones_url:
-                  'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-                notifications_url:
-                  'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-                pulls_url:
-                  'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-                releases_url:
-                  'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-                ssh_url: 'git@github.com:octocat/Hello-World.git',
-                stargazers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/stargazers',
-                statuses_url:
-                  'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-                subscribers_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscribers',
-                subscription_url:
-                  'http://api.github.com/repos/octocat/Hello-World/subscription',
-                tags_url:
-                  'http://api.github.com/repos/octocat/Hello-World/tags',
-                teams_url:
-                  'http://api.github.com/repos/octocat/Hello-World/teams',
-                trees_url:
-                  'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-                clone_url: 'https://github.com/octocat/Hello-World.git',
-                mirror_url: 'git:git.example.com/octocat/Hello-World',
-                hooks_url:
-                  'http://api.github.com/repos/octocat/Hello-World/hooks',
-                svn_url: 'https://svn.github.com/octocat/Hello-World',
-                homepage: 'https://github.com',
-                language: faker.lorem.slug(1),
-                forks_count: 9,
-                stargazers_count: 80,
-                watchers_count: 80,
-                size: 108,
-                default_branch: 'master',
-                open_issues_count: faker.datatype.number(),
-                is_template: true,
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: true,
-                has_projects: true,
-                has_wiki: true,
-                has_pages: faker.datatype.boolean(),
-                has_downloads: true,
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: '2011-01-26T19:06:43Z',
-                created_at: '2011-01-26T19:01:12Z',
-                updated_at: '2011-01-26T19:14:43Z',
-                allow_rebase_merge: true,
-                template_repository: {
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  name: faker.name.findName(),
-                  full_name: faker.name.findName(),
-                  owner: {
-                    login: faker.lorem.slug(1),
-                    id: faker.datatype.number(),
-                    node_id: faker.lorem.slug(1),
-                    avatar_url: faker.internet.url(),
-                    gravatar_id: faker.lorem.slug(1),
-                    url: faker.internet.url(),
-                    html_url: faker.internet.url(),
-                    followers_url: faker.internet.url(),
-                    following_url: faker.internet.url(),
-                    gists_url: faker.internet.url(),
-                    starred_url: faker.internet.url(),
-                    subscriptions_url: faker.internet.url(),
-                    organizations_url: faker.internet.url(),
-                    repos_url: faker.internet.url(),
-                    events_url: faker.internet.url(),
-                    received_events_url: faker.internet.url(),
-                    type: faker.lorem.slug(1),
-                    site_admin: faker.datatype.boolean(),
-                  },
-                  private: faker.datatype.boolean(),
-                  html_url: faker.internet.url(),
-                  description: faker.lorem.slug(1),
-                  fork: faker.datatype.boolean(),
-                  url: faker.internet.url(),
-                  archive_url: faker.internet.url(),
-                  assignees_url: faker.internet.url(),
-                  blobs_url: faker.internet.url(),
-                  branches_url: faker.internet.url(),
-                  collaborators_url: faker.internet.url(),
-                  comments_url: faker.internet.url(),
-                  commits_url: faker.internet.url(),
-                  compare_url: faker.internet.url(),
-                  contents_url: faker.internet.url(),
-                  contributors_url: faker.internet.url(),
-                  deployments_url: faker.internet.url(),
-                  downloads_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  forks_url: faker.internet.url(),
-                  git_commits_url: faker.internet.url(),
-                  git_refs_url: faker.internet.url(),
-                  git_tags_url: faker.internet.url(),
-                  git_url: faker.internet.url(),
-                  issue_comment_url: faker.internet.url(),
-                  issue_events_url: faker.internet.url(),
-                  issues_url: faker.internet.url(),
-                  keys_url: faker.internet.url(),
-                  labels_url: faker.internet.url(),
-                  languages_url: faker.internet.url(),
-                  merges_url: faker.internet.url(),
-                  milestones_url: faker.internet.url(),
-                  notifications_url: faker.internet.url(),
-                  pulls_url: faker.internet.url(),
-                  releases_url: faker.internet.url(),
-                  ssh_url: faker.internet.url(),
-                  stargazers_url: faker.internet.url(),
-                  statuses_url: faker.internet.url(),
-                  subscribers_url: faker.internet.url(),
-                  subscription_url: faker.internet.url(),
-                  tags_url: faker.internet.url(),
-                  teams_url: faker.internet.url(),
-                  trees_url: faker.internet.url(),
-                  clone_url: faker.internet.url(),
-                  mirror_url: faker.internet.url(),
-                  hooks_url: faker.internet.url(),
-                  svn_url: faker.internet.url(),
-                  homepage: faker.lorem.slug(1),
-                  language: faker.lorem.slug(1),
-                  forks_count: faker.datatype.number(),
-                  stargazers_count: faker.datatype.number(),
-                  watchers_count: faker.datatype.number(),
-                  size: faker.datatype.number(),
-                  default_branch: faker.lorem.slug(1),
-                  open_issues_count: faker.datatype.number(),
-                  is_template: faker.datatype.boolean(),
-                  topics: [
-                    ...new Array(
-                      faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                    ).keys(),
-                  ].map(_ => faker.lorem.slug(1)),
-                  has_issues: faker.datatype.boolean(),
-                  has_projects: faker.datatype.boolean(),
-                  has_wiki: faker.datatype.boolean(),
-                  has_pages: faker.datatype.boolean(),
-                  has_downloads: faker.datatype.boolean(),
-                  archived: faker.datatype.boolean(),
-                  disabled: faker.datatype.boolean(),
-                  visibility: faker.lorem.slug(1),
-                  pushed_at: faker.date.past(),
-                  created_at: faker.date.past(),
-                  updated_at: faker.date.past(),
-                  permissions: {
-                    admin: faker.datatype.boolean(),
-                    maintain: faker.datatype.boolean(),
-                    push: faker.datatype.boolean(),
-                    triage: faker.datatype.boolean(),
-                    pull: faker.datatype.boolean(),
-                  },
-                  allow_rebase_merge: faker.datatype.boolean(),
-                  temp_clone_token: faker.lorem.slug(1),
-                  allow_squash_merge: faker.datatype.boolean(),
-                  allow_auto_merge: faker.datatype.boolean(),
-                  delete_branch_on_merge: faker.datatype.boolean(),
-                  allow_update_branch: faker.datatype.boolean(),
-                  allow_merge_commit: faker.datatype.boolean(),
-                  subscribers_count: faker.datatype.number(),
-                  network_count: faker.datatype.number(),
-                },
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: true,
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: true,
-                allow_forking: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-                open_issues: faker.datatype.number(),
-                watchers: faker.datatype.number(),
-                master_branch: faker.lorem.slug(1),
-                starred_at: '"2020-07-09T00:17:42Z"',
-              },
               temp_clone_token: faker.lorem.slug(1),
               delete_branch_on_merge: faker.datatype.boolean(),
               subscribers_count: faker.datatype.number(),
@@ -76168,7 +67311,7 @@ export const handlers = [
   }),
   rest.patch(
     `${baseURL}/user/repository_invitations/:invitationId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -76206,7 +67349,7 @@ export const handlers = [
   ),
   rest.delete(
     `${baseURL}/user/repository_invitations/:invitationId`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(304), ctx.json(null)],
@@ -76242,7 +67385,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/user/starred`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/starred`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -76558,6 +67701,7 @@ export const handlers = [
             watchers: faker.datatype.number(),
             master_branch: faker.lorem.slug(1),
             starred_at: '"2020-07-09T00:17:42Z"',
+            anonymous_access_enabled: faker.datatype.boolean(),
           }))
         ),
       ],
@@ -76584,7 +67728,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/starred/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -76619,7 +67763,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
+  rest.put(`${baseURL}/user/starred/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -76654,7 +67798,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/user/starred/:owner/:repo`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/user/starred/:owner/:repo`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(204), ctx.json(null)],
       [ctx.status(304), ctx.json(null)],
@@ -76689,7 +67833,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/subscriptions`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/subscriptions`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -76841,319 +67985,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -77202,7 +68033,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/user/teams`, (req, res, ctx) => {
+  rest.get(`${baseURL}/user/teams`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -77328,7 +68159,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -77371,7 +68202,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username`, (_, res, ctx) => {
     const resultArray = [
       [ctx.status(200), ctx.json(null)],
       [
@@ -77387,7 +68218,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -77956,6 +68787,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -78150,7 +68982,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/events/orgs/:org`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/events/orgs/:org`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -78719,6 +69551,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -78913,7 +69746,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/events/public`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/events/public`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79482,6 +70315,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -79676,7 +70510,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/followers`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/followers`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79718,7 +70552,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/following`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/following`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79762,7 +70596,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/users/:username/following/:targetUser`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [ctx.status(204), ctx.json(null)],
         [ctx.status(404), ctx.json(null)],
@@ -79771,7 +70605,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/users/:username/gists`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/gists`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79899,7 +70733,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/gpg_keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/gpg_keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79946,7 +70780,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/hovercard`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/hovercard`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -79993,7 +70827,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/installation`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/installation`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -80061,7 +70895,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/keys`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/keys`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -80080,7 +70914,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/orgs`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/orgs`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -80110,7 +70944,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/projects`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/projects`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -80195,7 +71029,7 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/received_events`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/received_events`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -80764,6 +71598,7 @@ export const handlers = [
                   watchers: faker.datatype.number(),
                   master_branch: faker.lorem.slug(1),
                   starred_at: '"2020-07-09T00:17:42Z"',
+                  anonymous_access_enabled: faker.datatype.boolean(),
                 },
                 performed_via_github_app: {
                   id: 37,
@@ -80960,7 +71795,7 @@ export const handlers = [
   }),
   rest.get(
     `${baseURL}/users/:username/received_events/public`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       const resultArray = [
         [
           ctx.status(200),
@@ -81529,6 +72364,7 @@ export const handlers = [
                     watchers: faker.datatype.number(),
                     master_branch: faker.lorem.slug(1),
                     starred_at: '"2020-07-09T00:17:42Z"',
+                    anonymous_access_enabled: faker.datatype.boolean(),
                   },
                   performed_via_github_app: {
                     id: 37,
@@ -81726,7 +72562,7 @@ export const handlers = [
       return res(...resultArray[next() % resultArray.length]);
     }
   ),
-  rest.get(`${baseURL}/users/:username/repos`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/repos`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -81878,319 +72714,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -82220,22 +72743,22 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/users/:username/site_admin`, (req, res, ctx) => {
+  rest.put(`${baseURL}/users/:username/site_admin`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/users/:username/site_admin`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/users/:username/site_admin`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/starred`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/starred`, (_, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/users/:username/subscriptions`, (req, res, ctx) => {
+  rest.get(`${baseURL}/users/:username/subscriptions`, (_, res, ctx) => {
     const resultArray = [
       [
         ctx.status(200),
@@ -82387,319 +72910,6 @@ export const handlers = [
               triage: faker.datatype.boolean(),
               pull: faker.datatype.boolean(),
             },
-            template_repository: {
-              id: 42,
-              node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
-              name: 'Team Environment',
-              full_name: 'octocat/Hello-World',
-              license: {
-                key: 'mit',
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-                spdx_id: 'MIT',
-                node_id: 'MDc6TGljZW5zZW1pdA==',
-                html_url: faker.internet.url(),
-              },
-              organization: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              forks: faker.datatype.number(),
-              permissions: {
-                admin: faker.datatype.boolean(),
-                pull: faker.datatype.boolean(),
-                triage: faker.datatype.boolean(),
-                push: faker.datatype.boolean(),
-                maintain: faker.datatype.boolean(),
-              },
-              owner: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                login: 'octocat',
-                id: 1,
-                node_id: 'MDQ6VXNlcjE=',
-                avatar_url: 'https://github.com/images/error/octocat_happy.gif',
-                gravatar_id: '41d064eb2195891e12d0413f63227ea7',
-                url: 'https://api.github.com/users/octocat',
-                html_url: 'https://github.com/octocat',
-                followers_url: 'https://api.github.com/users/octocat/followers',
-                following_url:
-                  'https://api.github.com/users/octocat/following{/other_user}',
-                gists_url:
-                  'https://api.github.com/users/octocat/gists{/gist_id}',
-                starred_url:
-                  'https://api.github.com/users/octocat/starred{/owner}{/repo}',
-                subscriptions_url:
-                  'https://api.github.com/users/octocat/subscriptions',
-                organizations_url: 'https://api.github.com/users/octocat/orgs',
-                repos_url: 'https://api.github.com/users/octocat/repos',
-                events_url:
-                  'https://api.github.com/users/octocat/events{/privacy}',
-                received_events_url:
-                  'https://api.github.com/users/octocat/received_events',
-                type: 'User',
-                site_admin: faker.datatype.boolean(),
-                starred_at: '"2020-07-09T00:17:55Z"',
-              },
-              private: faker.datatype.boolean(),
-              html_url: 'https://github.com/octocat/Hello-World',
-              description: 'This your first repo!',
-              fork: faker.datatype.boolean(),
-              url: 'https://api.github.com/repos/octocat/Hello-World',
-              archive_url:
-                'http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}',
-              assignees_url:
-                'http://api.github.com/repos/octocat/Hello-World/assignees{/user}',
-              blobs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}',
-              branches_url:
-                'http://api.github.com/repos/octocat/Hello-World/branches{/branch}',
-              collaborators_url:
-                'http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}',
-              comments_url:
-                'http://api.github.com/repos/octocat/Hello-World/comments{/number}',
-              commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/commits{/sha}',
-              compare_url:
-                'http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}',
-              contents_url:
-                'http://api.github.com/repos/octocat/Hello-World/contents/{+path}',
-              contributors_url:
-                'http://api.github.com/repos/octocat/Hello-World/contributors',
-              deployments_url:
-                'http://api.github.com/repos/octocat/Hello-World/deployments',
-              downloads_url:
-                'http://api.github.com/repos/octocat/Hello-World/downloads',
-              events_url:
-                'http://api.github.com/repos/octocat/Hello-World/events',
-              forks_url:
-                'http://api.github.com/repos/octocat/Hello-World/forks',
-              git_commits_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}',
-              git_refs_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}',
-              git_tags_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}',
-              git_url: 'git:github.com/octocat/Hello-World.git',
-              issue_comment_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}',
-              issue_events_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues/events{/number}',
-              issues_url:
-                'http://api.github.com/repos/octocat/Hello-World/issues{/number}',
-              keys_url:
-                'http://api.github.com/repos/octocat/Hello-World/keys{/key_id}',
-              labels_url:
-                'http://api.github.com/repos/octocat/Hello-World/labels{/name}',
-              languages_url:
-                'http://api.github.com/repos/octocat/Hello-World/languages',
-              merges_url:
-                'http://api.github.com/repos/octocat/Hello-World/merges',
-              milestones_url:
-                'http://api.github.com/repos/octocat/Hello-World/milestones{/number}',
-              notifications_url:
-                'http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}',
-              pulls_url:
-                'http://api.github.com/repos/octocat/Hello-World/pulls{/number}',
-              releases_url:
-                'http://api.github.com/repos/octocat/Hello-World/releases{/id}',
-              ssh_url: 'git@github.com:octocat/Hello-World.git',
-              stargazers_url:
-                'http://api.github.com/repos/octocat/Hello-World/stargazers',
-              statuses_url:
-                'http://api.github.com/repos/octocat/Hello-World/statuses/{sha}',
-              subscribers_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscribers',
-              subscription_url:
-                'http://api.github.com/repos/octocat/Hello-World/subscription',
-              tags_url: 'http://api.github.com/repos/octocat/Hello-World/tags',
-              teams_url:
-                'http://api.github.com/repos/octocat/Hello-World/teams',
-              trees_url:
-                'http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}',
-              clone_url: 'https://github.com/octocat/Hello-World.git',
-              mirror_url: 'git:git.example.com/octocat/Hello-World',
-              hooks_url:
-                'http://api.github.com/repos/octocat/Hello-World/hooks',
-              svn_url: 'https://svn.github.com/octocat/Hello-World',
-              homepage: 'https://github.com',
-              language: faker.lorem.slug(1),
-              forks_count: 9,
-              stargazers_count: 80,
-              watchers_count: 80,
-              size: 108,
-              default_branch: 'master',
-              open_issues_count: faker.datatype.number(),
-              is_template: true,
-              topics: [
-                ...new Array(
-                  faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                ).keys(),
-              ].map(_ => faker.lorem.slug(1)),
-              has_issues: true,
-              has_projects: true,
-              has_wiki: true,
-              has_pages: faker.datatype.boolean(),
-              has_downloads: true,
-              archived: faker.datatype.boolean(),
-              disabled: faker.datatype.boolean(),
-              visibility: faker.lorem.slug(1),
-              pushed_at: '2011-01-26T19:06:43Z',
-              created_at: '2011-01-26T19:01:12Z',
-              updated_at: '2011-01-26T19:14:43Z',
-              allow_rebase_merge: true,
-              template_repository: {
-                id: faker.datatype.number(),
-                node_id: faker.lorem.slug(1),
-                name: faker.name.findName(),
-                full_name: faker.name.findName(),
-                owner: {
-                  login: faker.lorem.slug(1),
-                  id: faker.datatype.number(),
-                  node_id: faker.lorem.slug(1),
-                  avatar_url: faker.internet.url(),
-                  gravatar_id: faker.lorem.slug(1),
-                  url: faker.internet.url(),
-                  html_url: faker.internet.url(),
-                  followers_url: faker.internet.url(),
-                  following_url: faker.internet.url(),
-                  gists_url: faker.internet.url(),
-                  starred_url: faker.internet.url(),
-                  subscriptions_url: faker.internet.url(),
-                  organizations_url: faker.internet.url(),
-                  repos_url: faker.internet.url(),
-                  events_url: faker.internet.url(),
-                  received_events_url: faker.internet.url(),
-                  type: faker.lorem.slug(1),
-                  site_admin: faker.datatype.boolean(),
-                },
-                private: faker.datatype.boolean(),
-                html_url: faker.internet.url(),
-                description: faker.lorem.slug(1),
-                fork: faker.datatype.boolean(),
-                url: faker.internet.url(),
-                archive_url: faker.internet.url(),
-                assignees_url: faker.internet.url(),
-                blobs_url: faker.internet.url(),
-                branches_url: faker.internet.url(),
-                collaborators_url: faker.internet.url(),
-                comments_url: faker.internet.url(),
-                commits_url: faker.internet.url(),
-                compare_url: faker.internet.url(),
-                contents_url: faker.internet.url(),
-                contributors_url: faker.internet.url(),
-                deployments_url: faker.internet.url(),
-                downloads_url: faker.internet.url(),
-                events_url: faker.internet.url(),
-                forks_url: faker.internet.url(),
-                git_commits_url: faker.internet.url(),
-                git_refs_url: faker.internet.url(),
-                git_tags_url: faker.internet.url(),
-                git_url: faker.internet.url(),
-                issue_comment_url: faker.internet.url(),
-                issue_events_url: faker.internet.url(),
-                issues_url: faker.internet.url(),
-                keys_url: faker.internet.url(),
-                labels_url: faker.internet.url(),
-                languages_url: faker.internet.url(),
-                merges_url: faker.internet.url(),
-                milestones_url: faker.internet.url(),
-                notifications_url: faker.internet.url(),
-                pulls_url: faker.internet.url(),
-                releases_url: faker.internet.url(),
-                ssh_url: faker.internet.url(),
-                stargazers_url: faker.internet.url(),
-                statuses_url: faker.internet.url(),
-                subscribers_url: faker.internet.url(),
-                subscription_url: faker.internet.url(),
-                tags_url: faker.internet.url(),
-                teams_url: faker.internet.url(),
-                trees_url: faker.internet.url(),
-                clone_url: faker.internet.url(),
-                mirror_url: faker.internet.url(),
-                hooks_url: faker.internet.url(),
-                svn_url: faker.internet.url(),
-                homepage: faker.lorem.slug(1),
-                language: faker.lorem.slug(1),
-                forks_count: faker.datatype.number(),
-                stargazers_count: faker.datatype.number(),
-                watchers_count: faker.datatype.number(),
-                size: faker.datatype.number(),
-                default_branch: faker.lorem.slug(1),
-                open_issues_count: faker.datatype.number(),
-                is_template: faker.datatype.boolean(),
-                topics: [
-                  ...new Array(
-                    faker.datatype.number({ max: MAX_ARRAY_LENGTH })
-                  ).keys(),
-                ].map(_ => faker.lorem.slug(1)),
-                has_issues: faker.datatype.boolean(),
-                has_projects: faker.datatype.boolean(),
-                has_wiki: faker.datatype.boolean(),
-                has_pages: faker.datatype.boolean(),
-                has_downloads: faker.datatype.boolean(),
-                archived: faker.datatype.boolean(),
-                disabled: faker.datatype.boolean(),
-                visibility: faker.lorem.slug(1),
-                pushed_at: faker.date.past(),
-                created_at: faker.date.past(),
-                updated_at: faker.date.past(),
-                permissions: {
-                  admin: faker.datatype.boolean(),
-                  maintain: faker.datatype.boolean(),
-                  push: faker.datatype.boolean(),
-                  triage: faker.datatype.boolean(),
-                  pull: faker.datatype.boolean(),
-                },
-                allow_rebase_merge: faker.datatype.boolean(),
-                temp_clone_token: faker.lorem.slug(1),
-                allow_squash_merge: faker.datatype.boolean(),
-                allow_auto_merge: faker.datatype.boolean(),
-                delete_branch_on_merge: faker.datatype.boolean(),
-                allow_update_branch: faker.datatype.boolean(),
-                allow_merge_commit: faker.datatype.boolean(),
-                subscribers_count: faker.datatype.number(),
-                network_count: faker.datatype.number(),
-              },
-              temp_clone_token: faker.lorem.slug(1),
-              allow_squash_merge: true,
-              allow_auto_merge: faker.datatype.boolean(),
-              delete_branch_on_merge: faker.datatype.boolean(),
-              allow_update_branch: faker.datatype.boolean(),
-              allow_merge_commit: true,
-              allow_forking: faker.datatype.boolean(),
-              subscribers_count: faker.datatype.number(),
-              network_count: faker.datatype.number(),
-              open_issues: faker.datatype.number(),
-              watchers: faker.datatype.number(),
-              master_branch: faker.lorem.slug(1),
-              starred_at: '"2020-07-09T00:17:42Z"',
-            },
             temp_clone_token: faker.lorem.slug(1),
             delete_branch_on_merge: faker.datatype.boolean(),
             subscribers_count: faker.datatype.number(),
@@ -82729,17 +72939,17 @@ export const handlers = [
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.put(`${baseURL}/users/:username/suspended`, (req, res, ctx) => {
+  rest.put(`${baseURL}/users/:username/suspended`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.delete(`${baseURL}/users/:username/suspended`, (req, res, ctx) => {
+  rest.delete(`${baseURL}/users/:username/suspended`, (_, res, ctx) => {
     const resultArray = [[ctx.status(204), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
   }),
-  rest.get(`${baseURL}/zen`, (req, res, ctx) => {
+  rest.get(`${baseURL}/zen`, (_, res, ctx) => {
     const resultArray = [[ctx.status(200), ctx.json(null)]];
 
     return res(...resultArray[next() % resultArray.length]);
@@ -82748,12 +72958,6 @@ export const handlers = [
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
-  if (typeof window === 'undefined') {
-    const { setupServer } = require('msw/node');
-    const server = setupServer(...handlers);
-    server.listen();
-  } else {
-    const worker = setupWorker(...handlers);
-    worker.start();
-  }
+  const worker = setupWorker(...handlers);
+  worker.start();
 };
