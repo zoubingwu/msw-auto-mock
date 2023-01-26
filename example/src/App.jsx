@@ -15,8 +15,9 @@ function App() {
       />
       <button
         onClick={async () => {
-          const res = await (await fetch(endpoint)).json();
-          setRes(res);
+          const res = await fetch(endpoint);
+          const data = await res.json();
+          setRes(data);
         }}
       >
         fetch
