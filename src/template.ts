@@ -1,5 +1,31 @@
 import { CliOptions } from './types';
 
+const getSetupCode = (isNode?: boolean) => {
+  if (isNode) {
+    return [
+      `const server = setupServer(...handlers);`,
+      `server.listen();`,
+    ].join('\n');
+  }
+
+  return [`const worker = setupWorker(...handlers);`, `worker.start();`].join(
+    '\n'
+  );
+};
+
+const getImportsCode = (options?: CliOptions) => {
+  const imports = [
+    `import { setupWorker, rest } from 'msw';`,
+    `import { faker } from '@faker-js/faker';`,
+  ];
+
+  if (options?.node) {
+    imports.push(`import { setupServer } from 'msw/node'`);
+  }
+
+  return imports.join('\n');
+};
+
 export const mockTemplate = (
   handlersCode: string,
   baseURL: string,
@@ -10,8 +36,7 @@ export const mockTemplate = (
 */
 /* eslint-disable */
 /* tslint:disable */
-import { setupWorker, rest } from 'msw';
-import { faker } from '@faker-js/faker';
+${getImportsCode(options)}
 
 faker.seed(1);
 
@@ -32,13 +57,6 @@ export const handlers = [
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
-  if (typeof window === 'undefined') {
-    const { setupServer } = require('msw/node');
-    const server = setupServer(...handlers);
-    server.listen();
-  } else {
-    const worker = setupWorker(...handlers);
-    worker.start();
-  }
+  ${getSetupCode(options?.node)}
 }
 `;

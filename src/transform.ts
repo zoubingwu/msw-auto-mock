@@ -14,7 +14,7 @@ export function transformToHandlerCode(
 ): string {
   return operationCollection
     .map(op => {
-      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (req, res, ctx) => {
+      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (_, res, ctx) => {
         const resultArray = [${op.responseMap.map(response => {
           return `[ctx.status(${parseInt(
             response?.code!

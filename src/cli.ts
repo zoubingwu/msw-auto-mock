@@ -24,6 +24,10 @@ cli
     '--base-url [baseUrl]',
     `Use the one you specified or server url in OpenAPI description as base url.`
   )
+  .option(
+    '--node',
+    `By default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.`
+  )
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')
   .action(async (spec, options) => {
