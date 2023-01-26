@@ -1,4 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types';
+import merge from 'lodash/merge';
 
 export type OperationCollection = {
   verb: string;
@@ -50,6 +51,25 @@ function transformJSONSchemaToFakerCode(
 
   if (jsonSchema.enum) {
     return `faker.helpers.arrayElement(${JSON.stringify(jsonSchema.enum)})`;
+  }
+
+  if (jsonSchema.allOf) {
+    const schemas = jsonSchema.allOf as OpenAPIV3.SchemaObject[];
+    return transformJSONSchemaToFakerCode(merge({}, ...schemas));
+  }
+
+  if (jsonSchema.oneOf) {
+    const schemas = jsonSchema.oneOf as OpenAPIV3.SchemaObject[];
+    return `faker.helpers.arrayElement([${schemas.map(i =>
+      transformJSONSchemaToFakerCode(i)
+    )}])`;
+  }
+
+  if (jsonSchema.anyOf) {
+    const schemas = jsonSchema.anyOf as OpenAPIV3.SchemaObject[];
+    return `faker.helpers.arrayElement([${schemas.map(i =>
+      transformJSONSchemaToFakerCode(i)
+    )}])`;
   }
 
   switch (jsonSchema.type) {

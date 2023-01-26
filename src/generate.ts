@@ -29,8 +29,8 @@ export async function generate(spec: string, options: CliOptions) {
       }
       return true;
     })
-    .map(operationDefinition => {
-      const { verb, path, responses } = operationDefinition;
+    .map(definition => {
+      const { verb, path, responses } = definition;
 
       const responseMap = Object.entries(responses).map(([code, response]) => {
         const content = apiGen.resolve(response).content;
@@ -49,6 +49,7 @@ export async function generate(spec: string, options: CliOptions) {
           },
           {} as Record<string, OpenAPIV3.SchemaObject>
         );
+
         return {
           code,
           responses: resolvedResponse,
@@ -111,6 +112,12 @@ export async function generate(spec: string, options: CliOptions) {
           return resolved;
         }, {} as Record<string, OpenAPIV3.SchemaObject>);
       }
+    } else if ('allOf' in schema) {
+      resolvedSchema.allOf = apiGen.resolveArray(schema.allOf);
+    } else if ('oneOf' in schema) {
+      resolvedSchema.oneOf = apiGen.resolveArray(schema.oneOf);
+    } else if ('anyOf' in schema) {
+      resolvedSchema.anyOf = apiGen.resolveArray(schema.anyOf);
     }
 
     return resolvedSchema;
