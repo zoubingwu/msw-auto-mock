@@ -18,14 +18,15 @@
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
     "test": "vitest run",
-    "gen:example": "node ./dist/cli.js https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.3/ghes-3.3.json --output ./example/src/mock.ts"
+    "gen:ghapi": "node ./dist/cli.js https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.3/ghes-3.3.json --output ./example/ghapi.js",
+    "gen:example": "node ./dist/cli.js ./test/fixture/githubapi.yaml --output ./example/src/mock.js"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "cac": "^6.7.12",
-    "oazapfts": "^3.6.0",
+    "oazapfts": "^4.5.2",
     "prettier": "2.5.1",
     "swagger2openapi": "^7.0.8"
   },
@@ -34,10 +35,10 @@
     "@types/node": "^17.0.45",
     "@types/prettier": "^2.6.3",
     "lodash": "^4.17.21",
-    "openapi-types": "^10.0.0",
-    "tsup": "^5.12.9",
-    "typescript": "^4.7.4",
-    "vitest": "^0.15.1"
+    "openapi-types": "^12.1.0",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4",
+    "vitest": "^0.28.2"
   },
   "repository": {
     "type": "git",
