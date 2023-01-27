@@ -1,27 +1,45 @@
 import { OpenAPIV3 } from 'openapi-types';
 import merge from 'lodash/merge';
+import camelCase from 'lodash/camelCase';
+
+export interface ResponseMap {
+  code: string;
+  id: string;
+  responses?: Record<string, OpenAPIV3.SchemaObject>;
+}
 
 export type OperationCollection = {
   verb: string;
   path: string;
-  responseMap: {
-    code: string;
-    responses?: Record<string, OpenAPIV3.SchemaObject>;
-  }[];
+  response: ResponseMap[];
 }[];
 
-export function transformToHandlerCode(
-  operationCollection: OperationCollection
-): string {
+export function getResIdentifierName(res: ResponseMap) {
+  if (!res.id) {
+    return '';
+  }
+  return camelCase(`get ${res.id}${res.code}Response`);
+}
+
+export function transformToResObject(operationCollection: OperationCollection): string {
+  return operationCollection.map(op => {
+    return op.response.map(r => {
+      const name = getResIdentifierName(r);
+      if (!name) {
+        return '';
+      }
+      return `export function ${getResIdentifierName(r)}() { return ${transformJSONSchemaToFakerCode(r.responses?.['application/json'])} };\n`
+    }).join('\n');
+  }).join('\n');
+}
+
+export function transformToHandlerCode(operationCollection: OperationCollection): string {
   return operationCollection
     .map(op => {
       return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (_, res, ctx) => {
-        const resultArray = [${op.responseMap.map(response => {
-          return `[ctx.status(${parseInt(
-            response?.code!
-          )}), ctx.json(${transformJSONSchemaToFakerCode(
-            response?.responses?.['application/json']
-          )})]`;
+        const resultArray = [${op.response.map(response => {
+          const identifier = getResIdentifierName(response);
+          return `[ctx.status(${parseInt(response?.code!)}), ctx.json(${identifier ? `${identifier}()` : 'null'})]`;
         })}];
 
           return res(...resultArray[next() % resultArray.length])
@@ -31,10 +49,7 @@ export function transformToHandlerCode(
     .trimEnd();
 }
 
-function transformJSONSchemaToFakerCode(
-  jsonSchema?: OpenAPIV3.SchemaObject,
-  key?: string
-): string {
+function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key?: string): string {
   if (!jsonSchema) {
     return 'null';
   }
@@ -102,7 +117,7 @@ function transformJSONSchemaToFakerCode(
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.datatype.number({ max: MAX_ARRAY_LENGTH }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
+      return `[...(new Array(faker.datatype.number({ min: 1, max: MAX_ARRAY_LENGTH }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
         jsonSchema.items as OpenAPIV3.SchemaObject
       )}))`;
     default:

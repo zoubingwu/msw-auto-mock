@@ -3,10 +3,11 @@ import * as path from 'path';
 
 import ApiGenerator from 'oazapfts/lib/codegen/generate';
 import { OpenAPIV3 } from 'openapi-types';
+import camelCase from 'lodash/camelCase';
 
 import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
-import { OperationCollection, transformToHandlerCode } from './transform';
+import { OperationCollection } from './transform';
 import { mockTemplate } from './template';
 import { CliOptions } from './types';
 
@@ -19,7 +20,8 @@ export async function generate(spec: string, options: CliOptions) {
   const operationDefinitions = getOperationDefinitions(apiDoc);
   const includes = options?.includes?.split(',') ?? null;
   const excludes = options?.excludes?.split(',') ?? null;
-  const operationCollection: OperationCollection = operationDefinitions
+
+  const operationCollection = operationDefinitions
     .filter(op => {
       if (includes && !includes.includes(op.path)) {
         return false;
@@ -30,12 +32,12 @@ export async function generate(spec: string, options: CliOptions) {
       return true;
     })
     .map(definition => {
-      const { verb, path, responses } = definition;
+      const { verb, path, responses, id } = definition;
 
       const responseMap = Object.entries(responses).map(([code, response]) => {
         const content = apiGen.resolve(response).content;
         if (!content) {
-          return { code };
+          return { code, id: '', responses: {} };
         }
 
         const resolvedResponse = Object.keys(content).reduce(
@@ -52,6 +54,7 @@ export async function generate(spec: string, options: CliOptions) {
 
         return {
           code,
+          id,
           responses: resolvedResponse,
         };
       });
@@ -59,9 +62,9 @@ export async function generate(spec: string, options: CliOptions) {
       return {
         verb,
         path: toExpressLikePath(path),
-        responseMap,
+        response: responseMap,
       };
-    });
+    }) as OperationCollection;
 
   let baseURL = '';
   if (options.baseUrl === true) {
@@ -70,7 +73,7 @@ export async function generate(spec: string, options: CliOptions) {
     baseURL = options.baseUrl;
   }
   code = mockTemplate(
-    transformToHandlerCode(operationCollection),
+    operationCollection,
     baseURL,
     options
   );
@@ -147,11 +150,10 @@ type OperationDefinition = {
   path: string;
   verb: string;
   responses: OpenAPIV3.ResponsesObject;
+  id: string;
 };
 
-function getOperationDefinitions(
-  v3Doc: OpenAPIV3.Document
-): OperationDefinition[] {
+function getOperationDefinitions(v3Doc: OpenAPIV3.Document): OperationDefinition[] {
   return Object.entries(v3Doc.paths).flatMap(([path, pathItem]) =>
     !pathItem
       ? []
@@ -159,10 +161,14 @@ function getOperationDefinitions(
           .filter((arg): arg is [string, OpenAPIV3.OperationObject] =>
             operationKeys.includes(arg[0] as any)
           )
-          .map(([verb, operation]) => ({
-            path,
-            verb,
-            responses: operation.responses,
-          }))
+          .map(([verb, operation]) => {
+            const id = camelCase(operation.operationId ?? (verb + '/' + path));
+            return {
+              path,
+              verb,
+              id,
+              responses: operation.responses,
+            }
+          })
   );
 }

@@ -1,4 +1,5 @@
 import { CliOptions } from './types';
+import { OperationCollection, transformToHandlerCode, transformToResObject } from './transform';
 
 const getSetupCode = (isNode?: boolean) => {
   if (isNode) {
@@ -27,7 +28,7 @@ const getImportsCode = (options?: CliOptions) => {
 };
 
 export const mockTemplate = (
-  handlersCode: string,
+  operationCollection: OperationCollection,
   baseURL: string,
   options?: CliOptions
 ) => `/**
@@ -52,8 +53,10 @@ const next = () => {
 }
 
 export const handlers = [
-  ${handlersCode}
+  ${transformToHandlerCode(operationCollection)}
 ];
+
+${transformToResObject(operationCollection)}
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {

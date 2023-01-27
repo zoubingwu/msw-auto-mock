@@ -19,7 +19,7 @@
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
     "test": "vitest run",
     "gen:ghapi": "node ./dist/cli.js https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.3/ghes-3.3.json --output ./example/ghapi.js",
-    "gen:example": "node ./dist/cli.js ./test/fixture/githubapi.yaml --output ./example/src/mock.js"
+    "gen:example": "npm run build && node ./dist/cli.js ./test/fixture/githubapi.yaml --output ./example/src/mock.js"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
