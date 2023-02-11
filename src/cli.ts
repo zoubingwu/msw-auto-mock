@@ -7,23 +7,11 @@ const cli = cac();
 
 cli
   .command('<spec>', 'Generating msw mock definitions with random fake data.')
-  .option(
-    '-o, --output <file>',
-    `Output file path such as \`./mock.js\`, without it'll output to stdout.`
-  )
+  .option('-o, --output <file>', `Output file path such as \`./mock.js\`, without it'll output to stdout.`)
   .option('-m, --max-array-length <number>', `Max array length, default to 20.`)
-  .option(
-    '-t, --includes <keywords>',
-    `Include the request path with given string, can be seperated with comma.`
-  )
-  .option(
-    '-e, --excludes <keywords>',
-    `Exclude the request path with given string, can be seperated with comma.`
-  )
-  .option(
-    '--base-url [baseUrl]',
-    `Use the one you specified or server url in OpenAPI description as base url.`
-  )
+  .option('-t, --includes <keywords>', `Include the request path with given string, can be seperated with comma.`)
+  .option('-e, --excludes <keywords>', `Exclude the request path with given string, can be seperated with comma.`)
+  .option('--base-url [baseUrl]', `Use the one you specified or server url in OpenAPI description as base url.`)
   .option(
     '--node',
     `By default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.`

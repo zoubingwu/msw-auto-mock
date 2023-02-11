@@ -8,11 +8,13 @@ export interface ResponseMap {
   responses?: Record<string, OpenAPIV3.SchemaObject>;
 }
 
-export type OperationCollection = {
+export interface Operation {
   verb: string;
   path: string;
   response: ResponseMap[];
-}[];
+}
+
+export type OperationCollection = Operation[];
 
 export function getResIdentifierName(res: ResponseMap) {
   if (!res.id) {
@@ -22,15 +24,21 @@ export function getResIdentifierName(res: ResponseMap) {
 }
 
 export function transformToResObject(operationCollection: OperationCollection): string {
-  return operationCollection.map(op => {
-    return op.response.map(r => {
-      const name = getResIdentifierName(r);
-      if (!name) {
-        return '';
-      }
-      return `export function ${getResIdentifierName(r)}() { return ${transformJSONSchemaToFakerCode(r.responses?.['application/json'])} };\n`
-    }).join('\n');
-  }).join('\n');
+  return operationCollection
+    .map(op =>
+      op.response
+        .map(r => {
+          const name = getResIdentifierName(r);
+          if (!name) {
+            return '';
+          }
+          return `export function ${getResIdentifierName(r)}() { return ${transformJSONSchemaToFakerCode(
+            r.responses?.['application/json']
+          )} };\n`;
+        })
+        .join('\n')
+    )
+    .join('\n');
 }
 
 export function transformToHandlerCode(operationCollection: OperationCollection): string {
@@ -75,16 +83,12 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 
   if (jsonSchema.oneOf) {
     const schemas = jsonSchema.oneOf as OpenAPIV3.SchemaObject[];
-    return `faker.helpers.arrayElement([${schemas.map(i =>
-      transformJSONSchemaToFakerCode(i)
-    )}])`;
+    return `faker.helpers.arrayElement([${schemas.map(i => transformJSONSchemaToFakerCode(i))}])`;
   }
 
   if (jsonSchema.anyOf) {
     const schemas = jsonSchema.anyOf as OpenAPIV3.SchemaObject[];
-    return `faker.helpers.arrayElement([${schemas.map(i =>
-      transformJSONSchemaToFakerCode(i)
-    )}])`;
+    return `faker.helpers.arrayElement([${schemas.map(i => transformJSONSchemaToFakerCode(i))}])`;
   }
 
   switch (jsonSchema.type) {
@@ -97,10 +101,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
-      if (
-        !jsonSchema.properties &&
-        typeof jsonSchema.additionalProperties === 'object'
-      ) {
+      if (!jsonSchema.properties && typeof jsonSchema.additionalProperties === 'object') {
         return `[...new Array(5).keys()].map(_ => ({ [faker.lorem.word()]: ${transformJSONSchemaToFakerCode(
           jsonSchema.additionalProperties as OpenAPIV3.SchemaObject
         )} })).reduce((acc, next) => Object.assign(acc, next), {})`;
@@ -109,10 +110,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
       return `{
         ${Object.entries(jsonSchema.properties ?? {})
           .map(([k, v]) => {
-            return `${JSON.stringify(k)}: ${transformJSONSchemaToFakerCode(
-              v as OpenAPIV3.SchemaObject,
-              k
-            )}`;
+            return `${JSON.stringify(k)}: ${transformJSONSchemaToFakerCode(v as OpenAPIV3.SchemaObject, k)}`;
           })
           .join(',\n')}
     }`;
@@ -129,17 +127,11 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
 function transformStringBasedOnFormat(format?: string, key?: string) {
-  if (
-    ['date-time', 'date', 'time'].includes(format ?? '') ||
-    key?.toLowerCase().endsWith('_at')
-  ) {
+  if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid') {
     return `faker.datatype.uuid()`;
-  } else if (
-    ['idn-email', 'email'].includes(format ?? '') ||
-    key?.toLowerCase().endsWith('email')
-  ) {
+  } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
     return `faker.internet.email()`;
   } else if (['hostname', 'idn-hostname'].includes(format ?? '')) {
     return `faker.internet.domainName()`;
@@ -148,9 +140,7 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   } else if (format === 'ipv6') {
     return `faker.internet.ipv6()`;
   } else if (
-    ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(
-      format ?? ''
-    ) ||
+    ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(format ?? '') ||
     key?.toLowerCase().endsWith('url')
   ) {
     return `faker.internet.url()`;

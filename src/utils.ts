@@ -20,10 +20,7 @@ const EXTENSION_TO_PARSER: Record<string, string> = {
   json: 'json',
 };
 
-export async function prettify(
-  filePath: string | null,
-  content: string
-): Promise<string> {
+export async function prettify(filePath: string | null, content: string): Promise<string> {
   let config = null;
   let parser = 'typescript';
 
