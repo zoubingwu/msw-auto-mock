@@ -5,4 +5,5 @@ export interface CliOptions {
   excludes?: string;
   baseUrl?: string | true;
   node?: boolean;
+  codes?: string;
 }
