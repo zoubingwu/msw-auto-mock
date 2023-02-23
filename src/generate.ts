@@ -20,6 +20,7 @@ export async function generate(spec: string, options: CliOptions) {
   const operationDefinitions = getOperationDefinitions(apiDoc);
   const operationCollection = operationDefinitions
     .filter(op => operationFilter(op, options))
+    .map(op => codeFilter(op, options))
     .map(definition => toOperation(definition, apiGen));
 
   let baseURL = '';
@@ -90,6 +91,27 @@ function operationFilter(operation: OperationDefinition, options: CliOptions): b
     return false;
   }
   return true;
+}
+
+function codeFilter(operation: OperationDefinition, options: CliOptions): OperationDefinition {
+  const codes = options?.codes?.split(',') ?? null;
+
+  const responses = Object.entries(operation.responses)
+    .filter(([code]) => {
+      if (codes && !codes.includes(code)) {
+        return false;
+      }
+      return true;
+    })
+    .map(([code, response]) => ({
+      [code]: response,
+    }))
+    .reduce((acc, curr) => ({ ...acc, ...curr }), {} as OpenAPIV3.ResponsesObject);
+
+  return {
+    ...operation,
+    responses,
+  };
 }
 
 function toOperation(definition: OperationDefinition, apiGen: ApiGenerator): Operation {
