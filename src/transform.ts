@@ -47,7 +47,9 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
       return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (_, res, ctx) => {
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
-          return `[ctx.status(${parseInt(response?.code!)}), ctx.json(${identifier ? `${identifier}()` : 'null'})]`;
+          return parseInt(response?.code!) === 204
+            ? `[ctx.status(${parseInt(response?.code!)})]`
+            : `[ctx.status(${parseInt(response?.code!)}), ctx.json(${identifier ? `${identifier}()` : 'null'})]`;
         })}];
 
           return res(...resultArray[next() % resultArray.length])
