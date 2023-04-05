@@ -16,6 +16,7 @@ importers:
       swagger2openapi: ^7.0.8
       tsup: ^6.5.0
       typescript: ^4.9.4
+      vite: ^4.0.4
       vitest: ^0.28.2
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0_openapi-types@12.1.0
@@ -31,6 +32,7 @@ importers:
       openapi-types: 12.1.0
       tsup: 6.5.0_typescript@4.9.4
       typescript: 4.9.4
+      vite: 4.0.4_@types+node@17.0.45
       vitest: 0.28.2
 
   example:

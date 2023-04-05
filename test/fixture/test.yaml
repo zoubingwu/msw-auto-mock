@@ -1,0 +1,73 @@
+openapi: '3.0.2'
+info:
+  title: Test
+  version: '1.0'
+components:
+  schemas:
+    Creator:
+      description: Creator
+      allOf:
+        - $ref: '#/components/schemas/BaseEntity'
+        - type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+    BaseEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
+        creator:
+          $ref: '#/components/schemas/Creator' 
+    TestEntity:
+      description: TestEntity
+      allOf:
+        - $ref: '#/components/schemas/BaseEntity'
+        - type: object
+          properties:
+            name:
+              type: string
+              minimum: 1
+    OkResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          enum:
+            - 200
+        msg:
+          type: string
+          enum:
+            - success
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/OkResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          rows:
+                            type: array
+                            items:
+                              allOf:
+                               - $ref: '#/components/schemas/TestEntity'
+
+                            
+
+
