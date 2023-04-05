@@ -97,9 +97,8 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
     case 'string':
       return transformStringBasedOnFormat(jsonSchema.format, key);
     case 'number':
-      return `faker.datatype.number()`;
     case 'integer':
-      return `faker.datatype.number()`;
+      return `faker.datatype.number({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
@@ -117,9 +116,9 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.datatype.number({ min: 1, max: MAX_ARRAY_LENGTH }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
-        jsonSchema.items as OpenAPIV3.SchemaObject
-      )}))`;
+      return `[...(new Array(faker.datatype.number({ min: ${jsonSchema.minLength ?? 1}, max: ${
+        jsonSchema.maxLength ?? 'MAX_ARRAY_LENGTH'
+      } }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(jsonSchema.items as OpenAPIV3.SchemaObject)}))`;
     default:
       return 'null';
   }
