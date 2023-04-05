@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import ApiGenerator from 'oazapfts/lib/codegen/generate';
+import ApiGenerator, { isReference } from 'oazapfts/lib/codegen/generate';
 import { OpenAPIV3 } from 'openapi-types';
 import camelCase from 'lodash/camelCase';
 
@@ -11,17 +11,22 @@ import { Operation } from './transform';
 import { mockTemplate } from './template';
 import { CliOptions } from './types';
 
+export function generateOperationCollection(apiDoc: OpenAPIV3.Document, options: CliOptions) {
+  const apiGen = new ApiGenerator(apiDoc, {});
+
+  const operationDefinitions = getOperationDefinitions(apiDoc);
+  return operationDefinitions
+    .filter(op => operationFilter(op, options))
+    .map(op => codeFilter(op, options))
+    .map(definition => toOperation(definition, apiGen));
+}
+
 export async function generate(spec: string, options: CliOptions) {
   const { output: outputFile } = options;
   let code: string;
   const apiDoc = await getV3Doc(spec);
-  const apiGen = new ApiGenerator(apiDoc, {});
 
-  const operationDefinitions = getOperationDefinitions(apiDoc);
-  const operationCollection = operationDefinitions
-    .filter(op => operationFilter(op, options))
-    .map(op => codeFilter(op, options))
-    .map(definition => toOperation(definition, apiGen));
+  const operationCollection = await generateOperationCollection(apiDoc, options);
 
   let baseURL = '';
   if (options.baseUrl === true) {
@@ -146,7 +151,18 @@ function toOperation(definition: OperationDefinition, apiGen: ApiGenerator): Ope
   };
 }
 
+const resolvingRefs: string[] = [];
+
 function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, apiGen: ApiGenerator) {
+  let ref: string | undefined;
+  if (isReference(schema)) {
+    if (resolvingRefs.includes(schema.$ref)) {
+      console.warn(`circular reference for path ${[...resolvingRefs, schema.$ref].join(' -> ')} found`);
+      return schema as OpenAPIV3.SchemaObject;
+    }
+    ref = schema.$ref;
+    resolvingRefs.push(schema.$ref);
+  }
   const resolvedSchema = apiGen.resolve(schema) as OpenAPIV3.SchemaObject;
 
   if (resolvedSchema.type === 'array') {
@@ -154,7 +170,7 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
     resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items, apiGen);
   } else if (resolvedSchema.type === 'object') {
     if (!resolvedSchema.properties && typeof resolvedSchema.additionalProperties === 'object') {
-      if ('$ref' in resolvedSchema.additionalProperties) {
+      if (isReference(resolvedSchema.additionalProperties)) {
         resolvedSchema.additionalProperties = recursiveResolveSchema(
           apiGen.resolve(resolvedSchema.additionalProperties),
           apiGen
@@ -168,12 +184,19 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
         return resolved;
       }, {} as Record<string, OpenAPIV3.SchemaObject>);
     }
-  } else if ('allOf' in schema) {
-    resolvedSchema.allOf = apiGen.resolveArray(schema.allOf);
-  } else if ('oneOf' in schema) {
-    resolvedSchema.oneOf = apiGen.resolveArray(schema.oneOf);
-  } else if ('anyOf' in schema) {
-    resolvedSchema.anyOf = apiGen.resolveArray(schema.anyOf);
+  } else if (resolvedSchema.allOf) {
+    resolvedSchema.allOf = resolvedSchema.allOf.map(item => recursiveResolveSchema(item, apiGen));
+  } else if (resolvedSchema.oneOf) {
+    resolvedSchema.oneOf = resolvedSchema.oneOf.map(item => recursiveResolveSchema(item, apiGen));
+  } else if (resolvedSchema.anyOf) {
+    resolvedSchema.anyOf = resolvedSchema.anyOf.map(item => recursiveResolveSchema(item, apiGen));
+  }
+
+  if (ref) {
+    const index = resolvingRefs.findIndex(item => item === ref);
+    if (index !== -1) {
+      resolvingRefs.splice(index, 1);
+    }
   }
 
   return resolvedSchema;
