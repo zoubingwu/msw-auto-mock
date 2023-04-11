@@ -153,51 +153,55 @@ function toOperation(definition: OperationDefinition, apiGen: ApiGenerator): Ope
 
 const resolvingRefs: string[] = [];
 
-function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, apiGen: ApiGenerator) {
-  let ref: string | undefined;
+function autoPopRefs<T>(cb: () => T) {
+  const n = resolvingRefs.length;
+  const res = cb();
+  resolvingRefs.length = n;
+  return res;
+}
+
+function resolve(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, apiGen: ApiGenerator) {
   if (isReference(schema)) {
     if (resolvingRefs.includes(schema.$ref)) {
       console.warn(`circular reference for path ${[...resolvingRefs, schema.$ref].join(' -> ')} found`);
       return schema as OpenAPIV3.SchemaObject;
     }
-    ref = schema.$ref;
     resolvingRefs.push(schema.$ref);
   }
-  const resolvedSchema = apiGen.resolve(schema) as OpenAPIV3.SchemaObject;
+  return apiGen.resolve(schema);
+}
 
-  if (resolvedSchema.type === 'array') {
-    resolvedSchema.items = apiGen.resolve(resolvedSchema.items);
-    resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items, apiGen);
-  } else if (resolvedSchema.type === 'object') {
-    if (!resolvedSchema.properties && typeof resolvedSchema.additionalProperties === 'object') {
-      if (isReference(resolvedSchema.additionalProperties)) {
-        resolvedSchema.additionalProperties = recursiveResolveSchema(
-          apiGen.resolve(resolvedSchema.additionalProperties),
-          apiGen
-        );
+function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, apiGen: ApiGenerator) {
+  return autoPopRefs(() => {
+    const resolvedSchema = resolve(schema, apiGen) as OpenAPIV3.SchemaObject;
+
+    if (resolvedSchema.type === 'array') {
+      resolvedSchema.items = resolve(resolvedSchema.items, apiGen);
+      resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items, apiGen);
+    } else if (resolvedSchema.type === 'object') {
+      if (!resolvedSchema.properties && typeof resolvedSchema.additionalProperties === 'object') {
+        if (isReference(resolvedSchema.additionalProperties)) {
+          resolvedSchema.additionalProperties = recursiveResolveSchema(
+            resolve(resolvedSchema.additionalProperties, apiGen),
+            apiGen
+          );
+        }
       }
+
+      if (resolvedSchema.properties) {
+        resolvedSchema.properties = Object.entries(resolvedSchema.properties).reduce((resolved, [key, value]) => {
+          resolved[key] = recursiveResolveSchema(value, apiGen);
+          return resolved;
+        }, {} as Record<string, OpenAPIV3.SchemaObject>);
+      }
+    } else if (resolvedSchema.allOf) {
+      resolvedSchema.allOf = resolvedSchema.allOf.map(item => recursiveResolveSchema(item, apiGen));
+    } else if (resolvedSchema.oneOf) {
+      resolvedSchema.oneOf = resolvedSchema.oneOf.map(item => recursiveResolveSchema(item, apiGen));
+    } else if (resolvedSchema.anyOf) {
+      resolvedSchema.anyOf = resolvedSchema.anyOf.map(item => recursiveResolveSchema(item, apiGen));
     }
 
-    if (resolvedSchema.properties) {
-      resolvedSchema.properties = Object.entries(resolvedSchema.properties).reduce((resolved, [key, value]) => {
-        resolved[key] = recursiveResolveSchema(value, apiGen);
-        return resolved;
-      }, {} as Record<string, OpenAPIV3.SchemaObject>);
-    }
-  } else if (resolvedSchema.allOf) {
-    resolvedSchema.allOf = resolvedSchema.allOf.map(item => recursiveResolveSchema(item, apiGen));
-  } else if (resolvedSchema.oneOf) {
-    resolvedSchema.oneOf = resolvedSchema.oneOf.map(item => recursiveResolveSchema(item, apiGen));
-  } else if (resolvedSchema.anyOf) {
-    resolvedSchema.anyOf = resolvedSchema.anyOf.map(item => recursiveResolveSchema(item, apiGen));
-  }
-
-  if (ref) {
-    const index = resolvingRefs.findIndex(item => item === ref);
-    if (index !== -1) {
-      resolvingRefs.splice(index, 1);
-    }
-  }
-
-  return resolvedSchema;
+    return resolvedSchema;
+  });
 }
