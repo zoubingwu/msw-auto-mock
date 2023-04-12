@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import keys from 'lodash/keys';
 import { OpenAPIV3 } from 'openapi-types';
 import { beforeAll, describe, it, expect } from 'vitest';
 
@@ -49,6 +50,6 @@ describe('generate:generateOperationCollection', () => {
       'allOf',
       0,
     ]);
-    expect(creatorBaseEntity).toMatchObject({ $ref: '#/components/schemas/BaseEntity' });
+    expect(keys(creatorBaseEntity).length).toEqual(0);
   });
 });

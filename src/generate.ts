@@ -164,7 +164,7 @@ function resolve(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, api
   if (isReference(schema)) {
     if (resolvingRefs.includes(schema.$ref)) {
       console.warn(`circular reference for path ${[...resolvingRefs, schema.$ref].join(' -> ')} found`);
-      return schema as OpenAPIV3.SchemaObject;
+      return {};
     }
     resolvingRefs.push(schema.$ref);
   }
