@@ -168,7 +168,7 @@ function resolve(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, api
     }
     resolvingRefs.push(schema.$ref);
   }
-  return apiGen.resolve(schema);
+  return { ...apiGen.resolve(schema) };
 }
 
 function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject, apiGen: ApiGenerator) {
