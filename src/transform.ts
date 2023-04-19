@@ -98,7 +98,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
       return transformStringBasedOnFormat(jsonSchema.format, key);
     case 'number':
     case 'integer':
-      return `faker.datatype.number({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
+      return transformNumberBasedOnSchema(jsonSchema);
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
@@ -116,9 +116,9 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.datatype.number({ min: ${jsonSchema.minLength ?? 1}, max: ${
-        jsonSchema.maxLength ?? 'MAX_ARRAY_LENGTH'
-      } }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(jsonSchema.items as OpenAPIV3.SchemaObject)}))`;
+      return `[...(new Array(faker.datatype.number({ min: ${jsonSchema.minItems ?? 1}, max: ${jsonSchema.maxItems ?? 'MAX_ARRAY_LENGTH'} }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(
+        jsonSchema.items as OpenAPIV3.SchemaObject
+      )}))`;
     default:
       return 'null';
   }
@@ -150,4 +150,14 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   } else {
     return `faker.lorem.slug(1)`;
   }
+}
+
+function transformNumberBasedOnSchema(schema?: OpenAPIV3.SchemaObject) {
+  const params = {
+    min: schema?.minimum,
+    max: schema?.maximum
+  }
+
+  return `faker.datatype.number(${JSON.stringify(params)})`
+
 }
