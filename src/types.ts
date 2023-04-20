@@ -6,4 +6,7 @@ export interface CliOptions {
   baseUrl?: string | true;
   node?: boolean;
   codes?: string;
+  responseConditions?: string
 }
+
+export type ResponseConditions = Record<string, Record<string, Record<string, string>>>

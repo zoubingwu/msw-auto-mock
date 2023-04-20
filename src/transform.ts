@@ -2,6 +2,8 @@ import { OpenAPIV3 } from 'openapi-types';
 import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
 
+import { ResponseConditions } from './types';
+
 export interface ResponseMap {
   code: string;
   id: string;
@@ -41,10 +43,10 @@ export function transformToResObject(operationCollection: OperationCollection): 
     .join('\n');
 }
 
-export function transformToHandlerCode(operationCollection: OperationCollection): string {
+export function transformToHandlerCode(operationCollection: OperationCollection, responseConditions?: ResponseConditions): string {
   return operationCollection
     .map(op => {
-      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (_, res, ctx) => {
+      let handler = `
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
           return parseInt(response?.code!) === 204
@@ -53,6 +55,35 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
         })}];
 
           return res(...resultArray[next() % resultArray.length])
+      `;
+
+      if(responseConditions?.[op.path]?.[op.verb]){
+        const config = responseConditions[op.path][op.verb];
+        const configCodes = Object.keys(config);
+        const opCodes = op.response?.map(response => response.code)
+        const defaultHandler = op.response?.filter?.(response => response.code === 'default');
+        const mappedHandler = configCodes.map(code => {
+          if(opCodes.includes(code)){
+            const response = op.response.filter(response => response.code === code)[0]
+            const identifier = getResIdentifierName(response);
+            return `if (${config[code]}) {
+              return res(ctx.status(${code}), ctx.json(${identifier ? `${identifier}()` : 'null'}))
+            }`
+          }
+        });
+
+        if (defaultHandler.length){
+          const identifier = getResIdentifierName(defaultHandler[0]);
+          mappedHandler.push(`return res(ctx.json(${identifier ? `${identifier}()` : 'null'}))`)
+        }
+
+        if (mappedHandler.length){
+          handler = mappedHandler.join("\n")
+        }
+      }
+
+      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (req, res, ctx) => {
+        ${handler}
         }),\n`;
     })
     .join('  ')

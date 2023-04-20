@@ -34,7 +34,14 @@ export async function generate(spec: string, options: CliOptions) {
   } else if (typeof options.baseUrl === 'string') {
     baseURL = options.baseUrl;
   }
-  code = mockTemplate(operationCollection, baseURL, options);
+
+  let responseConditions;
+  if (options.responseConditions) {
+    const contents = fs.readFileSync(path.resolve(process.cwd(), options.responseConditions), 'utf8')
+    responseConditions = contents && JSON.parse(contents);
+  }
+
+  code = mockTemplate(operationCollection, baseURL, responseConditions, options);
 
   if (outputFile) {
     fs.writeFileSync(path.resolve(process.cwd(), outputFile), await prettify(outputFile, code));
