@@ -20,6 +20,7 @@ importers:
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0_openapi-types@12.1.0
       cac: 6.7.12
+      lodash: 4.17.21
       oazapfts: 4.5.2_openapi-types@12.1.0
       prettier: 2.5.1
       swagger2openapi: 7.0.8
@@ -27,7 +28,6 @@ importers:
       '@types/lodash': 4.14.182
       '@types/node': 17.0.45
       '@types/prettier': 2.6.3
-      lodash: 4.17.21
       openapi-types: 12.1.0
       tsup: 6.5.0_typescript@4.9.4
       typescript: 4.9.4
