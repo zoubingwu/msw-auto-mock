@@ -4,7 +4,7 @@ export const tsup: Options = {
   splitting: false,
   sourcemap: false,
   clean: true,
-  minify: true,
+  minify: false,
   format: ['cjs', 'esm'],
   dts: true,
   entryPoints: ['src/cli.ts'],
