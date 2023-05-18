@@ -98,7 +98,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
       return transformStringBasedOnFormat(jsonSchema.format, key);
     case 'number':
     case 'integer':
-      return `faker.datatype.number({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
+      return `faker.datatype.int({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
