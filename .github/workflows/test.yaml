@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7.2.1
+          version: 8.5.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
