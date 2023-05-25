@@ -1,8 +1,8 @@
 import { CliOptions } from './types';
 import { OperationCollection, transformToHandlerCode, transformToResObject } from './transform';
 
-const getSetupCode = (isNode?: boolean) => {
-  if (isNode) {
+const getSetupCode = (options?: CliOptions) => {
+  if (options?.node || options?.reactNative) {
     return [`const server = setupServer(...handlers);`, `server.listen();`].join('\n');
   }
 
@@ -14,6 +14,8 @@ const getImportsCode = (options?: CliOptions) => {
 
   if (options?.node) {
     imports.push(`import { setupServer } from 'msw/node'`);
+  } else if (options?.reactNative) {
+    imports.push(`import { setupServer } from 'msw/native'`);
   }
 
   return imports.join('\n');
@@ -48,6 +50,6 @@ ${transformToResObject(operationCollection)}
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
-  ${getSetupCode(options?.node)}
+  ${getSetupCode(options)}
 }
 `;
