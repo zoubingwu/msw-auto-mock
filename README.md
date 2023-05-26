@@ -59,8 +59,8 @@ Run you app then you'll see a successful activation message from Mock Service Wo
 
 - `-o, --output`: specify output file path or output to stdout.
 - `-m, --max-array-length <number>`: specify max array length in response, default value is `20`, it'll cost some time if you want to generate a huge chunk of random data.
-- `-t, --include <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
-- `-e, --exclude <keywords>`: specify keywords to exclude, multiple keywords can be seperated with comma.
+- `-t, --includes <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
+- `-e, --excludes <keywords>`: specify keywords to exclude, multiple keywords can be seperated with comma.
 - `--base-url`: output code with specified base url or fallback to server host specified in OpenAPI.
 - `--node`: by default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.
 - `-c, --codes <keywords>`: comma separated list of status codes to generate responses for
