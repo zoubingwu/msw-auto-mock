@@ -1,6 +1,6 @@
 {
   "name": "msw-auto-mock",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Generate random mock data from OpenAPI descriptions for msw.",
   "main": "dist/cli.js",
   "module": "./dist/cli.mjs",
