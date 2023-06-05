@@ -6,4 +6,5 @@ export interface CliOptions {
   baseUrl?: string | true;
   node?: boolean;
   codes?: string;
+  reactNative?: boolean;
 }
