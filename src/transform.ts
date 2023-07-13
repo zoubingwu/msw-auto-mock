@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
-import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
+import merge from 'lodash/merge';
+import { OpenAPIV3 } from 'openapi-types';
 
 export interface ResponseMap {
   code: string;
@@ -130,7 +130,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 function transformStringBasedOnFormat(format?: string, key?: string) {
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
-  } else if (format === 'uuid') {
+  } else if (format === 'uuid' || key?.toLowerCase() === 'id' || key?.toLowerCase().endsWith('_id')) {
     return `faker.datatype.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
     return `faker.internet.email()`;
