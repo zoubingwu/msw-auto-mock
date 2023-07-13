@@ -131,7 +131,7 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid' || key?.toLowerCase() === 'id' || key?.toLowerCase().endsWith('_id')) {
-    return `faker.datatype.uuid()`;
+    return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
     return `faker.internet.email()`;
   } else if (['hostname', 'idn-hostname'].includes(format ?? '')) {
@@ -144,9 +144,8 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
     ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(format ?? '') ||
     key?.toLowerCase().endsWith('url')
   ) {
-    if (['photo', 'image', 'picture'].some(image => key?.toLowerCase().includes(image)))
-    {
-      return `faker.image.image()`
+    if (['photo', 'image', 'picture'].some(image => key?.toLowerCase().includes(image))) {
+      return `faker.image.image()`;
     }
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {
