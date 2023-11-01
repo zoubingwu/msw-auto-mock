@@ -40,6 +40,10 @@
     "typescript": "^4.9.4",
     "vitest": "^0.28.2"
   },
+  "peerDependencies": {
+    "@faker-js/faker": "^8.2.0",
+    "msw": "^2.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zoubingwu/msw-auto-mock.git"

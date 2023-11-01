@@ -10,7 +10,7 @@ const getSetupCode = (options?: CliOptions) => {
 };
 
 const getImportsCode = (options?: CliOptions) => {
-  const imports = [`import { setupWorker, rest } from 'msw';`, `import { faker } from '@faker-js/faker';`];
+  const imports = [`import { HttpResponse, http, setupWorker } from 'msw';`, `import { faker } from '@faker-js/faker';`];
 
   if (options?.node) {
     imports.push(`import { setupServer } from 'msw/node'`);
