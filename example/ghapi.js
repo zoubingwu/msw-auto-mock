@@ -4,8 +4,9 @@
  */
 /* eslint-disable */
 /* tslint:disable */
-import { HttpResponse, http, setupWorker } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
+import { setupWorker } from 'msw/browser';
 
 faker.seed(1);
 
