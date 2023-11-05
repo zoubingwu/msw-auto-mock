@@ -1,7 +1,7 @@
 node_modules/
 dist/
 example/src/mock.js
-example/node.js
+example/test*.js
 
 .idea/
 .vscode/
