@@ -44,15 +44,15 @@ export function transformToResObject(operationCollection: OperationCollection): 
 export function transformToHandlerCode(operationCollection: OperationCollection): string {
   return operationCollection
     .map(op => {
-      return `rest.${op.verb}(\`\${baseURL}${op.path}\`, (_, res, ctx) => {
+      return `http.${op.verb}(\`\${baseURL}${op.path}\`, () => {
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
           return parseInt(response?.code!) === 204
-            ? `[ctx.status(${parseInt(response?.code!)})]`
-            : `[ctx.status(${parseInt(response?.code!)}), ctx.json(${identifier ? `${identifier}()` : 'null'})]`;
+            ? `[null, { status: ${parseInt(response?.code!)} }]`
+            : `[${identifier ? `${identifier}()` : 'null'}, { status: ${parseInt(response?.code!)} }]`;
         })}];
 
-          return res(...resultArray[next() % resultArray.length])
+          return HttpResponse.json(...resultArray[next() % resultArray.length])
         }),\n`;
     })
     .join('  ')
