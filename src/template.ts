@@ -34,8 +34,8 @@ ${getImportsCode(options)}
 faker.seed(1);
 
 const baseURL = '${baseURL}';
-const MAX_ARRAY_LENGTH = ${options?.maxArrayLength ?? 20};
 
+${options?.static === true ? '' : `const MAX_ARRAY_LENGTH = ${options?.maxArrayLength ?? 20};`}
 let i = 0;
 const next = () => {
   if (i === Number.MAX_SAFE_INTEGER - 1) {
@@ -48,7 +48,7 @@ export const handlers = [
   ${transformToHandlerCode(operationCollection)}
 ];
 
-${transformToResObject(operationCollection)}
+${transformToResObject(operationCollection, options)}
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {

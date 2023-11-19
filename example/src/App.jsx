@@ -1,15 +1,6 @@
 import { useState } from 'react';
 
-const methods = [
-  'GET',
-  'POST',
-  'PUT',
-  'PATCH',
-  'DELETE',
-  'HEAD',
-  'OPTIONS',
-  'TRACE',
-];
+const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE'];
 
 function App() {
   const [method, setMethod] = useState(methods[0]);
@@ -30,11 +21,7 @@ function App() {
       </select>
       <br />
       <label>Endpoint: </label>
-      <input
-        type="text"
-        value={endpoint}
-        onChange={e => setEndpoint(e.target.value)}
-      />
+      <input type="text" value={endpoint} onChange={e => setEndpoint(e.target.value)} />
       <br />
       <button
         onClick={async () => {
