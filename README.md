@@ -12,7 +12,7 @@ We already have all the type definitions from OpenAPI spec so hand-writing every
 
 ## Usage
 
-**This tool also requires @faker-js/faker >= 7.**
+**This tool also requires @faker-js/faker >= 8 and msw >= 2.**
 
 Install:
 
