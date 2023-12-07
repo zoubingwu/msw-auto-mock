@@ -62,6 +62,7 @@ Run you app then you'll see a successful activation message from Mock Service Wo
 - `-t, --includes <keywords>`: specify keywords to match if you want to generate mock data only for certain requests, multiple keywords can be seperated with comma.
 - `-e, --excludes <keywords>`: specify keywords to exclude, multiple keywords can be seperated with comma.
 - `--base-url`: output code with specified base url or fallback to server host specified in OpenAPI.
+- `--static`: By default it will generate dynamic mocks, use this flag if you need it to be static.
 - `--node`: by default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.
 - `--react-native`: by default it will generate code for browser environment, use this flag if you want to use it in React Native environment. Additionally, you will need to add polyfills to patch the global environment by installing react-native-url-polyfill.
 - `-c, --codes <keywords>`: comma separated list of status codes to generate responses for

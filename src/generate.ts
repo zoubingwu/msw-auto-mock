@@ -26,7 +26,7 @@ export async function generate(spec: string, options: CliOptions) {
   let code: string;
   const apiDoc = await getV3Doc(spec);
 
-  const operationCollection = await generateOperationCollection(apiDoc, options);
+  const operationCollection = generateOperationCollection(apiDoc, options);
 
   let baseURL = '';
   if (options.baseUrl === true) {

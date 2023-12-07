@@ -1,6 +1,9 @@
+import vm from 'node:vm';
 import { OpenAPIV3 } from 'openapi-types';
 import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
+import { faker } from '@faker-js/faker';
+import { CliOptions } from './types';
 
 export interface ResponseMap {
   code: string;
@@ -23,7 +26,19 @@ export function getResIdentifierName(res: ResponseMap) {
   return camelCase(`get ${res.id}${res.code}Response`);
 }
 
-export function transformToResObject(operationCollection: OperationCollection): string {
+export function transformToGenerateResultFunctions(
+  operationCollection: OperationCollection,
+  baseURL: string,
+  options?: CliOptions
+): string {
+  const context = {
+    faker,
+    MAX_ARRAY_LENGTH: options?.maxArrayLength ?? 20,
+    baseURL: baseURL ?? '',
+    result: null,
+  };
+  vm.createContext(context);
+
   return operationCollection
     .map(op =>
       op.response
@@ -32,9 +47,19 @@ export function transformToResObject(operationCollection: OperationCollection): 
           if (!name) {
             return '';
           }
-          return `export function ${getResIdentifierName(r)}() { return ${transformJSONSchemaToFakerCode(
-            r.responses?.['application/json']
-          )} };\n`;
+
+          const fakerResult = transformJSONSchemaToFakerCode(r.responses?.['application/json']);
+
+          if (options?.static) {
+            vm.runInContext(`result = ${fakerResult};`, context);
+          }
+
+          return [
+            `export function `,
+            `${getResIdentifierName(r)}() { `,
+            `return ${options?.static ? JSON.stringify(context.result) : fakerResult} `,
+            `};\n`,
+          ].join('');
         })
         .join('\n')
     )
@@ -145,7 +170,7 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
     key?.toLowerCase().endsWith('url')
   ) {
     if (['photo', 'image', 'picture'].some(image => key?.toLowerCase().includes(image))) {
-      return `faker.image.image()`;
+      return `faker.image.url()`;
     }
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {

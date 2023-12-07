@@ -7,4 +7,5 @@ export interface CliOptions {
   node?: boolean;
   codes?: string;
   reactNative?: boolean;
+  static?: boolean;
 }
