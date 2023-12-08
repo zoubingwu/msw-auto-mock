@@ -79,8 +79,8 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
   }
 
   if (jsonSchema.allOf) {
-    const schemas = jsonSchema.allOf as OpenAPIV3.SchemaObject[];
-    return transformJSONSchemaToFakerCode(merge({}, ...schemas));
+    const { allOf, ...rest } = jsonSchema;
+    return transformJSONSchemaToFakerCode(merge({}, ...allOf, rest));
   }
 
   if (jsonSchema.oneOf) {
@@ -144,9 +144,8 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
     ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(format ?? '') ||
     key?.toLowerCase().endsWith('url')
   ) {
-    if (['photo', 'image', 'picture'].some(image => key?.toLowerCase().includes(image)))
-    {
-      return `faker.image.image()`
+    if (['photo', 'image', 'picture'].some(image => key?.toLowerCase().includes(image))) {
+      return `faker.image.image()`;
     }
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {

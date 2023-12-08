@@ -5,6 +5,8 @@ import { beforeAll, describe, it, expect } from 'vitest';
 
 import { getV3Doc } from '../src/swagger';
 import { generateOperationCollection } from '../src/generate';
+import { mockTemplate } from '../src/template';
+import { prettify } from '../src/utils';
 
 const generateCollectionFromSpec = async (spec: string) => {
   const apiDoc = await getV3Doc(spec);
@@ -29,7 +31,19 @@ describe('generate:generateOperationCollection', () => {
   });
 
   it("should resolve ref's allOf after it's resolving", async () => {
-    const baseEntity = get(schema, ['properties', 'data', 'properties', 'rows', 'items', 'allOf', 0, 'allOf', 0]);
+    const baseEntity = get(schema, [
+      'properties',
+      'data',
+      'properties',
+      'rows',
+      'items',
+      'allOf',
+      0,
+      'allOf',
+      0,
+      'allOf',
+      0,
+    ]);
     expect(baseEntity).toMatchObject({ type: 'object' });
     expect(baseEntity).not.haveOwnProperty('$ref');
   });
@@ -45,11 +59,33 @@ describe('generate:generateOperationCollection', () => {
       0,
       'allOf',
       0,
+      'allOf',
+      0,
       'properties',
       'creator',
       'allOf',
       0,
     ]);
     expect(keys(creatorBaseEntity).length).toEqual(0);
+  });
+});
+
+describe('generate:mockTemplate', () => {
+  let code: string;
+  beforeAll(async () => {
+    const collection = await generateCollectionFromSpec('./test/fixture/test.yaml');
+    code = await prettify(null, mockTemplate(collection, '', { output: '' }));
+  });
+
+  it('should include expected properties', async () => {
+    const expected = `
+          id: faker.number.int({ min: 1, max: undefined }),
+          created_at: faker.date.past(),
+          creator: {
+            name: faker.person.fullName(),
+          },
+          name: faker.person.fullName(),
+  `;
+    expect(code).toContain(expected);
   });
 });
