@@ -33,10 +33,18 @@ export async function prettify(filePath: string | null, content: string): Promis
     });
   }
 
-  return prettier.format(content, {
-    parser,
-    ...config,
-  });
+  try {
+    return prettier.format(content, {
+      parser,
+      ...config,
+
+      // disable plugins
+      plugins: [],
+    });
+  } catch (e) {
+    // ignore error
+    return content;
+  }
 }
 
 export const toExpressLikePath = (path: string) =>

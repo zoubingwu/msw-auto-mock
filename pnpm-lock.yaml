@@ -27,8 +27,8 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2(openapi-types@12.1.0)
       prettier:
-        specifier: 2.5.1
-        version: 2.5.1
+        specifier: 3.1.0
+        version: 3.1.0
       swagger2openapi:
         specifier: ^7.0.8
         version: 7.0.8
@@ -2273,9 +2273,9 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prettier@2.5.1:
-    resolution: {integrity: sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==}
-    engines: {node: '>=10.13.0'}
+  /prettier@3.1.0:
+    resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: false
 
