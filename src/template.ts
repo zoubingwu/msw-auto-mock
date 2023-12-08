@@ -1,5 +1,5 @@
 import { CliOptions } from './types';
-import { OperationCollection, transformToHandlerCode, transformToResObject } from './transform';
+import { OperationCollection, transformToHandlerCode, transformToGenerateResultFunctions } from './transform';
 
 const getSetupCode = (options?: CliOptions) => {
   if (options?.node || options?.reactNative) {
@@ -48,7 +48,7 @@ export const handlers = [
   ${transformToHandlerCode(operationCollection)}
 ];
 
-${transformToResObject(operationCollection)}
+${transformToGenerateResultFunctions(operationCollection, baseURL, options)}
 
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {

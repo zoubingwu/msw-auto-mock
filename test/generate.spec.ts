@@ -78,14 +78,6 @@ describe('generate:mockTemplate', () => {
   });
 
   it('should include expected properties', async () => {
-    const expected = `
-          id: faker.number.int({ min: 1, max: undefined }),
-          created_at: faker.date.past(),
-          creator: {
-            name: faker.person.fullName(),
-          },
-          name: faker.person.fullName(),
-  `;
-    expect(code).toContain(expected);
+    expect(code).toMatchSnapshot();
   });
 });

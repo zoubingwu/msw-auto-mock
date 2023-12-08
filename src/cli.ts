@@ -12,6 +12,7 @@ cli
   .option('-t, --includes <keywords>', `Include the request path with given string, can be seperated with comma.`)
   .option('-e, --excludes <keywords>', `Exclude the request path with given string, can be seperated with comma.`)
   .option('--base-url [baseUrl]', `Use the one you specified or server url in OpenAPI description as base url.`)
+  .option('--static', 'By default it will generate dynamic mocks, use this flag if you want generate static mocks.')
   .option(
     '--node',
     `By default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.`
