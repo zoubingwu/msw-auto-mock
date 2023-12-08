@@ -40,7 +40,7 @@ export function getGetTest200Response() {
       count: faker.number.int({ min: undefined, max: undefined }),
       rows: [
         ...new Array(
-          faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })
+          faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH }),
         ).keys(),
       ].map((_) => ({
         id: faker.number.int({ min: 1, max: undefined }),
