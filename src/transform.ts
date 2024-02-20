@@ -156,7 +156,7 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid') {
-    return `faker.datatype.uuid()`;
+    return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
     return `faker.internet.email()`;
   } else if (['hostname', 'idn-hostname'].includes(format ?? '')) {
