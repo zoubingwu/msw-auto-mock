@@ -57,7 +57,7 @@ export function getGetTest200Response() {
 // This configures a Service Worker with the given request handlers.
 export const startWorker = () => {
   const worker = setupWorker(...handlers);
-  worker.start();
+  return worker.start();
 };
 "
 `;

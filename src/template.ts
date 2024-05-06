@@ -6,7 +6,7 @@ const getSetupCode = (options?: CliOptions) => {
     return [`const server = setupServer(...handlers);`, `server.listen();`].join('\n');
   }
 
-  return [`const worker = setupWorker(...handlers);`, `worker.start();`].join('\n');
+  return [`const worker = setupWorker(...handlers);`, `return worker.start();`].join('\n');
 };
 
 const getImportsCode = (options?: CliOptions) => {
