@@ -29,7 +29,7 @@ export function getResIdentifierName(res: ResponseMap) {
 export function transformToGenerateResultFunctions(
   operationCollection: OperationCollection,
   baseURL: string,
-  options?: CliOptions
+  options?: CliOptions,
 ): string {
   const context = {
     faker,
@@ -61,7 +61,7 @@ export function transformToGenerateResultFunctions(
             `};\n`,
           ].join('');
         })
-        .join('\n')
+        .join('\n'),
     )
     .join('\n');
 }
@@ -129,7 +129,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
     case 'object':
       if (!jsonSchema.properties && typeof jsonSchema.additionalProperties === 'object') {
         return `[...new Array(5).keys()].map(_ => ({ [faker.lorem.word()]: ${transformJSONSchemaToFakerCode(
-          jsonSchema.additionalProperties as OpenAPIV3.SchemaObject
+          jsonSchema.additionalProperties as OpenAPIV3.SchemaObject,
         )} })).reduce((acc, next) => Object.assign(acc, next), {})`;
       }
 
@@ -152,7 +152,12 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 /**
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
-function transformStringBasedOnFormat(format?: string, key?: string) {
+function transformStringBasedOnFormat(
+  schema: { format?: string; minLength?: number; maxLength?: number },
+  key?: string,
+) {
+  const { format, minLength, maxLength } = schema;
+
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid') {
@@ -176,6 +181,16 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   } else if (key?.toLowerCase().endsWith('name')) {
     return `faker.person.fullName()`;
   } else {
+    if (minLength && maxLength) {
+      return `faker.alpha({ length: { min: ${minLength}, max: ${maxLength} })`;
+    }
+    if (minLength) {
+      return `faker.alpha({ length: { min: ${minLength}, max: 99 })`;
+    }
+    if (maxLength) {
+      return `faker.alpha({ length: { min: ${minLength}, max: 99 })`;
+    }
+
     return `faker.lorem.slug(1)`;
   }
 }
