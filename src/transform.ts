@@ -29,7 +29,7 @@ export function getResIdentifierName(res: ResponseMap) {
 export function transformToGenerateResultFunctions(
   operationCollection: OperationCollection,
   baseURL: string,
-  options?: CliOptions
+  options?: CliOptions,
 ): string {
   const context = {
     faker,
@@ -61,7 +61,7 @@ export function transformToGenerateResultFunctions(
             `};\n`,
           ].join('');
         })
-        .join('\n')
+        .join('\n'),
     )
     .join('\n');
 }
@@ -120,7 +120,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 
   switch (jsonSchema.type) {
     case 'string':
-      return transformStringBasedOnFormat(jsonSchema.format, key);
+      return transformStringBasedOnFormat(jsonSchema, key);
     case 'number':
     case 'integer':
       return `faker.number.int({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
@@ -128,8 +128,8 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
       return `faker.datatype.boolean()`;
     case 'object':
       if (!jsonSchema.properties && typeof jsonSchema.additionalProperties === 'object') {
-        return `[...new Array(5).keys()].map(_ => ({ [faker.lorem.word()]: ${transformJSONSchemaToFakerCode(
-          jsonSchema.additionalProperties as OpenAPIV3.SchemaObject
+        return `[...new Array(5).keys()].map(_ => ({ [faker.string.uuid()]: ${transformJSONSchemaToFakerCode(
+          jsonSchema.additionalProperties as OpenAPIV3.SchemaObject,
         )} })).reduce((acc, next) => Object.assign(acc, next), {})`;
       }
 
@@ -152,11 +152,16 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 /**
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
-function transformStringBasedOnFormat(format?: string, key?: string) {
+function transformStringBasedOnFormat(
+  schema: { format?: string; minLength?: number; maxLength?: number },
+  key?: string,
+) {
+  const { format, minLength, maxLength } = schema;
+
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid') {
-    return `faker.datatype.uuid()`;
+    return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
     return `faker.internet.email()`;
   } else if (['hostname', 'idn-hostname'].includes(format ?? '')) {
@@ -165,6 +170,20 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
     return `faker.internet.ip()`;
   } else if (format === 'ipv6') {
     return `faker.internet.ipv6()`;
+  } else if (key?.toLowerCase().endsWith('currencycode')) {
+    return `faker.finance.currencyCode()`;
+  } else if (/zipcode|postcode|postalcode/i.test(key ?? '')) {
+    return `faker.location.zipCode()`;
+  } else if (key?.toLowerCase().endsWith('street')) {
+    return `faker.location.street()`;
+  } else if (key?.toLowerCase().endsWith('city')) {
+    return `faker.location.city()`;
+  } else if (key?.toLowerCase().endsWith('countrycode')) {
+    return `faker.location.counryCode()`;
+  } else if (key?.toLowerCase().endsWith('country')) {
+    return `faker.location.country()`;
+  } else if (key?.toLowerCase().endsWith('phonenumber')) {
+    return `faker.phone.number()`;
   } else if (
     ['uri', 'uri-reference', 'iri', 'iri-reference', 'uri-template'].includes(format ?? '') ||
     key?.toLowerCase().endsWith('url')
@@ -176,6 +195,15 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   } else if (key?.toLowerCase().endsWith('name')) {
     return `faker.person.fullName()`;
   } else {
+    if (minLength && maxLength) {
+      return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
+    }
+    if (minLength) {
+      return `faker.string.alpha({ length: { min: ${minLength}, max: 99 }})`;
+    }
+    if (maxLength) {
+      return `faker.string.alpha({ length: { min: 0, max: ${maxLength} }})`;
+    }
     return `faker.lorem.slug(1)`;
   }
 }
