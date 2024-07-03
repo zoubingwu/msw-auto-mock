@@ -73,7 +73,7 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
           return parseInt(response?.code!) === 204
-            ? `[null, { status: ${parseInt(response?.code!)} }]`
+            ? `[undefined, { status: ${parseInt(response?.code!)} }]`
             : `[${identifier ? `${identifier}()` : 'null'}, { status: ${parseInt(response?.code!)} }]`;
         })}];
 
