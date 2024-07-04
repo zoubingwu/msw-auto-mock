@@ -1,6 +1,6 @@
 # msw-auto-mock
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zoubingwu/msw-auto-mock/test.yaml?branch=master)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zoubingwu/msw-auto-mock/release.yaml?branch=master)
 ![npm](https://img.shields.io/npm/v/msw-auto-mock)
 ![npm](https://img.shields.io/npm/dw/msw-auto-mock)
 
