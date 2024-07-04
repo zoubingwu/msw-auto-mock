@@ -54,7 +54,7 @@ interface Config {
 ```
 
 > [!IMPORTANT]
-> For security issue, it is recommanded to put your api keys in the `.env` files, and only leave the env key in the settings, for example if you are using vite, the setting should be `"apiKey": "import.meta.env.VITE_OPENAI_API_KEY"` since this is the way how vite loaded env variables, for Next.js, you could just use `"apiKey": "process.env.PUBLIC_OPENAI_API_KEY"`. If you want to use plain value in the setting, make sure they are **quoted** like `"model": "'gpt-4o'"`
+> For security issue, it is recommended to put your api keys in the `.env` files, and only leave the env key in the settings, for example if you are using vite, the setting should be `"apiKey": "import.meta.env.VITE_OPENAI_API_KEY"` since this is the way how vite loaded env variables, for Next.js, you could just use `"apiKey": "process.env.PUBLIC_OPENAI_API_KEY"`. If you want to use plain value in the setting, make sure they are **quoted** like `"model": "'gpt-4o'"`
 
 ## Usage
 
