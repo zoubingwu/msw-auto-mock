@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.22.0
+
+### Minor Changes
+
+- 8d259bf: Only output ai code when enabled
+
 ## 0.21.0
 
 ### Minor Changes
