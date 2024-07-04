@@ -149,8 +149,8 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
           .join(',\n')}
     }`;
     case 'array':
-      return `[...(new Array(faker.number.int({ min: ${jsonSchema.minLength ?? 1}, max: ${
-        jsonSchema.maxLength ?? 'MAX_ARRAY_LENGTH'
+      return `[...(new Array(faker.number.int({ min: ${jsonSchema.minItems ?? 1}, max: ${
+        jsonSchema.maxItems ?? 'MAX_ARRAY_LENGTH'
       } }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(jsonSchema.items as OpenAPIV3.SchemaObject)}))`;
     default:
       return 'null';
