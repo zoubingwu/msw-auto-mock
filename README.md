@@ -12,12 +12,10 @@ We already have all the type definitions from OpenAPI spec so hand-writing every
 
 ## Generative AI Support
 
-Since v0.19.0, msw-auto-mock support using generative AI to generate the mock data instead of fakerjs. To enable this feature, you need to setup the related config in your package.json:
+Since v0.19.0, msw-auto-mock support using generative AI to generate the mock data instead of fakerjs. To enable this feature, you need to setup the related config in your `package.json`:
 
 ```json
-// package.json
 {
-  //...
   "msw-auto-mock": {
     "ai": {
       "enable": true,
@@ -33,30 +31,21 @@ Since v0.19.0, msw-auto-mock support using generative AI to generate the mock da
 Currently, only `openai`, `azure`, `anthropic` are supported. The Configuration is like below:
 
 ```ts
-{
+interface Config {
   ai?: {
     enable?: boolean;
     provider: 'openai' | 'azure' | 'anthropic';
     openai?: {
       baseURL?: string;
-      /**
-       * defaults to `OPENAI_API_KEY`
-       */
       apiKey?: string;
       model?: string;
     };
     azure?: {
-      /**
-       * defaults to `AZURE_API_KEY`
-       */
       apiKey?: string;
       resource?: string;
       deployment?: string;
     };
     anthropic?: {
-      /**
-       * defaults to `ANTHROPIC_API_KEY`
-       */
       apiKey?: string;
       model?: string;
     };
