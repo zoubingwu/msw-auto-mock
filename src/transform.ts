@@ -128,7 +128,7 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 
   switch (jsonSchema.type) {
     case 'string':
-      return transformStringBasedOnFormat(jsonSchema.format, key);
+      return transformStringBasedOnFormat(jsonSchema, key);
     case 'number':
     case 'integer':
       return `faker.number.int({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
@@ -160,7 +160,8 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 /**
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
-function transformStringBasedOnFormat(format?: string, key?: string) {
+function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, key?: string) {
+  const { format, minLength, maxLength } = schema;
   if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'uuid') {
@@ -184,6 +185,14 @@ function transformStringBasedOnFormat(format?: string, key?: string) {
   } else if (key?.toLowerCase().endsWith('name')) {
     return `faker.person.fullName()`;
   } else {
-    return `faker.lorem.slug(1)`;
+    if (minLength && maxLength) {
+      return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} })`;
+    } else if (minLength) {
+      return `faker.string.alpha({ length: { min: ${minLength} })`;
+    } else if (maxLength) {
+      return `faker.string.alpha({ length: { max: ${maxLength} })`;
+    } else {
+      return `faker.lorem.words()`;
+    }
   }
 }
