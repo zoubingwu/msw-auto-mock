@@ -20,7 +20,7 @@ Since v0.19.0, msw-auto-mock support using generative AI to generate the mock da
     "ai": {
       "enable": true,
       "provider": "openai",
-      "azure": {
+      "openai": {
         "apiKey": "process.env.OPENAI_API_KEY",
       }
     }
