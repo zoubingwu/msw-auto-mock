@@ -80,7 +80,7 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
           const identifier = getResIdentifierName(response);
           return parseInt(response?.code!) === 204
             ? `[undefined, { status: ${parseInt(response?.code!)} }]`
-            : `[${identifier ? `await ${identifier}()` : 'null'}, { status: ${parseInt(response?.code!)} }]`;
+            : `[${identifier ? `await ${identifier}()` : 'undefined'}, { status: ${parseInt(response?.code!)} }]`;
         })}];
 
           return HttpResponse.json(...resultArray[next() % resultArray.length])
@@ -131,7 +131,11 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
       return transformStringBasedOnFormat(jsonSchema, key);
     case 'number':
     case 'integer':
-      return `faker.number.int({ min: ${jsonSchema.minimum}, max: ${jsonSchema.maximum} })`;
+      const params = JSON.stringify({ min: jsonSchema.minimum, max: jsonSchema.maximum });
+      if (jsonSchema.minimum || jsonSchema.maxItems) {
+        return `faker.number.int(${params})`;
+      }
+      return `faker.number.int()`;
     case 'boolean':
       return `faker.datatype.boolean()`;
     case 'object':
