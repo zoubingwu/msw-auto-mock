@@ -18,9 +18,6 @@ export type ConfigOptions = CliOptions & {
        * defaults to `OPENAI_API_KEY`
        */
       apiKey?: string;
-      /**
-       * defaults to `gpt-4o`
-       */
       model?: string;
     };
     azure?: {
