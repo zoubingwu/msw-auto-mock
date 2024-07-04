@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.21.0
+
+### Minor Changes
+
+- 72829cd: Update faker functions
+
 ## 0.20.0
 
 ### Minor Changes
