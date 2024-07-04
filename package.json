@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
-    "test": "vitest run"
+    "test": "vitest run",
+    "release": "changeset publish"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
   "license": "MIT",
