@@ -17,7 +17,7 @@ export const mockTemplate = (operationCollection: OperationCollection, baseURL: 
 ${getImportsCode()}
 ${createAiGenerateText(options)}
 
-${withCreatePrompt}
+${withCreatePrompt(options)}
 
 faker.seed(1);
 
@@ -105,13 +105,17 @@ async function ask(operation) {
 }
 `;
 
-const withCreatePrompt = `
+const withCreatePrompt = (options: ConfigOptions) =>
+  options.ai?.enable
+    ? `
 function createPrompt(operation) {
   return "Given the following Swagger (OpenAPI) definition, generate a mock data object that conforms to the specified response structure, ensuring each property adheres to its defined constraints, especially type, format, example, description, enum values, ignore the xml field. The generated JSON string should include all the properties defined in the Swagger schema as much as possible and the values should be valid based on the property definitions (e.g., integer, string, length etc.) and rules (e.g, int64 should be string in json etc.). Please only return the JSON string as the output, don't wrap it with markdown. The definition is like below: \\n" + "\`\`\`json" + JSON.stringify(operation, null, 4) + "\\n\`\`\`";
 }
-`;
+`
+    : '';
 
 export function createAiGenerateText(options: ConfigOptions): string {
+  if (!options.ai?.enable) return '';
   return match(options.ai?.provider)
     .with('openai', () => askOpenai(options))
     .with('azure', () => askAzure(options))
