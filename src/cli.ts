@@ -7,20 +7,12 @@ const cli = cac();
 
 cli
   .command('<spec>', 'Generating msw mock definitions with random fake data.')
-  .option('-o, --output <file>', `Output file path such as \`./mock.js\`, without it'll output to stdout.`)
+  .option('-o, --output <directory>', `Output to a folder.`)
   .option('-m, --max-array-length <number>', `Max array length, default to 20.`)
   .option('-t, --includes <keywords>', `Include the request path with given string, can be seperated with comma.`)
   .option('-e, --excludes <keywords>', `Exclude the request path with given string, can be seperated with comma.`)
   .option('--base-url [baseUrl]', `Use the one you specified or server url in OpenAPI description as base url.`)
   .option('--static', 'By default it will generate dynamic mocks, use this flag if you want generate static mocks.')
-  .option(
-    '--node',
-    `By default it will generate code for browser environment, use this flag if you want to use it in Node.js environment.`
-  )
-  .option(
-    '--react-native',
-    `By default it will generate code for browser environment, use this flag if you want to use it in React Native environment. Additionally you will need to add polyfills to patch the global environment by installing react-native-url-polyfill.`
-  )
   .option('-c, --codes <keywords>', 'Comma separated list of status codes to generate responses for')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')

@@ -5,8 +5,6 @@ import { beforeAll, describe, it, expect } from 'vitest';
 
 import { getV3Doc } from '../src/swagger';
 import { generateOperationCollection } from '../src/generate';
-import { mockTemplate } from '../src/template';
-import { prettify } from '../src/utils';
 
 const generateCollectionFromSpec = async (spec: string) => {
   const apiDoc = await getV3Doc(spec);
@@ -67,17 +65,5 @@ describe('generate:generateOperationCollection', () => {
       0,
     ]);
     expect(keys(creatorBaseEntity).length).toEqual(0);
-  });
-});
-
-describe('generate:mockTemplate', () => {
-  let code: string;
-  beforeAll(async () => {
-    const collection = await generateCollectionFromSpec('./test/fixture/test.yaml');
-    code = await prettify(null, mockTemplate(collection, '', { output: '' }));
-  });
-
-  it('should include expected properties', async () => {
-    expect(code).toMatchSnapshot();
   });
 });

@@ -1,46 +1,66 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-import ApiGenerator, { isReference } from 'oazapfts/lib/codegen/generate';
+import ApiGenerator, { isReference } from 'oazapfts/generate';
 import { OpenAPIV3 } from 'openapi-types';
 import camelCase from 'lodash/camelCase';
+import { cosmiconfig } from 'cosmiconfig';
 
 import { getV3Doc } from './swagger';
 import { prettify, toExpressLikePath } from './utils';
 import { Operation } from './transform';
-import { mockTemplate } from './template';
-import { CliOptions } from './types';
+import { browserIntegration, mockTemplate, nodeIntegration, reactNativeIntegration } from './template';
+import { CliOptions, ConfigOptions } from './types';
+import { name as moduleName } from '../package.json';
 
 export function generateOperationCollection(apiDoc: OpenAPIV3.Document, options: CliOptions) {
   const apiGen = new ApiGenerator(apiDoc, {});
-
   const operationDefinitions = getOperationDefinitions(apiDoc);
+
   return operationDefinitions
     .filter(op => operationFilter(op, options))
     .map(op => codeFilter(op, options))
     .map(definition => toOperation(definition, apiGen));
 }
 
-export async function generate(spec: string, options: CliOptions) {
-  const { output: outputFile } = options;
+export async function generate(spec: string, inlineOptions: CliOptions) {
+  const explorer = cosmiconfig(moduleName);
+  const finalOptions: ConfigOptions = { ...inlineOptions };
+
+  try {
+    const result = await explorer.search();
+    if (!result?.isEmpty) {
+      Object.assign(finalOptions, result?.config);
+    }
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
+  }
+
+  const { output: outputFolder } = finalOptions;
+  const targetFolder = path.resolve(process.cwd(), outputFolder);
+
   let code: string;
   const apiDoc = await getV3Doc(spec);
-
-  const operationCollection = generateOperationCollection(apiDoc, options);
+  const operationCollection = generateOperationCollection(apiDoc, finalOptions);
 
   let baseURL = '';
-  if (options.baseUrl === true) {
+  if (finalOptions.baseUrl === true) {
     baseURL = getServerUrl(apiDoc);
-  } else if (typeof options.baseUrl === 'string') {
-    baseURL = options.baseUrl;
+  } else if (typeof finalOptions.baseUrl === 'string') {
+    baseURL = finalOptions.baseUrl;
   }
-  code = mockTemplate(operationCollection, baseURL, options);
 
-  if (outputFile) {
-    fs.writeFileSync(path.resolve(process.cwd(), outputFile), await prettify(outputFile, code));
-  } else {
-    console.log(await prettify(null, code));
-  }
+  code = mockTemplate(operationCollection, baseURL, finalOptions);
+
+  try {
+    fs.mkdirSync(targetFolder);
+  } catch {}
+
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'native.js'), reactNativeIntegration);
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'node.js'), nodeIntegration);
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'browser.js'), browserIntegration);
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'handlers.js'), await prettify('handlers.js', code));
 }
 
 function getServerUrl(apiDoc: OpenAPIV3.Document) {
@@ -81,7 +101,7 @@ function getOperationDefinitions(v3Doc: OpenAPIV3.Document): OperationDefinition
               id,
               responses: operation.responses,
             };
-          })
+          }),
   );
 }
 
@@ -92,7 +112,7 @@ function operationFilter(operation: OperationDefinition, options: CliOptions): b
   if (includes && !includes.includes(operation.path)) {
     return false;
   }
-  if (excludes && excludes.includes(operation.path)) {
+  if (excludes?.includes(operation.path)) {
     return false;
   }
   return true;
@@ -111,7 +131,7 @@ function codeFilter(operation: OperationDefinition, options: CliOptions): Operat
     .map(([code, response]) => ({
       [code]: response,
     }))
-    .reduce((acc, curr) => ({ ...acc, ...curr }), {} as OpenAPIV3.ResponsesObject);
+    .reduce((acc, curr) => Object.assign(acc, curr), {} as OpenAPIV3.ResponsesObject);
 
   return {
     ...operation,
@@ -128,14 +148,17 @@ function toOperation(definition: OperationDefinition, apiGen: ApiGenerator): Ope
       return { code, id: '', responses: {} };
     }
 
-    const resolvedResponse = Object.keys(content).reduce((resolved, type) => {
-      const schema = content[type].schema;
-      if (typeof schema !== 'undefined') {
-        resolved[type] = recursiveResolveSchema(schema, apiGen);
-      }
+    const resolvedResponse = Object.keys(content).reduce(
+      (resolved, type) => {
+        const schema = content[type].schema;
+        if (typeof schema !== 'undefined') {
+          resolved[type] = recursiveResolveSchema(schema, apiGen);
+        }
 
-      return resolved;
-    }, {} as Record<string, OpenAPIV3.SchemaObject>);
+        return resolved;
+      },
+      {} as Record<string, OpenAPIV3.SchemaObject>,
+    );
 
     return {
       code,
@@ -183,16 +206,19 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
         if (isReference(resolvedSchema.additionalProperties)) {
           resolvedSchema.additionalProperties = recursiveResolveSchema(
             resolve(resolvedSchema.additionalProperties, apiGen),
-            apiGen
+            apiGen,
           );
         }
       }
 
       if (resolvedSchema.properties) {
-        resolvedSchema.properties = Object.entries(resolvedSchema.properties).reduce((resolved, [key, value]) => {
-          resolved[key] = recursiveResolveSchema(value, apiGen);
-          return resolved;
-        }, {} as Record<string, OpenAPIV3.SchemaObject>);
+        resolvedSchema.properties = Object.entries(resolvedSchema.properties).reduce(
+          (resolved, [key, value]) => {
+            resolved[key] = recursiveResolveSchema(value, apiGen);
+            return resolved;
+          },
+          {} as Record<string, OpenAPIV3.SchemaObject>,
+        );
       }
     } else if (resolvedSchema.allOf) {
       resolvedSchema.allOf = resolvedSchema.allOf.map(item => recursiveResolveSchema(item, apiGen));

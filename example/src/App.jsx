@@ -1,25 +1,17 @@
 import { useState } from 'react';
 
-const methods = [
-  'GET',
-  'POST',
-  'PUT',
-  'PATCH',
-  'DELETE',
-  'HEAD',
-  'OPTIONS',
-  'TRACE',
-];
+const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE'];
 
 function App() {
   const [method, setMethod] = useState(methods[0]);
-  const [endpoint, setEndpoint] = useState('/admin/tokens');
+  const [endpoint, setEndpoint] = useState('/pet/1');
   const [res, setRes] = useState(null);
   const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
-      <h2>GitHub API mock playground</h2>
+      <h2>API mock playground</h2>
       <label>Method</label>
       <select value={method} onChange={e => setMethod(e.target.value)}>
         {methods.map(i => (
@@ -30,23 +22,23 @@ function App() {
       </select>
       <br />
       <label>Endpoint: </label>
-      <input
-        type="text"
-        value={endpoint}
-        onChange={e => setEndpoint(e.target.value)}
-      />
+      <input type="text" value={endpoint} onChange={e => setEndpoint(e.target.value)} />
       <br />
       <button
+        type="button"
         onClick={async () => {
+          setLoading(true);
           const res = await fetch(endpoint, { method });
           const data = await res.json();
           setRes(data);
           setStatus(res.status);
+          setLoading(false);
         }}
       >
         fetch
       </button>
 
+      {loading && <div>Loading...</div>}
       {status && <div>Status: {status}</div>}
 
       <pre>
