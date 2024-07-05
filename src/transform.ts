@@ -195,11 +195,11 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `faker.person.fullName()`;
   } else {
     if (minLength && maxLength) {
-      return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} })`;
+      return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
     } else if (minLength) {
-      return `faker.string.alpha({ length: { min: ${minLength} })`;
+      return `faker.string.alpha({ length: { min: ${minLength} }})`;
     } else if (maxLength) {
-      return `faker.string.alpha({ length: { max: ${maxLength} })`;
+      return `faker.string.alpha({ length: { max: ${maxLength} }})`;
     } else {
       return `faker.lorem.words()`;
     }
