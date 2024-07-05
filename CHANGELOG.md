@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.23.0
+
+### Minor Changes
+
+- 0fb95e1: cache one with static flag for ai mode
+
 ## 0.22.0
 
 ### Minor Changes
