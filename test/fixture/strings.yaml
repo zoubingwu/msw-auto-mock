@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: (title)
+  version: 0.0.0
+tags: []
+paths:
+  /test:
+    get:
+      operationId: strings
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string5to10:
+                    type: string
+                    minLength: 5
+                    maxLength: 10
+                  atLeast3:
+                    type: string
+                    minLength: 3
+                  max7:
+                    type: string
+                    maxLength: 7
+                required:
+                  - string5to10
+                  - atLeast3
+                  - max7
+components: {}

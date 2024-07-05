@@ -5,6 +5,8 @@ import camelCase from 'lodash/camelCase';
 import { faker } from '@faker-js/faker';
 import { ConfigOptions } from './types';
 
+const MAX_STRING_LENGTH = 42;
+
 export interface ResponseMap {
   code: string;
   id: string;
@@ -33,6 +35,7 @@ export function transformToGenerateResultFunctions(
 ): string {
   const context = {
     faker,
+    MAX_STRING_LENGTH,
     MAX_ARRAY_LENGTH: options?.maxArrayLength ?? 20,
     baseURL: baseURL ?? '',
     result: null,
@@ -197,9 +200,9 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     if (minLength && maxLength) {
       return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
     } else if (minLength) {
-      return `faker.string.alpha({ length: { min: ${minLength} }})`;
+      return `faker.string.alpha({ length: { min: ${minLength}, max: MAX_STRING_LENGTH }})`;
     } else if (maxLength) {
-      return `faker.string.alpha({ length: { max: ${maxLength} }})`;
+      return `faker.string.alpha({ length: { min: 0, max: ${maxLength} }})`;
     } else {
       return `faker.lorem.words()`;
     }
