@@ -27,12 +27,17 @@ function App() {
       <button
         type="button"
         onClick={async () => {
-          setLoading(true);
-          const res = await fetch(endpoint, { method });
-          const data = await res.json();
-          setRes(data);
-          setStatus(res.status);
-          setLoading(false);
+          try {
+            setLoading(true);
+            const res = await fetch(endpoint, { method });
+            setStatus(res.status);
+            const data = await res.json();
+            setRes(data);
+          } catch (e) {
+            setRes(e);
+          } finally {
+            setLoading(false);
+          }
         }}
       >
         fetch

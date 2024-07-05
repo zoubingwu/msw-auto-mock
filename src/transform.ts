@@ -65,7 +65,12 @@ export function transformToGenerateResultFunctions(
           }
 
           const operationString = JSON.stringify(r.responses?.['application/json'], null, 4);
-          return [`export async function `, `${name}() { `, `return await ask(${operationString})`, `};\n`].join('\n');
+          return [
+            `export async function `,
+            `${name}() { `,
+            `return await ${options.static ? `withCacheOne(ask)(${operationString})` : `ask(${operationString})`} `,
+            `};\n`,
+          ].join('\n');
         })
         .join('\n'),
     )
