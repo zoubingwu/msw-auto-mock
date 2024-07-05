@@ -16,7 +16,7 @@ export const mockTemplate = (operationCollection: OperationCollection, baseURL: 
 /* tslint:disable */
 ${getImportsCode()}
 ${createAiGenerateText(options)}
-
+${withCacheOne(options)}
 ${withCreatePrompt(options)}
 
 faker.seed(1);
@@ -116,9 +116,26 @@ function createPrompt(operation) {
 
 export function createAiGenerateText(options: ConfigOptions): string {
   if (!options.ai?.enable) return '';
-  return match(options.ai?.provider)
+  let code = match(options.ai?.provider)
     .with('openai', () => askOpenai(options))
     .with('azure', () => askAzure(options))
     .with('anthropic', () => askAnthropic(options))
     .otherwise(() => '');
+  return code;
+}
+
+export function withCacheOne(options: ConfigOptions) {
+  if (options.static && options.ai?.enable) {
+    return `
+const cache = new Map();
+const withCacheOne = (ask) => async (operation) => {
+  const key = operation.verb + ' ' + operation.path;
+  if (cache.has(key)) return cache.get(key);
+  const value = await ask(operation);
+  cache.set(key, value);
+  return value;
+}`;
+  }
+
+  return '';
 }
