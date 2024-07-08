@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.25.0
+
+### Minor Changes
+
+- d03bc3e: Fix generated code for string with max length
+
 ## 0.24.0
 
 ### Minor Changes
