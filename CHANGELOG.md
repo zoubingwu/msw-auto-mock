@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.24.0
+
+### Minor Changes
+
+- b2bf101: Fix peer dependency version range
+
 ## 0.23.0
 
 ### Minor Changes
