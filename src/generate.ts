@@ -220,7 +220,9 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
           {} as Record<string, OpenAPIV3.SchemaObject>,
         );
       }
-    } else if (resolvedSchema.allOf) {
+    }
+
+    if (resolvedSchema.allOf) {
       resolvedSchema.allOf = resolvedSchema.allOf.map(item => recursiveResolveSchema(item, apiGen));
     } else if (resolvedSchema.oneOf) {
       resolvedSchema.oneOf = resolvedSchema.oneOf.map(item => recursiveResolveSchema(item, apiGen));
