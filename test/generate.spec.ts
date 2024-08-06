@@ -66,4 +66,21 @@ describe('generate:generateOperationCollection', () => {
     ]);
     expect(keys(creatorBaseEntity).length).toEqual(0);
   });
+
+  it('should resolve type object allOf recursively', async () => {
+    const collection = await generateCollectionFromSpec('./test/fixture/test.yaml');
+    const arrayEntity = get(collection, [
+      1,
+      'response',
+      0,
+      'responses',
+      'application/json',
+      'properties',
+      'data',
+      'items',
+      'allOf',
+      0,
+    ]);
+    expect(arrayEntity).toMatchObject({ type: 'object' });
+  });
 });
