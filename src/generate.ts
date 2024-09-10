@@ -119,7 +119,9 @@ function operationFilter(operation: OperationDefinition, options: CliOptions): b
 }
 
 function codeFilter(operation: OperationDefinition, options: CliOptions): OperationDefinition {
-  const codes = options?.codes?.split(',') ?? null;
+  const rawCodes = options?.codes;
+
+  const codes = rawCodes ? (rawCodes.indexOf(',') !== -1 ? rawCodes?.split(',') : [rawCodes]) : null;
 
   const responses = Object.entries(operation.responses)
     .filter(([code]) => {

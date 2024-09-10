@@ -174,8 +174,12 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
  */
 function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, key?: string) {
   const { format, minLength, maxLength } = schema;
-  if (['date-time', 'date', 'time'].includes(format ?? '') || key?.toLowerCase().endsWith('_at')) {
+  if (format === 'date-time' || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
+  } else if (format === 'time') {
+    return `new Date().toISOString().substring(11, 16)`;
+  } else if (format === 'date') {
+    return `faker.date.past().toISOString().substring(0,10)`;
   } else if (format === 'uuid') {
     return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().endsWith('email')) {
@@ -196,6 +200,14 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {
     return `faker.person.fullName()`;
+  } else if (key?.toLowerCase().indexOf('street') !== -1) {
+    return `faker.location.streetAddress()`;
+  } else if (key?.toLowerCase().indexOf('city') !== -1) {
+    return `faker.location.city()`;
+  } else if (key?.toLowerCase().indexOf('state') !== -1) {
+    return `faker.location.state()`;
+  } else if (key?.toLowerCase().indexOf('zip') !== -1) {
+    return `faker.location.zipCode()`;
   } else {
     if (minLength && maxLength) {
       return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
