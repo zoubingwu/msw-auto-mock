@@ -66,4 +66,44 @@ describe('generate:generateOperationCollection', () => {
     ]);
     expect(keys(creatorBaseEntity).length).toEqual(0);
   });
+
+  describe('filters', () => {
+    let apiDoc: OpenAPIV3.Document;
+
+    beforeAll(async () => {
+      apiDoc = await getV3Doc('./test/fixture/filters.yaml');
+    });
+
+    it.each<[string, number]>([
+      ['/test', 1],
+      ['/test,/test2/test', 2],
+    ])('should include string filter %s', (filter, results) => {
+      const collection = generateOperationCollection(apiDoc, { output: '', includes: filter });
+      expect(collection).toHaveLength(results);
+    });
+
+    it.each<[string, number]>([
+      ['^/test$', 1],
+      ['/test\\d/.+', 2],
+    ])('should include regex filter %s', (filter, results) => {
+      const collection = generateOperationCollection(apiDoc, { output: '', includes: filter, regex: true });
+      expect(collection).toHaveLength(results);
+    });
+
+    it.each<[string, number]>([
+      ['/test', 2],
+      ['/test,/test2/test', 1],
+    ])('should exclude string filter %s', (filter, results) => {
+      const collection = generateOperationCollection(apiDoc, { output: '', excludes: filter });
+      expect(collection).toHaveLength(results);
+    });
+
+    it.each<[string, number]>([
+      ['^/test$', 2],
+      ['/test\\d/.+', 1],
+    ])('should exclude regex filter %s', (filter, results) => {
+      const collection = generateOperationCollection(apiDoc, { output: '', excludes: filter, regex: true });
+      expect(collection).toHaveLength(results);
+    });
+  });
 });

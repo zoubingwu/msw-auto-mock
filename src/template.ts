@@ -57,6 +57,11 @@ export const reactNativeIntegration = [
   `export const server = setupServer(...handlers)`,
 ].join(`\n`);
 
+export const handlersTypes = [
+  `import { setupServer } from 'msw/node';`,
+  `declare const handlers: Array<Parameters<typeof setupServer>[0]>;`,
+].join('\n');
+
 const askOpenai = (options: ConfigOptions) => `
 import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';

@@ -7,5 +7,6 @@ export const tsup: Options = {
   minify: false,
   format: ['cjs'],
   dts: false,
+  external: ['prettier'],
   entryPoints: ['src/cli.ts'],
 };

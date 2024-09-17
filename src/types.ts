@@ -3,6 +3,7 @@ export interface CliOptions {
   maxArrayLength?: number;
   includes?: string;
   excludes?: string;
+  regex?: boolean;
   baseUrl?: string | true;
   codes?: string;
   static?: boolean;

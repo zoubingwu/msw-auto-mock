@@ -11,11 +11,13 @@ cli
   .option('-m, --max-array-length <number>', `Max array length, default to 20.`)
   .option('-t, --includes <keywords>', `Include the request path with given string, can be seperated with comma.`)
   .option('-e, --excludes <keywords>', `Exclude the request path with given string, can be seperated with comma.`)
+  .option('--regex', `Use regex to match the request path.`)
   .option('--base-url [baseUrl]', `Use the one you specified or server url in OpenAPI description as base url.`)
   .option('--static', 'By default it will generate dynamic mocks, use this flag if you want generate static mocks.')
   .option('-c, --codes <keywords>', 'Comma separated list of status codes to generate responses for')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')
+  .example('msw-auto-mock ./githubapi.yaml -o mock.js --regex -t ^/\\\\w+$ -m 30')
   .action(async (spec, options) => {
     await generate(spec, options).catch(console.error);
   });
