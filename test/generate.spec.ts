@@ -15,7 +15,7 @@ describe('generate:generateOperationCollection', () => {
   let schema: OpenAPIV3.SchemaObject;
   beforeAll(async () => {
     const collection = await generateCollectionFromSpec('./test/fixture/test.yaml');
-    schema = get(collection, [0, 'response', '0', 'responses', 'application/json', 'allOf', 1]);
+    schema = get(collection, [0, 'response', '0', 'responses', 'application/json; ; charset=utf-8;', 'allOf', 1]);
   });
 
   it('schema should be defined', () => {
