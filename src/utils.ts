@@ -50,3 +50,13 @@ export async function prettify(filePath: string | null, content: string): Promis
 export const toExpressLikePath = (path: string) =>
   // use `.+?` for lazy match
   path.replace(/{(.+?)}/g, (_match, p1: string) => `:${camelCase(p1)}`);
+
+export const isValidRegExp = (regExpCandidate: string) => {
+  var isValid = true;
+  try {
+    new RegExp(regExpCandidate);
+  } catch (e) {
+    isValid = false;
+  }
+  return isValid;
+};

@@ -4,6 +4,7 @@ import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
 import { faker } from '@faker-js/faker';
 import { ConfigOptions } from './types';
+import { isValidRegExp } from './utils';
 
 const MAX_STRING_LENGTH = 42;
 
@@ -98,7 +99,7 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
     .trimEnd();
 }
 
-function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key?: string): string {
+export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key?: string): string {
   if (!jsonSchema) {
     return 'null';
   }
@@ -136,6 +137,9 @@ function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObject, key
 
   switch (jsonSchema.type) {
     case 'string':
+      if (jsonSchema.pattern && isValidRegExp(jsonSchema.pattern)) {
+        return `faker.helpers.fromRegExp(${jsonSchema.pattern})`;
+      }
       return transformStringBasedOnFormat(jsonSchema, key);
     case 'number':
     case 'integer':
