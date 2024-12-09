@@ -180,7 +180,7 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `new Date().toISOString().substring(11, 16)`;
   } else if (format === 'date') {
     return `faker.date.past().toISOString().substring(0,10)`;
-  } else if (format === 'uuid' || key?.endsWith('Id') || key?.endsWith('ID')) {
+  } else if (format === 'uuid' || key?.toLowerCase() === 'id' || key?.endsWith('Id') || key?.endsWith('ID')) {
     return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().includes('email')) {
     return `faker.internet.email()`;
