@@ -5,7 +5,7 @@ import { generateOperationCollection } from '../src/generate';
 import { getV3Doc } from '../src/swagger';
 
 describe('transform:transformToGenerateResultFunctions', () => {
-  it('Generates a response function with epxected faker calls', async () => {
+  it('Generates a response function with expected faker calls', async () => {
     const apiDoc = await getV3Doc('./test/fixture/strings.yaml');
     const schema = generateOperationCollection(apiDoc, { output: '' });
 
