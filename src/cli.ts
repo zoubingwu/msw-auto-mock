@@ -14,8 +14,10 @@ cli
   .option('--base-url [baseUrl]', `Use the one you specified or server url in OpenAPI description as base url.`)
   .option('--static', 'By default it will generate dynamic mocks, use this flag if you want generate static mocks.')
   .option('-c, --codes <keywords>', 'Comma separated list of status codes to generate responses for')
+  .option('--typescript', 'Generate TypeScript files instead of JavaScript files')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')
+  .example('msw-auto-mock ./githubapi.yaml -o mock.js --typescript')
   .action(async (spec, options) => {
     await generate(spec, options).catch(console.error);
   });
