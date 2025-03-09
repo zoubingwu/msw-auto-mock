@@ -55,7 +55,11 @@ export function transformToGenerateResultFunctions(
           const useFaker = options?.ai?.enable !== true;
 
           if (useFaker) {
-            const fakerResult = transformJSONSchemaToFakerCode(r.responses?.['application/json']);
+            if (!r.responses) {
+              return;
+            }
+            const jsonResponseKey = Object.keys(r.responses).filter(r => r.startsWith('application/json'))[0];
+            const fakerResult = transformJSONSchemaToFakerCode(r.responses?.[jsonResponseKey]);
             if (options?.static) {
               vm.runInContext(`result = ${fakerResult};`, context);
             }
@@ -68,7 +72,11 @@ export function transformToGenerateResultFunctions(
             ].join('\n');
           }
 
-          const operationString = JSON.stringify(r.responses?.['application/json'], null, 4);
+          if (!r.responses) {
+            return;
+          }
+          const jsonResponseKey = Object.keys(r.responses).filter(r => r.startsWith('application/json'))[0];
+          const operationString = JSON.stringify(r.responses?.[jsonResponseKey], null, 4);
           return [
             `export async function `,
             `${name}() { `,
