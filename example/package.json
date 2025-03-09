@@ -4,25 +4,29 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate": "msw-auto-mock generate"
   },
   "dependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "8.4.1",
-    "@vitejs/plugin-react": "4.3.1",
-    "msw": "2.3.1",
+    "@faker-js/faker": "9.6.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "4.3.4",
+    "msw": "2.7.3",
     "msw-auto-mock": "workspace:*",
-    "vite": "5.3.3"
+    "typescript": "5.5.3",
+    "vite": "6.2.1"
   },
   "msw": {
     "workerDirectory": "public"
   },
   "msw-auto-mock": {
     "ai": {
-      "enable": true,
+      "enable": false,
       "provider": "azure",
       "azure": {
         "apiKey": "import.meta.env.VITE_AZURE_API_KEY",

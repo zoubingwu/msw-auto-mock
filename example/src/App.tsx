@@ -5,8 +5,8 @@ const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'TR
 function App() {
   const [method, setMethod] = useState(methods[0]);
   const [endpoint, setEndpoint] = useState('/pet/1');
-  const [res, setRes] = useState(null);
-  const [status, setStatus] = useState(null);
+  const [res, setRes] = useState<unknown>(null);
+  const [status, setStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   return (
