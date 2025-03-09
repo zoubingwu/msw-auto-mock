@@ -10,6 +10,7 @@
     "build": "tsup",
     "fmt": "prettier {example,src}/**/*.{js,jsx,ts,tsx,css,md,html} --write",
     "test": "vitest run",
+    "changeset": "changeset",
     "release": "changeset publish"
   },
   "author": "zoubingwu<zoubingwu@gmail.com>",
@@ -44,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoubingwu/msw-auto-mock.git"
+    "url": "https://github.com/zoubingwu/msw-auto-mock.git"
   },
   "bugs": {
     "url": "https://github.com/zoubingwu/msw-auto-mock/issues"
