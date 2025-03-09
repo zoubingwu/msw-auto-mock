@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.26.0
+
+### Minor Changes
+
+- 61df9e8: Added TypeScript file generation option (--typescript) to generate TypeScript files instead of JavaScript files.
+
 ## 0.25.0
 
 ### Minor Changes
