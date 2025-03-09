@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.28.0
+
+### Minor Changes
+
+- a526bf0: chore: switch to ts project for example and upgrade deps
+
 ## 0.27.0
 
 ### Minor Changes
