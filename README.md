@@ -21,7 +21,7 @@ Since v0.19.0, msw-auto-mock support using generative AI to generate the mock da
       "enable": true,
       "provider": "openai",
       "openai": {
-        "apiKey": "process.env.OPENAI_API_KEY",
+        "apiKey": "process.env.OPENAI_API_KEY"
       }
     }
   }
@@ -50,7 +50,7 @@ interface Config {
       model?: string;
     };
   };
-};
+}
 ```
 
 > [!IMPORTANT]
@@ -96,7 +96,7 @@ For conditional mocking:
 ```js
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
-    return
+    return;
   }
   const { worker } = await import('./mock/browser');
   // `worker.start()` returns a Promise that resolves
@@ -135,4 +135,5 @@ Run you app then you'll see a successful activation message from Mock Service Wo
 - `--base-url`: output code with specified base url or fallback to server host specified in OpenAPI.
 - `--static`: By default it will generate dynamic mocks, use this flag if you need it to be static.
 - `-c, --codes <keywords>`: comma separated list of status codes to generate responses for
+- `--typescript`: Generate TypeScript files instead of JavaScript files.
 - `-h, --help`: show help info.

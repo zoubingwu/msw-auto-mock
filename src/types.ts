@@ -6,9 +6,11 @@ export interface CliOptions {
   baseUrl?: string | true;
   codes?: string;
   static?: boolean;
+  typescript?: boolean;
 }
 
 export type ConfigOptions = CliOptions & {
+  typescript?: boolean;
   ai?: {
     enable?: boolean;
     provider: 'openai' | 'azure' | 'anthropic';

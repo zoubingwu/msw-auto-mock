@@ -40,6 +40,8 @@ export async function generate(spec: string, inlineOptions: CliOptions) {
   const { output: outputFolder } = finalOptions;
   const targetFolder = path.resolve(process.cwd(), outputFolder);
 
+  const fileExt = finalOptions.typescript ? '.ts' : '.js';
+
   let code: string;
   const apiDoc = await getV3Doc(spec);
   const operationCollection = generateOperationCollection(apiDoc, finalOptions);
@@ -57,10 +59,13 @@ export async function generate(spec: string, inlineOptions: CliOptions) {
     fs.mkdirSync(targetFolder);
   } catch {}
 
-  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'native.js'), reactNativeIntegration);
-  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'node.js'), nodeIntegration);
-  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'browser.js'), browserIntegration);
-  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, 'handlers.js'), await prettify('handlers.js', code));
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, `native${fileExt}`), reactNativeIntegration);
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, `node${fileExt}`), nodeIntegration);
+  fs.writeFileSync(path.resolve(process.cwd(), targetFolder, `browser${fileExt}`), browserIntegration);
+  fs.writeFileSync(
+    path.resolve(process.cwd(), targetFolder, `handlers${fileExt}`),
+    await prettify(`handlers${fileExt}`, code),
+  );
 }
 
 function getServerUrl(apiDoc: OpenAPIV3.Document) {
