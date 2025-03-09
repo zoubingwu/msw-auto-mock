@@ -65,7 +65,7 @@ async function ask(operation) {
   const { text } = await generateText({
     model: createOpenAI({
       apiKey: ${options.ai?.openai?.apiKey},
-      baseURL: ${options.ai?.openai?.apiKey},
+      baseURL: ${options.ai?.openai?.baseURL},
     })(${options.ai?.openai?.model}),
     prompt: createPrompt(operation),
   });
