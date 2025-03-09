@@ -34,6 +34,19 @@ components:
             name:
               type: string
               minimum: 1
+    ObjectAllOfWrapper:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ObjectEntity'
+    ObjectEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
     OkResponse:
       type: object
       properties:
@@ -68,7 +81,17 @@ paths:
                             items:
                               allOf:
                                - $ref: '#/components/schemas/TestEntity'
-
-                            
-
-
+  /test2:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ObjectAllOfWrapper'
