@@ -68,7 +68,8 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
         type: 'string',
         pattern: '^\\',
       };
-      expect(transformJSONSchemaToFakerCode(schema)).toBe(expected);
+      const result = transformJSONSchemaToFakerCode(schema);
+      expect(result).toBe(expected);
     });
   });
 });

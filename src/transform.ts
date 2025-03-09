@@ -192,7 +192,7 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `new Date().toISOString().substring(11, 16)`;
   } else if (format === 'date') {
     return `faker.date.past().toISOString().substring(0,10)`;
-  } else if (format === 'uuid' || key?.toLowerCase() === 'id' || key?.endsWith('Id') || key?.endsWith('ID')) {
+  } else if (format === 'uuid' || key?.toLowerCase() === 'id' || key?.toLowerCase().endsWith('id')) {
     return `faker.string.uuid()`;
   } else if (['idn-email', 'email'].includes(format ?? '') || key?.toLowerCase().includes('email')) {
     return `faker.internet.email()`;
@@ -212,23 +212,23 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `faker.internet.url()`;
   } else if (key?.toLowerCase().endsWith('name')) {
     return `faker.person.fullName()`;
-  } else if (key?.toLowerCase().indexOf('street') !== -1) {
+  } else if (key?.toLowerCase().includes('street')) {
     return `faker.location.streetAddress()`;
-  } else if (key?.toLowerCase().indexOf('city') !== -1) {
+  } else if (key?.toLowerCase().includes('city')) {
     return `faker.location.city()`;
-  } else if (key?.toLowerCase().indexOf('state') !== -1) {
+  } else if (key?.toLowerCase().includes('state')) {
     return `faker.location.state()`;
-  } else if (key?.toLowerCase().indexOf('zip') !== -1) {
+  } else if (key?.toLowerCase().includes('zip')) {
     return `faker.location.zipCode()`;
+  }
+
+  if (minLength && maxLength) {
+    return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
+  } else if (minLength) {
+    return `faker.string.alpha({ length: { min: ${minLength}, max: MAX_STRING_LENGTH }})`;
+  } else if (maxLength) {
+    return `faker.string.alpha({ length: { min: 0, max: ${maxLength} }})`;
   } else {
-    if (minLength && maxLength) {
-      return `faker.string.alpha({ length: { min: ${minLength}, max: ${maxLength} }})`;
-    } else if (minLength) {
-      return `faker.string.alpha({ length: { min: ${minLength}, max: MAX_STRING_LENGTH }})`;
-    } else if (maxLength) {
-      return `faker.string.alpha({ length: { min: 0, max: ${maxLength} }})`;
-    } else {
-      return `faker.lorem.words()`;
-    }
+    return `faker.lorem.words()`;
   }
 }
