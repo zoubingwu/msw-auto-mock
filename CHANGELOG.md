@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.29.0
+
+### Minor Changes
+
+- 3d490b8: fix string pattern generation
+
 ## 0.28.0
 
 ### Minor Changes
