@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.30.0
+
+### Minor Changes
+
+- 83539f8: make next function to api scope instead of global
+
 ## 0.29.0
 
 ### Minor Changes
