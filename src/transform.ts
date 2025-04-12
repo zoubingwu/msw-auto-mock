@@ -145,9 +145,6 @@ export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObje
 
   switch (jsonSchema.type) {
     case 'string':
-      if (jsonSchema.pattern && isValidRegExp(jsonSchema.pattern)) {
-        return `faker.helpers.fromRegExp(${jsonSchema.pattern})`;
-      }
       return transformStringBasedOnFormat(jsonSchema, key);
     case 'number':
     case 'integer':
@@ -185,7 +182,7 @@ export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObje
  * See https://json-schema.org/understanding-json-schema/reference/string.html#built-in-formats
  */
 function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, key?: string) {
-  const { format, minLength, maxLength } = schema;
+  const { format, minLength, maxLength, pattern } = schema;
   if (format === 'date-time' || key?.toLowerCase().endsWith('_at')) {
     return `faker.date.past()`;
   } else if (format === 'time') {
@@ -228,7 +225,11 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
     return `faker.string.alpha({ length: { min: ${minLength}, max: MAX_STRING_LENGTH }})`;
   } else if (maxLength) {
     return `faker.string.alpha({ length: { min: 0, max: ${maxLength} }})`;
-  } else {
-    return `faker.lorem.words()`;
   }
+
+  if (pattern && isValidRegExp(pattern)) {
+    return `faker.helpers.fromRegExp(${pattern})`;
+  }
+
+  return `faker.lorem.words()`;
 }
