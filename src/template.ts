@@ -24,13 +24,17 @@ faker.seed(1);
 const baseURL = '${baseURL}';
 const MAX_ARRAY_LENGTH = ${options?.maxArrayLength ?? 20};
 
-let i = 0;
-const next = () => {
-  if (i === Number.MAX_SAFE_INTEGER - 1) {
-    i = 0;
+// Map to store counters for each API endpoint
+const apiCounters = new Map();
+
+const next = (apiKey) => {
+  let currentCount = apiCounters.get(apiKey) ?? 0;
+  if (currentCount === Number.MAX_SAFE_INTEGER - 1) {
+    currentCount = 0;
   }
-  return i++;
-}
+  apiCounters.set(apiKey, currentCount + 1);
+  return currentCount;
+};
 
 export const handlers = [
   ${transformToHandlerCode(operationCollection)}
