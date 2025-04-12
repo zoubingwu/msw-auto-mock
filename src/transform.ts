@@ -89,16 +89,19 @@ export function transformToGenerateResultFunctions(
     .join('\n');
 }
 
-export function transformToHandlerCode(operationCollection: OperationCollection): string {
+export function transformToHandlerCode(operationCollection: OperationCollection, options: ConfigOptions): string {
   return operationCollection
     .map(op => {
       return `http.${op.verb}(\`\${baseURL}${op.path}\`, async () => {
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
-          return parseInt(response?.code!) === 204
-            ? `[undefined, { status: ${parseInt(response?.code!)} }]`
-            : `[${identifier ? `await ${identifier}()` : 'undefined'}, { status: ${parseInt(response?.code!)} }]`;
-        })}];
+          const result =
+            parseInt(response?.code!) === 204
+              ? `[undefined, { status: ${parseInt(response?.code!)} }]`
+              : `[${identifier ? `${identifier}()` : 'undefined'}, { status: ${parseInt(response?.code!)} }]`;
+
+          return result;
+        })}]${options.typescript ? `as [any, { status: number }][]` : ''};
 
           return HttpResponse.json(...resultArray[next(\`${op.verb} ${op.path}\`) % resultArray.length])
         }),\n`;
