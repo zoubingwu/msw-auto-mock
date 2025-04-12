@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.31.0
+
+### Minor Changes
+
+- 02bf90d: Enhance typescript support
+
 ## 0.30.0
 
 ### Minor Changes
