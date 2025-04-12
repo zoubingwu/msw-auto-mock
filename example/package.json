@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "generate": "msw-auto-mock generate"
+    "generate": "msw-auto-mock ../test/fixture/test.yaml -o src/mock "
   },
   "dependencies": {
     "react": "^19.0.0",

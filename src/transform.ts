@@ -100,7 +100,7 @@ export function transformToHandlerCode(operationCollection: OperationCollection)
             : `[${identifier ? `await ${identifier}()` : 'undefined'}, { status: ${parseInt(response?.code!)} }]`;
         })}];
 
-          return HttpResponse.json(...resultArray[next() % resultArray.length])
+          return HttpResponse.json(...resultArray[next(\`${op.verb} ${op.path}\`) % resultArray.length])
         }),\n`;
     })
     .join('  ')
