@@ -72,4 +72,13 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
       expect(result).toBe(expected);
     });
   });
+
+  it('Nullable', () => {
+    const expected = 'faker.datatype.boolean() ? null : faker.lorem.words()';
+    const schema: OpenAPIV3.SchemaObject = {
+      type: 'string',
+      nullable: true,
+    };
+    expect(transformJSONSchemaToFakerCode(schema)).toBe(expected);
+  });
 });

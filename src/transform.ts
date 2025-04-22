@@ -115,6 +115,10 @@ export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObje
     return 'null';
   }
 
+  if (jsonSchema.nullable) {
+    return `faker.datatype.boolean() ? null : ${transformJSONSchemaToFakerCode({ ...jsonSchema, nullable: false })}`;
+  }
+
   if (jsonSchema.example) {
     if (jsonSchema.example.$ref) {
     }
