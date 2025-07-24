@@ -231,7 +231,7 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
   }
 
   if (pattern && isValidRegExp(pattern)) {
-    return `faker.helpers.fromRegExp(${pattern})`;
+    return `faker.helpers.fromRegExp('${pattern}')`;
   }
 
   return `faker.lorem.words()`;
