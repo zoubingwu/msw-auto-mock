@@ -7,6 +7,7 @@ export interface CliOptions {
   codes?: string;
   static?: boolean;
   typescript?: boolean;
+  regex?: boolean;
 }
 
 export type ConfigOptions = CliOptions & {

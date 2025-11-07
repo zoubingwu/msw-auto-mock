@@ -84,3 +84,54 @@ describe('generate:generateOperationCollection', () => {
     expect(arrayEntity).toMatchObject({ type: 'object' });
   });
 });
+
+describe('generate:regex filtering', () => {
+  it('should include only paths matching regex includes pattern', async () => {
+    const apiDoc = await getV3Doc('./test/fixture/test.yaml');
+    const collection = generateOperationCollection(apiDoc, {
+      output: '',
+      regex: true,
+      includes: '^/test$'
+    });
+
+    expect(collection).toHaveLength(1);
+    expect(collection[0].path).toBe('/test');
+  });
+
+  it('should include paths matching any of multiple regex includes patterns', async () => {
+    const apiDoc = await getV3Doc('./test/fixture/test.yaml');
+    const collection = generateOperationCollection(apiDoc, {
+      output: '',
+      regex: true,
+      includes: '^/test$,^/test2$'
+    });
+
+    expect(collection).toHaveLength(2);
+    expect(collection.map(op => op.path)).toContain('/test');
+    expect(collection.map(op => op.path)).toContain('/test2');
+  });
+
+  it('should exclude paths matching regex excludes pattern', async () => {
+    const apiDoc = await getV3Doc('./test/fixture/test.yaml');
+    const collection = generateOperationCollection(apiDoc, {
+      output: '',
+      regex: true,
+      excludes: '^/test$'
+    });
+
+    expect(collection).toHaveLength(1);
+    expect(collection[0].path).toBe('/test2');
+  });
+
+  it('should work with complex regex patterns', async () => {
+    const apiDoc = await getV3Doc('./test/fixture/test.yaml');
+    const collection = generateOperationCollection(apiDoc, {
+      output: '',
+      regex: true,
+      includes: '/test\\d+'
+    });
+
+    expect(collection).toHaveLength(1);
+    expect(collection[0].path).toBe('/test2');
+  });
+});
