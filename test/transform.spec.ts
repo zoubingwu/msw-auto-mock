@@ -74,7 +74,7 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
         type: 'string',
         pattern: '/^S+@S+.S+$/',
       };
-      expect(transformJSONSchemaToFakerCode(schema)).toBe('faker.helpers.fromRegExp(/^S+@S+.S+$/)');
+      expect(transformJSONSchemaToFakerCode(schema)).toBe("faker.helpers.fromRegExp('/^S+@S+.S+$/')");
     });
 
     it('Falls back if invalid regexp pattern is provided', () => {
