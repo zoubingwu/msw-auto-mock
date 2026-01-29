@@ -2,6 +2,23 @@ import * as prettier from 'prettier';
 import * as path from 'path';
 import camelCase from 'lodash/camelCase';
 
+export const DEFAULT_MAX_ARRAY_LENGTH = 20;
+
+export const normalizeNonNegativeInt = (value: unknown, fallback?: number) => {
+  if (value === undefined || value === null) {
+    return fallback;
+  }
+  const raw = typeof value === 'string' && value.trim() === '' ? NaN : Number(value);
+  if (!Number.isFinite(raw)) {
+    return fallback;
+  }
+  const normalized = Math.floor(raw);
+  if (normalized < 0) {
+    return 0;
+  }
+  return normalized;
+};
+
 const EXTENSION_TO_PARSER: Record<string, string> = {
   ts: 'typescript',
   tsx: 'typescript',

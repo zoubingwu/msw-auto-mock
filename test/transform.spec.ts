@@ -87,4 +87,73 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
       expect(result).toBe(expected);
     });
   });
+
+  describe('Given an array schema', () => {
+    const evaluateArraySchema = (schema: OpenAPIV3.SchemaObject, maxArrayLength: number) => {
+      const faker = {
+        number: {
+          int: vi.fn(() => 0),
+        },
+        lorem: {
+          words: vi.fn(() => 'word'),
+        },
+      };
+      const MAX_ARRAY_LENGTH = maxArrayLength;
+      // direct eval is safe here, we know the generated code
+      // and we need the local scope
+      eval(transformJSONSchemaToFakerCode(schema));
+      return faker;
+    };
+
+    it('caps maxItems by MAX_ARRAY_LENGTH and respects minItems', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'array',
+        minItems: 2,
+        maxItems: 10,
+        items: { type: 'string' },
+      };
+      const faker = evaluateArraySchema(schema, 3);
+      expect(faker.number.int).toHaveBeenCalledWith({ min: 2, max: 3 });
+    });
+
+    it('handles maxItems=0', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'array',
+        maxItems: 0,
+        items: { type: 'string' },
+      };
+      const faker = evaluateArraySchema(schema, 5);
+      expect(faker.number.int).toHaveBeenCalledWith({ min: 0, max: 0 });
+    });
+
+    it('clamps minItems when it exceeds MAX_ARRAY_LENGTH', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'array',
+        minItems: 5,
+        items: { type: 'string' },
+      };
+      const faker = evaluateArraySchema(schema, 3);
+      expect(faker.number.int).toHaveBeenCalledWith({ min: 3, max: 3 });
+    });
+
+    it('floors non-integer minItems and maxItems', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'array',
+        minItems: 2.9,
+        maxItems: 4.1,
+        items: { type: 'string' },
+      };
+      const faker = evaluateArraySchema(schema, 10);
+      expect(faker.number.int).toHaveBeenCalledWith({ min: 2, max: 4 });
+    });
+
+    it('handles MAX_ARRAY_LENGTH=0', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'array',
+        items: { type: 'string' },
+      };
+      const faker = evaluateArraySchema(schema, 0);
+      expect(faker.number.int).toHaveBeenCalledWith({ min: 0, max: 0 });
+    });
+  });
 });

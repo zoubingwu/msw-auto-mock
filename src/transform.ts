@@ -4,7 +4,7 @@ import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
 import { faker } from '@faker-js/faker';
 import { ConfigOptions } from './types';
-import { isValidRegExp } from './utils';
+import { DEFAULT_MAX_ARRAY_LENGTH, isValidRegExp, normalizeNonNegativeInt } from './utils';
 
 const MAX_STRING_LENGTH = 42;
 
@@ -37,7 +37,7 @@ export function transformToGenerateResultFunctions(
   const context = {
     faker,
     MAX_STRING_LENGTH,
-    MAX_ARRAY_LENGTH: options?.maxArrayLength ?? 20,
+    MAX_ARRAY_LENGTH: normalizeNonNegativeInt(options?.maxArrayLength, DEFAULT_MAX_ARRAY_LENGTH),
     baseURL: baseURL ?? '',
     result: null,
   };
@@ -172,10 +172,20 @@ export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObje
           })
           .join(',\n')}
     }`;
-    case 'array':
-      return `[...(new Array(faker.number.int({ min: ${jsonSchema.minItems ?? 1}, max: ${
-        jsonSchema.maxItems ?? 'MAX_ARRAY_LENGTH'
-      } }))).keys()].map(_ => (${transformJSONSchemaToFakerCode(jsonSchema.items as OpenAPIV3.SchemaObject)}))`;
+    case 'array': {
+      const minItems = normalizeNonNegativeInt(jsonSchema.minItems);
+      const maxItems = normalizeNonNegativeInt(jsonSchema.maxItems);
+      const minItemsValue = minItems ?? 1;
+      const maxItemsValue = maxItems !== undefined ? `Math.min(${maxItems}, MAX_ARRAY_LENGTH)` : 'MAX_ARRAY_LENGTH';
+      return `(() => {
+        const arrayMin = ${minItemsValue};
+        const arrayMax = ${maxItemsValue};
+        const safeMin = Math.min(arrayMin, arrayMax);
+        return [...new Array(faker.number.int({ min: safeMin, max: arrayMax })).keys()].map(_ => (${transformJSONSchemaToFakerCode(
+          jsonSchema.items as OpenAPIV3.SchemaObject,
+        )}));
+      })()`;
+    }
     default:
       return 'null';
   }
