@@ -56,6 +56,27 @@ describe('transform:transformToHandlerCode', () => {
     const out = transformToHandlerCode(ops as any, { output: '' } as any);
     expect(out.indexOf('/users/me')).toBeLessThan(out.indexOf('/users/:id'));
   });
+
+  it('can echo request body into JSON response when enabled', () => {
+    const ops = [
+      {
+        verb: 'post',
+        path: '/items',
+        response: [
+          {
+            code: '200',
+            id: 'Item',
+            responses: { 'application/json': { type: 'object' } as any },
+          },
+        ],
+      },
+    ];
+
+    const out = transformToHandlerCode(ops as any, { output: '', echoRequestBody: true } as any);
+    expect(out).toContain('async ({ request })');
+    expect(out).toContain('request.clone().json()');
+    expect(out).toContain('{ ...body, ...requestJson }');
+  });
 });
 
 describe('transform:transformJSONSchemaToFakerCode', () => {
