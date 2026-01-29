@@ -83,4 +83,24 @@ describe('generate:generateOperationCollection', () => {
     ]);
     expect(arrayEntity).toMatchObject({ type: 'object' });
   });
+
+  it('should resolve $ref in example values', async () => {
+    const collection = await generateCollectionFromSpec('./test/fixture/test.yaml');
+    const customerExample = get(collection, [
+      2,
+      'response',
+      0,
+      'responses',
+      'application/json',
+      'properties',
+      'data',
+      'items',
+      'example',
+    ]);
+    expect(customerExample).toMatchObject({
+      id: 'customer-id-test',
+      createdAt: 1234567890,
+      name: 'Customer name',
+    });
+  });
 });
