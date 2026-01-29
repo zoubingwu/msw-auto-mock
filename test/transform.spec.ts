@@ -44,6 +44,21 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
       expect(transformJSONSchemaToFakerCode(schema)).toBe(expected);
     });
 
+    it('Returns ISO strings for date-time format', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'string',
+        format: 'date-time',
+      };
+      expect(transformJSONSchemaToFakerCode(schema)).toBe('faker.date.anytime().toISOString()');
+    });
+
+    it('Returns ISO strings for *_at keys', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'string',
+      };
+      expect(transformJSONSchemaToFakerCode(schema, 'created_at')).toBe('faker.date.anytime().toISOString()');
+    });
+
     it('Prioritises example value', () => {
       const expected = 'homerjsimpson@springfieldnuclear.org';
       const schema: OpenAPIV3.SchemaObject = {
