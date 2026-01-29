@@ -3,6 +3,12 @@ info:
   title: Test
   version: '1.0'
 components:
+  examples:
+    customerData:
+      value:
+        id: customer-id-test
+        createdAt: 1234567890
+        name: Customer name
   schemas:
     Creator:
       description: Creator
@@ -58,6 +64,17 @@ components:
           type: string
           enum:
             - success
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: integer
+        name:
+          type: string
+      example:
+        $ref: '#/components/examples/customerData/value'
 paths:
   /test:
     get:
@@ -104,3 +121,17 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/ObjectAllOfWrapper'
+  /test3:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'

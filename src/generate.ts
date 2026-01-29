@@ -205,6 +205,13 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
   return autoPopRefs(() => {
     const resolvedSchema = resolve(schema, apiGen) as OpenAPIV3.SchemaObject;
 
+    // OpenAPI examples may reference components via $ref; resolve them early so
+    // we don't emit `{ $ref: ... }` as literal example data.
+    const exampleRef = (resolvedSchema as any)?.example?.$ref;
+    if (typeof exampleRef === 'string') {
+      resolvedSchema.example = resolve({ $ref: exampleRef } as any, apiGen) as any;
+    }
+
     if (resolvedSchema.type === 'array') {
       resolvedSchema.items = resolve(resolvedSchema.items, apiGen);
       resolvedSchema.items = recursiveResolveSchema(resolvedSchema.items, apiGen);
