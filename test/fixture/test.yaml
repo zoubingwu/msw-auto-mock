@@ -84,6 +84,15 @@ paths:
   /test2:
     get:
       responses:
+        default:
+          description: Default
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
         '200':
           description: OK
           content:
