@@ -67,7 +67,9 @@ export const nodeIntegration = [
 export const reactNativeIntegration = [
   `import { setupServer } from 'msw/native'`,
   `import { handlers } from './handlers'`,
-  `export const server = setupServer(...handlers)`,
+  // Avoid TS4094 by erasing private/protected members from the inferred class type.
+  `type NativeServer = Pick<ReturnType<typeof setupServer>, 'listen' | 'close' | 'use' | 'restoreHandlers' | 'resetHandlers' | 'listHandlers' | 'events'>`,
+  `export const server: NativeServer = setupServer(...handlers)`,
 ].join(`\n`);
 
 const askOpenai = (options: ConfigOptions) => `

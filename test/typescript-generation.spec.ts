@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { beforeAll, afterAll, describe, it, expect } from 'vitest';
+import { execSync } from 'node:child_process';
 import { generate } from '../src/generate';
 
 const TEST_OUTPUT_DIR = 'test-output';
@@ -50,5 +51,31 @@ describe('TypeScript file generation', () => {
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'browser.ts'))).toBe(true);
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'node.ts'))).toBe(true);
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'native.ts'))).toBe(true);
+
+    // Ensure the generated React Native integration file compiles.
+    // This catches TS4094 when exporting inferred class types with private/protected members.
+    fs.writeFileSync(
+      path.join(TEST_OUTPUT_DIR, 'tsconfig.test.json'),
+      JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'ESNext',
+            moduleResolution: 'Bundler',
+            strict: true,
+            skipLibCheck: true,
+            noEmit: true,
+          },
+          include: ['./*.ts'],
+        },
+        null,
+        2,
+      ),
+    );
+
+    execSync('npx tsc -p tsconfig.test.json', {
+      cwd: TEST_OUTPUT_DIR,
+      stdio: 'pipe',
+    });
   });
 });
