@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { transformToGenerateResultFunctions, transformJSONSchemaToFakerCode } from '../src/transform';
+import {
+  transformToGenerateResultFunctions,
+  transformJSONSchemaToFakerCode,
+  transformToHandlerCode,
+} from '../src/transform';
 import { generateOperationCollection } from '../src/generate';
 import { getV3Doc } from '../src/swagger';
 import { OpenAPIV3 } from 'openapi-types';
@@ -31,6 +35,26 @@ describe('transform:transformToGenerateResultFunctions', () => {
       expect(faker.string.alpha).toHaveBeenNthCalledWith(2, { length: { min: 3, max: MAX_STRING_LENGTH } });
       expect(faker.string.alpha).toHaveBeenNthCalledWith(3, { length: { min: 0, max: 7 } });
     }
+  });
+});
+
+describe('transform:transformToHandlerCode', () => {
+  it('sorts static paths before parameterized paths', () => {
+    const ops = [
+      {
+        verb: 'get',
+        path: '/users/:id',
+        response: [{ code: '200', id: 'User', responses: { 'application/json': { type: 'object' } as any } }],
+      },
+      {
+        verb: 'get',
+        path: '/users/me',
+        response: [{ code: '200', id: 'Me', responses: { 'application/json': { type: 'object' } as any } }],
+      },
+    ];
+
+    const out = transformToHandlerCode(ops as any, { output: '' } as any);
+    expect(out.indexOf('/users/me')).toBeLessThan(out.indexOf('/users/:id'));
   });
 });
 
