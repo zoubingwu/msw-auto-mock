@@ -241,7 +241,13 @@ function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, ke
   }
 
   if (pattern && isValidRegExp(pattern)) {
-    return `faker.helpers.fromRegExp(${pattern})`;
+    // OpenAPI `pattern` is a bare regex source (e.g. ^[a-z]{2,}$), not a JS literal.
+    // Some users still pass JS regex literals as strings (e.g. '/^foo$/i'); support both.
+    if (pattern.startsWith('/')) {
+      return `faker.helpers.fromRegExp(${pattern})`;
+    }
+    // Use `new RegExp()` with a JSON-escaped string to avoid syntax errors.
+    return `faker.helpers.fromRegExp(new RegExp(${JSON.stringify(pattern)}))`;
   }
 
   return `faker.lorem.words()`;

@@ -69,12 +69,22 @@ describe('transform:transformJSONSchemaToFakerCode', () => {
       expect(transformJSONSchemaToFakerCode(schema)).toBe(JSON.stringify(expected));
     });
 
-    it('Returns fromRegExp() if valid regexp pattern is provided', () => {
+    it('Returns fromRegExp() if a JS regexp literal is provided', () => {
       const schema: OpenAPIV3.SchemaObject = {
         type: 'string',
         pattern: '/^S+@S+.S+$/',
       };
       expect(transformJSONSchemaToFakerCode(schema)).toBe('faker.helpers.fromRegExp(/^S+@S+.S+$/)');
+    });
+
+    it('Returns fromRegExp(new RegExp()) if a bare regexp pattern is provided', () => {
+      const schema: OpenAPIV3.SchemaObject = {
+        type: 'string',
+        pattern: '^[a-zA-Z0-9-_]{2,50}$',
+      };
+      expect(transformJSONSchemaToFakerCode(schema)).toBe(
+        'faker.helpers.fromRegExp(new RegExp("^[a-zA-Z0-9-_]{2,50}$"))',
+      );
     });
 
     it('Falls back if invalid regexp pattern is provided', () => {
