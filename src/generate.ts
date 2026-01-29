@@ -16,9 +16,10 @@ import { name as moduleName } from '../package.json';
 export function generateOperationCollection(apiDoc: OpenAPIV3.Document, options: CliOptions) {
   const apiGen = new ApiGenerator(apiDoc, {});
   const operationDefinitions = getOperationDefinitions(apiDoc);
+  const filters = parseFilterOptions(options);
 
   return operationDefinitions
-    .filter(op => operationFilter(op, options))
+    .filter(op => operationFilter(op, filters))
     .map(op => codeFilter(op, options))
     .map(definition => toOperation(definition, apiGen));
 }
@@ -109,15 +110,21 @@ function getOperationDefinitions(v3Doc: OpenAPIV3.Document): OperationDefinition
           }),
   );
 }
+function operationFilter(operation: OperationDefinition, filters: FilterDefinitions): boolean {
+  if (filters.regex) {
+    if (filters.excludes && filters.excludes.some(r => r.test(operation.path))) {
+      return false;
+    }
+    if (filters.includes && !filters.includes.some(r => r.test(operation.path))) {
+      return false;
+    }
+    return true;
+  }
 
-function operationFilter(operation: OperationDefinition, options: CliOptions): boolean {
-  const includes = options?.includes?.split(',') ?? null;
-  const excludes = options?.excludes?.split(',') ?? null;
-
-  if (includes && !includes.includes(operation.path)) {
+  if (filters.includes && !filters.includes.includes(operation.path)) {
     return false;
   }
-  if (excludes?.includes(operation.path)) {
+  if (filters.excludes?.includes(operation.path)) {
     return false;
   }
   return true;
@@ -246,4 +253,24 @@ function recursiveResolveSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.Sc
 
     return resolvedSchema;
   });
+}
+
+type FilterDefinitions =
+  | { regex: true; includes: RegExp[] | null; excludes: RegExp[] | null }
+  | { regex: false; includes: string[] | null; excludes: string[] | null };
+
+function parseFilterOptions(options: CliOptions): FilterDefinitions {
+  if (options.regex) {
+    return {
+      regex: true,
+      includes: options?.includes?.split(',')?.map(str => new RegExp(str)) ?? null,
+      excludes: options?.excludes?.split(',')?.map(str => new RegExp(str)) ?? null,
+    };
+  }
+
+  return {
+    regex: false,
+    includes: options?.includes?.split(',') ?? null,
+    excludes: options?.excludes?.split(',') ?? null,
+  };
 }
