@@ -89,8 +89,40 @@ export function transformToGenerateResultFunctions(
     .join('\n');
 }
 
+function scoreHandlerPath(path: string) {
+  const segments = path.split('/').filter(Boolean);
+  const dynamicSegments = segments.filter(seg => seg.startsWith(':')).length;
+  return {
+    dynamicSegments,
+    totalSegments: segments.length,
+    normalized: segments.join('/'),
+  };
+}
+
+function compareOperationsForMsw(a: Operation, b: Operation) {
+  const sa = scoreHandlerPath(a.path);
+  const sb = scoreHandlerPath(b.path);
+
+  // MSW matches parameterized routes broadly, so put more specific/static routes first.
+  if (sa.dynamicSegments !== sb.dynamicSegments) {
+    return sa.dynamicSegments - sb.dynamicSegments;
+  }
+
+  // Prefer longer paths (more segments) first when they have the same dynamic count.
+  if (sa.totalSegments !== sb.totalSegments) {
+    return sb.totalSegments - sa.totalSegments;
+  }
+
+  // Keep output deterministic.
+  if (a.verb !== b.verb) {
+    return a.verb.localeCompare(b.verb);
+  }
+  return sa.normalized.localeCompare(sb.normalized);
+}
+
 export function transformToHandlerCode(operationCollection: OperationCollection, options: ConfigOptions): string {
-  return operationCollection
+  return [...operationCollection]
+    .sort(compareOperationsForMsw)
     .map(op => {
       return `http.${op.verb}(\`\${baseURL}${op.path}\`, async () => {
         const resultArray = [${op.response.map(response => {
