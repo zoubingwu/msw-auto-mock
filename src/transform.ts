@@ -95,10 +95,12 @@ export function transformToHandlerCode(operationCollection: OperationCollection,
       return `http.${op.verb}(\`\${baseURL}${op.path}\`, async () => {
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
+          const statusCode = parseInt(response?.code!);
+          const safeStatusCode = Number.isFinite(statusCode) ? statusCode : 500;
           const result =
-            parseInt(response?.code!) === 204
-              ? `[undefined, { status: ${parseInt(response?.code!)} }]`
-              : `[${identifier ? `${identifier}()` : 'undefined'}, { status: ${parseInt(response?.code!)} }]`;
+            safeStatusCode === 204
+              ? `[undefined, { status: ${safeStatusCode} }]`
+              : `[${identifier ? `${identifier}()` : 'undefined'}, { status: ${safeStatusCode} }]`;
 
           return result;
         })}]${options.typescript ? `as [any, { status: number }][]` : ''};
