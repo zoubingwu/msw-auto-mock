@@ -187,7 +187,7 @@ export function transformJSONSchemaToFakerCode(jsonSchema?: OpenAPIV3.SchemaObje
 function transformStringBasedOnFormat(schema: OpenAPIV3.NonArraySchemaObject, key?: string) {
   const { format, minLength, maxLength, pattern } = schema;
   if (format === 'date-time' || key?.toLowerCase().endsWith('_at')) {
-    return `faker.date.past()`;
+    return `faker.date.anytime().toISOString()`;
   } else if (format === 'time') {
     return `new Date().toISOString().substring(11, 16)`;
   } else if (format === 'date') {
