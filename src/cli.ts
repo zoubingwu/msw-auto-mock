@@ -15,6 +15,7 @@ cli
   .option('--static', 'By default it will generate dynamic mocks, use this flag if you want generate static mocks.')
   .option('-c, --codes <keywords>', 'Comma separated list of status codes to generate responses for')
   .option('--typescript', 'Generate TypeScript files instead of JavaScript files')
+  .option('--echo-request-body', 'Merge JSON request body into JSON response body for write requests (POST/PUT/PATCH)')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js -t /admin,/repo -m 30')
   .example('msw-auto-mock ./githubapi.yaml -o mock.js --typescript')

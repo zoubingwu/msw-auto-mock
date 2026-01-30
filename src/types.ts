@@ -7,6 +7,12 @@ export interface CliOptions {
   codes?: string;
   static?: boolean;
   typescript?: boolean;
+
+  /**
+   * When enabled, JSON responses for write requests (POST/PUT/PATCH) will merge
+   * the request JSON body into the generated response body.
+   */
+  echoRequestBody?: boolean;
 }
 
 export type ConfigOptions = CliOptions & {

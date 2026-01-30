@@ -124,7 +124,17 @@ export function transformToHandlerCode(operationCollection: OperationCollection,
   return [...operationCollection]
     .sort(compareOperationsForMsw)
     .map(op => {
-      return `http.${op.verb}(\`\${baseURL}${op.path}\`, async () => {
+      return `http.${op.verb}(\`\${baseURL}${op.path}\`, async ({ request }) => {
+        const shouldEchoRequestBody = ${Boolean((options as any)?.echoRequestBody)};
+        let requestJson = null;
+        if (shouldEchoRequestBody && ['post', 'put', 'patch'].includes(${JSON.stringify(op.verb)})) {
+          try {
+            requestJson = await request.clone().json();
+          } catch (e) {
+            requestJson = null;
+          }
+        }
+
         const resultArray = [${op.response.map(response => {
           const identifier = getResIdentifierName(response);
           const statusCode = parseInt(response?.code!);
@@ -137,7 +147,9 @@ export function transformToHandlerCode(operationCollection: OperationCollection,
           return result;
         })}]${options.typescript ? `as [any, { status: number }][]` : ''};
 
-          return HttpResponse.json(...resultArray[next(\`${op.verb} ${op.path}\`) % resultArray.length])
+          const [body, init] = resultArray[next(\`${op.verb} ${op.path}\`) % resultArray.length];
+          const responseJson = requestJson && body && typeof body === 'object' && !Array.isArray(body) ? { ...body, ...requestJson } : body;
+          return HttpResponse.json(responseJson, init)
         }),\n`;
     })
     .join('  ')
