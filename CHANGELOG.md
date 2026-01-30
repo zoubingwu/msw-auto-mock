@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.31.1
+
+### Patch Changes
+
+- chore: dependency updates for security fixes
+
 ## 0.31.0
 
 ### Minor Changes
