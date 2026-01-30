@@ -72,6 +72,17 @@ export const reactNativeIntegration = [
   `export const server: NativeServer = setupServer(...handlers)`,
 ].join(`\n`);
 
+const toJsExpr = (value?: string, fallbackExpr = 'undefined') => {
+  if (value == null) return fallbackExpr;
+  const v = value.trim();
+  // If the user already provided an expression or explicit quotes, keep it.
+  if (v.startsWith('"') || v.startsWith("'") || v.startsWith('`')) return v;
+  if (v.startsWith('process.env.') || v.startsWith('import.meta.env.') || v.startsWith('Deno.env.')) return v;
+  if (v.startsWith('globalThis.') || v.startsWith('window.')) return v;
+  // Otherwise treat it as a plain string literal.
+  return JSON.stringify(v);
+};
+
 const askOpenai = (options: ConfigOptions) => `
 import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
@@ -79,9 +90,9 @@ import { generateText } from 'ai';
 async function ask(operation) {
   const { text } = await generateText({
     model: createOpenAI({
-      apiKey: ${options.ai?.openai?.apiKey},
-      baseURL: ${options.ai?.openai?.baseURL},
-    })(${options.ai?.openai?.model}),
+      apiKey: ${toJsExpr(options.ai?.openai?.apiKey)},
+      baseURL: ${toJsExpr(options.ai?.openai?.baseURL)},
+    })(${toJsExpr(options.ai?.openai?.model, '"gpt-4o-mini"')}),
     prompt: createPrompt(operation),
   });
 
@@ -96,9 +107,9 @@ import { generateText } from 'ai';
 async function ask(operation) {
   const { text } = await generateText({
     model: createAzure({
-      resourceName: ${options.ai?.azure?.resource},
-      apiKey: ${options.ai?.azure?.apiKey}
-    })(${options.ai?.azure?.deployment}),
+      resourceName: ${toJsExpr(options.ai?.azure?.resource)},
+      apiKey: ${toJsExpr(options.ai?.azure?.apiKey)}
+    })(${toJsExpr(options.ai?.azure?.deployment)}),
     prompt: createPrompt(operation),
   });
   return JSON.parse(text);
@@ -112,8 +123,8 @@ import { generateText } from 'ai';
 async function ask(operation) {
   const { text } = await generateText({
     model: createAnthropic({
-      apiKey: ${options.ai?.anthropic?.apiKey}
-    })(${options.ai?.anthropic?.model}),
+      apiKey: ${toJsExpr(options.ai?.anthropic?.apiKey)}
+    })(${toJsExpr(options.ai?.anthropic?.model, '"claude-3-5-sonnet-latest"')}),
     prompt: createPrompt(operation),
   });
   return JSON.parse(text);
