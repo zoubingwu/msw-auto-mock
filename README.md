@@ -12,7 +12,9 @@ We already have all the type definitions from OpenAPI spec so hand-writing every
 
 ## Generative AI Support
 
-Since v0.19.0, msw-auto-mock support using generative AI to generate the mock data instead of fakerjs. To enable this feature, you need to setup the related config in your `package.json`:
+Since v0.19.0, msw-auto-mock can use generative AI to generate mock data instead of faker.
+
+AI is configured via your `package.json` (or any config file supported by cosmiconfig) under the `msw-auto-mock` key:
 
 ```json
 {
@@ -21,14 +23,40 @@ Since v0.19.0, msw-auto-mock support using generative AI to generate the mock da
       "enable": true,
       "provider": "openai",
       "openai": {
-        "apiKey": "process.env.OPENAI_API_KEY"
+        "apiKey": "process.env.OPENAI_API_KEY",
+        "model": "gpt-4o"
       }
     }
   }
 }
 ```
 
-Currently, only `openai`, `azure`, `anthropic` are supported. The Configuration is like below:
+### Providers and Required Fields
+
+Currently supported providers: `openai`, `azure`, `anthropic`.
+
+When `ai.enable` is `true`, you must provide the model/deployment for the selected provider:
+
+- `provider: "openai"` requires `ai.openai.model`
+- `provider: "azure"` requires `ai.azure.deployment`
+- `provider: "anthropic"` requires `ai.anthropic.model`
+
+If a required field is missing, generation fails fast with a clear error (instead of generating broken code).
+
+### How Config Values Are Interpreted
+
+The AI config values are strings in JSON, but they are used to generate JavaScript code.
+msw-auto-mock supports two styles:
+
+- **Expression strings**: values that start with `process.env.` or `import.meta.env.` (or `Deno.env.`) are treated as JavaScript expressions and injected as-is.
+- **Literal strings**: everything else is treated as a string literal and will be automatically quoted in the generated code.
+
+This means you can write:
+
+- `"model": "gpt-4o"` (literal string; recommended)
+- `"apiKey": "process.env.OPENAI_API_KEY"` (expression string)
+
+### Full Type Definition
 
 ```ts
 interface Config {
@@ -54,7 +82,8 @@ interface Config {
 ```
 
 > [!IMPORTANT]
-> For security issue, it is recommended to put your api keys in the `.env` files, and only leave the env key in the settings, for example if you are using vite, the setting should be `"apiKey": "import.meta.env.VITE_OPENAI_API_KEY"` since this is the way how vite loaded env variables, for Next.js, you could just use `"apiKey": "process.env.PUBLIC_OPENAI_API_KEY"`. If you want to use plain value in the setting, make sure they are **quoted** like `"model": "'gpt-4o'"`
+> For security, keep API keys in environment variables and reference them via `process.env.*` / `import.meta.env.*` in your config.
+> You no longer need to wrap model names in extra quotes; `"model": "gpt-4o"` is valid.
 
 ## Usage
 
