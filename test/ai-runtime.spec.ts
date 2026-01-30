@@ -13,7 +13,7 @@ describe('ai runtime: generated ask()', () => {
         provider: 'openai',
         openai: {
           apiKey: 'process.env.OPENAI_API_KEY',
-          model: "'gpt-5.2'",
+          model: 'gpt-5.2',
         },
       },
     } as any);
