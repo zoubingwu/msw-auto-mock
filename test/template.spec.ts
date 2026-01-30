@@ -36,4 +36,19 @@ describe('template:ai config expressions', () => {
 
     expect(out).toContain("})('gpt-4o')");
   });
+
+  it('throws if AI is enabled but provider model is missing', () => {
+    expect(() =>
+      mockTemplate([] as any, '', {
+        output: '',
+        ai: {
+          enable: true,
+          provider: 'openai',
+          openai: {
+            apiKey: 'process.env.OPENAI_API_KEY',
+          },
+        },
+      } as any),
+    ).toThrow(/ai\.openai\.model is missing/);
+  });
 });
