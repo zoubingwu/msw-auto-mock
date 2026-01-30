@@ -142,7 +142,7 @@ export function transformToHandlerCode(operationCollection: OperationCollection,
           const result =
             safeStatusCode === 204
               ? `[undefined, { status: ${safeStatusCode} }]`
-              : `[${identifier ? `${identifier}()` : 'undefined'}, { status: ${safeStatusCode} }]`;
+              : `[${identifier ? `await ${identifier}()` : 'undefined'}, { status: ${safeStatusCode} }]`;
 
           return result;
         })}]${options.typescript ? `as [any, { status: number }][]` : ''};

@@ -77,6 +77,25 @@ describe('transform:transformToHandlerCode', () => {
     expect(out).toContain('request.clone().json()');
     expect(out).toContain('{ ...body, ...requestJson }');
   });
+
+  it('awaits response generators in the handler body (required for AI mode)', () => {
+    const ops = [
+      {
+        verb: 'get',
+        path: '/items',
+        response: [
+          {
+            code: '200',
+            id: 'Item',
+            responses: { 'application/json': { type: 'object' } as any },
+          },
+        ],
+      },
+    ];
+
+    const out = transformToHandlerCode(ops as any, { output: '' } as any);
+    expect(out).toContain('await getItem200Response()');
+  });
 });
 
 describe('transform:transformJSONSchemaToFakerCode', () => {
