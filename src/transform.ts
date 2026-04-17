@@ -4,9 +4,9 @@ import merge from 'lodash/merge';
 import camelCase from 'lodash/camelCase';
 import { faker } from '@faker-js/faker';
 import { ConfigOptions } from './types';
-import { DEFAULT_MAX_ARRAY_LENGTH, isValidRegExp, normalizeNonNegativeInt } from './utils';
+import { DEFAULT_MAX_ARRAY_LENGTH, DEFAULT_MAX_STRING_LENGTH, isValidRegExp, normalizeNonNegativeInt } from './utils';
 
-const MAX_STRING_LENGTH = 42;
+const MAX_STRING_LENGTH = DEFAULT_MAX_STRING_LENGTH;
 
 export interface ResponseMap {
   code: string;
