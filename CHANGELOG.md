@@ -1,5 +1,11 @@
 # msw-auto-mock
 
+## 0.32.1
+
+### Patch Changes
+
+- 5ea0a3e: [WIP] Fix reference error for MAX_STRING_LENGTH in generated code
+
 ## 0.32.0
 
 ### Minor Changes
