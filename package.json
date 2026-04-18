@@ -46,8 +46,8 @@
     "msw": ">=2"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/zoubingwu/msw-auto-mock.git"
+    "type": "http",
+    "url": "https://github.com/zoubingwu/msw-auto-mock"
   },
   "bugs": {
     "url": "https://github.com/zoubingwu/msw-auto-mock/issues"
