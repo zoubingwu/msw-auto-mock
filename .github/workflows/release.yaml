@@ -23,7 +23,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -41,6 +41,4 @@ jobs:
           commit: "release: bump versions"
           title: "release: bump versions"
           publish: pnpm release
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
