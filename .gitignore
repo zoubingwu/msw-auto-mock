@@ -7,3 +7,4 @@ example/test*.js
 .vscode/
 
 *.log
+package-lock.json

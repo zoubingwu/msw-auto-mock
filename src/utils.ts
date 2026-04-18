@@ -3,6 +3,7 @@ import * as path from 'path';
 import camelCase from 'lodash/camelCase';
 
 export const DEFAULT_MAX_ARRAY_LENGTH = 20;
+export const DEFAULT_MAX_STRING_LENGTH = 42;
 
 export const normalizeNonNegativeInt = (value: unknown, fallback?: number) => {
   if (value === undefined || value === null) {

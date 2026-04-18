@@ -2,6 +2,23 @@ import { describe, expect, it } from 'vitest';
 
 import { mockTemplate } from '../src/template';
 
+describe('template:constants', () => {
+  it('emits MAX_STRING_LENGTH declaration in non-static mode', () => {
+    const out = mockTemplate([] as any, '', { output: '' } as any);
+    expect(out).toContain('const MAX_STRING_LENGTH =');
+  });
+
+  it('does not emit MAX_STRING_LENGTH declaration in static mode', () => {
+    const out = mockTemplate([] as any, '', { output: '', static: true } as any);
+    expect(out).not.toContain('const MAX_STRING_LENGTH =');
+  });
+
+  it('emits MAX_ARRAY_LENGTH declaration in non-static mode', () => {
+    const out = mockTemplate([] as any, '', { output: '' } as any);
+    expect(out).toContain('const MAX_ARRAY_LENGTH =');
+  });
+});
+
 describe('template:ai config expressions', () => {
   it('treats plain model ids as string literals', () => {
     const out = mockTemplate([] as any, '', {

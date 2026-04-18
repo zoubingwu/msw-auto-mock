@@ -1,7 +1,7 @@
 import { ConfigOptions } from './types';
 import { OperationCollection, transformToHandlerCode, transformToGenerateResultFunctions } from './transform';
 import { match } from 'ts-pattern';
-import { DEFAULT_MAX_ARRAY_LENGTH, normalizeNonNegativeInt } from './utils';
+import { DEFAULT_MAX_ARRAY_LENGTH, DEFAULT_MAX_STRING_LENGTH, normalizeNonNegativeInt } from './utils';
 
 const getImportsCode = () => {
   const imports = [`import { HttpResponse, http } from 'msw';`, `import { faker } from '@faker-js/faker';`];
@@ -42,6 +42,7 @@ faker.seed(1);
 
 const baseURL = '${baseURL}';
 ${options.static ? '' : `const MAX_ARRAY_LENGTH = ${maxArrayLength};`}
+${options.static ? '' : `const MAX_STRING_LENGTH = ${DEFAULT_MAX_STRING_LENGTH};`}
 
 ${withApiCounterCode(options)}
 
